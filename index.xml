@@ -1,0 +1,31 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>wuyangzz on wuyangzz</title>
+    <link>https://wuyangzz.github.io/</link>
+    <description>Recent content in wuyangzz on wuyangzz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 09 Jan 2021 21:18:44 +0800</lastBuildDate>
+  <atom:link href="https://wuyangzz.github.io/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Posts</title>
+      <link>https://wuyangzz.github.io/posts/</link>
+      <pubDate>Sat, 09 Jan 2021 21:18:44 +0800</pubDate>
+      
+      <guid>https://wuyangzz.github.io/posts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>关于我</title>
+      <link>https://wuyangzz.github.io/about/</link>
+      <pubDate>Sat, 09 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://wuyangzz.github.io/about/</guid>
+      <description>&lt;p&gt;This is My Blog&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
