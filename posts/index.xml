@@ -13,7 +13,7 @@
       <pubDate>Sat, 09 Jan 2021 21:18:44 +0800</pubDate>
       
       <guid>https://wuyangzz.github.io/2021/test/</guid>
-      <description></description>
+      <description>#include &amp;lt;iostream&amp;gt; using namespace std; int main() { cout &amp;lt;&amp;lt; &amp;quot;Hello, world!&amp;quot; &amp;lt;&amp;lt; endl; return 0; } </description>
     </item>
     
     <item>
