@@ -46,7 +46,7 @@
     "articleSection" : "posts",
     "name" : "实验室GPU服务器操作细则",
     "headline" : "实验室GPU服务器操作细则",
-    "description" : "实验室GPU服务器操作细则 实验室GPU简介  系统 ubuntu18.04 IP:172.23.253.104 172.23.253.15 双路3090显卡  docker docker 简介 ​\tdocker镜像可以看作是一个以及配置好了很多环境的操作系统，docker与虚拟机类似，但是两者在原理上有很大的不同。docker是讲操作系统的底层虚拟化，而虚拟机是将硬件虚拟化，因此docker具有更高的便携性和跟高效的利用服务器的性能。同时由于docker的标准化，它可以无视任何基础设施的标志，可以很简单的部署到任何的一个地方，另外docker重要的优点就是可以提供良好的隔离兼容。\n​\t其主要概念中最重要的就是为images container\n  Images 是一个只读的模版，可以用来创建container，可以直接下载已经构建好的image，也可以自己通过Dockerfile来创建。   container 是image的可运行实例，其可以通过API和CLI(命令行)进行操作。   NGC ​\tNGC是NVIDIA官方提供的容器，其主要的作用是为用户提供一个简单、高效、安全的镜像，方便用户可以最轻松的使用NVIDIA GPU。\n使用Docker CLI从NGC容器注册表中提取容器\n  打开NGC网站，其中可以浏览自己所需要的容器\n  自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。并进入其中。里面有该容器的参考文档。只需要将其Pull记住。\n  我们一般会提供一个使用jupyter的8888端口一个使用xshell和xftp的22端口。并且将用户名和密码告知。\n  docker命令 dockers ps -a 查看容器\ndocker images 查看镜像\ndocker start 容器id 启动容器\ndocker attach 容器id 进入容器\ndocker stop 容器id 停止容器\ndocker rm 容器id 删除容器",
+    "description" : "实验室GPU服务器操作细则 实验室GPU简介  系统 ubuntu18.04 IP:172.23.253.104 172.23.253.15 双路3090显卡  docker docker 简介 ​\tdocker镜像可以看作是一个以及配置好了很多环境的操作系统，docker与虚拟机类似，但是两者在原理上有很大的不同。docker是讲操作系统的底层虚拟化，而虚拟机是将硬件虚拟化，因此docker具有更高的便携性和跟高效的利用服务器的性能。同时由于docker的标准化，它可以无视任何基础设施的标志，可以很简单的部署到任何的一个地方，另外docker重要的优点就是可以提供良好的隔离兼容。\n​\t其主要概念中最重要的就是为images container\n  Images 是一个只读的模版，可以用来创建container，可以直接下载已经构建好的image，也可以自己通过Dockerfile来创建。   container 是image的可运行实例，其可以通过API和CLI(命令行)进行操作。   NGC ​\tNGC是NVIDIA官方提供的容器，其主要的作用是为用户提供一个简单、高效、安全的镜像，方便用户可以最轻松的使用NVIDIA GPU。\n使用Docker CLI从NGC容器注册表中提取容器\n 打开NGC网站，其中可以浏览自己所需要的容器  自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。并进入其中。里面有该容器的参考文档。只需要将其Pull记住。  我们一般会提供一个使用jupyter的8888端口一个使用xshell和xftp的22端口。并且将用户名和密码告知。  docker命令 dockers ps -a 查看容器\ndocker images 查看镜像\ndocker start 容器id 启动容器\ndocker attach 容器id 进入容器\ndocker stop 容器id 停止容器\ndocker rm 容器id 删除容器\ndocker image rm 镜像id 删除镜像id",
     "inLanguage" : "en-us",
     "author" : "wuyangzz",
     "creator" : "wuyangzz",
@@ -171,17 +171,15 @@
 <p>​	NGC是NVIDIA官方提供的容器，其主要的作用是为用户提供一个简单、高效、安全的镜像，方便用户可以最轻松的使用NVIDIA GPU。</p>
 <p><a href="https://docs.nvidia.com/ngc/ngc-catalog-user-guide/index.html#pull_ngc_docker">使用Docker CLI从NGC容器注册表中提取容器</a></p>
 <ol>
-<li>
-<p>打开<a href="https://ngc.nvidia.com/catalog/containers?orderBy=modifiedDESC&amp;pageNumber=0&amp;query=&amp;quickFilter=containers&amp;filters=">NGC网站</a>，其中可以浏览自己所需要的容器</p>
+<li>打开<a href="https://ngc.nvidia.com/catalog/containers?orderBy=modifiedDESC&amp;pageNumber=0&amp;query=&amp;quickFilter=containers&amp;filters=">NGC网站</a>，其中可以浏览自己所需要的容器</li>
+</ol>
 <p><img src="https://raw.githubusercontent.com/wycyz1/blog_image/main/20201206195516.png" alt="image-20201206195516130"></p>
-</li>
-<li>
-<p>自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。并进入其中。里面有该容器的参考文档。只需要将其Pull记住。</p>
+<ol start="2">
+<li>自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。并进入其中。里面有该容器的参考文档。只需要将其Pull记住。</li>
+</ol>
 <p><img src="https://raw.githubusercontent.com/wycyz1/blog_image/main/20201207181251.png" alt="image-20201207181045933"></p>
-</li>
-<li>
-<p>我们一般会提供一个使用jupyter的8888端口一个使用xshell和xftp的22端口。并且将用户名和密码告知。</p>
-</li>
+<ol start="3">
+<li>我们一般会提供一个使用jupyter的8888端口一个使用xshell和xftp的22端口。并且将用户名和密码告知。</li>
 </ol>
 <h3 id="docker命令">docker命令</h3>
 <p>dockers ps -a <strong>查看容器</strong></p>
