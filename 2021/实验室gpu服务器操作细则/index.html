@@ -46,7 +46,7 @@
     "articleSection" : "posts",
     "name" : "实验室GPU服务器操作细则",
     "headline" : "实验室GPU服务器操作细则",
-    "description" : "实验室GPU服务器操作细则 实验室GPU简介  系统 ubuntu18.04 IP:172.23.253.104 172.23.253.15 双路3090显卡  docker docker 简介 ​\tdocker镜像可以看作是一个以及配置好了很多环境的操作系统，docker与虚拟机类似，但是两者在原理上有很大的不同。docker是讲操作系统的底层虚拟化，而虚拟机是将硬件虚拟化，因此docker具有更高的便携性和跟高效的利用服务器的性能。同时由于docker的标准化，它可以无视任何基础设施的标志，可以很简单的部署到任何的一个地方，另外docker重要的优点就是可以提供良好的隔离兼容。\n​\t其主要概念中最重要的就是为images container\n  Images 是一个只读的模版，可以用来创建container，可以直接下载已经构建好的image，也可以自己通过Dockerfile来创建。   container 是image的可运行实例，其可以通过API和CLI(命令行)进行操作。   NGC ​\tNGC是NVIDIA官方提供的容器，其主要的作用是为用户提供一个简单、高效、安全的镜像，方便用户可以最轻松的使用NVIDIA GPU。\n使用Docker CLI从NGC容器注册表中提取容器\n 打开NGC网站，其中可以浏览自己所需要的容器  自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。并进入其中。里面有该容器的参考文档。只需要将其Pull记住。  我们一般会提供一个使用jupyter的8888端口一个使用xshell和xftp的22端口。并且将用户名和密码告知。  docker命令 dockers ps -a 查看容器\ndocker images 查看镜像\ndocker start 容器id 启动容器\ndocker attach 容器id 进入容器\ndocker stop 容器id 停止容器\ndocker rm 容器id 删除容器\ndocker image rm 镜像id 删除镜像id",
+    "description" : "实验室GPU服务器操作细则 实验室GPU简介  系统 ubuntu18.04 IP:172.23.253.104 172.23.253.15 双路3090显卡  docker docker 简介 ​\tdocker镜像可以看作是一个以及配置好了很多环境的操作系统，docker与虚拟机类似，但是两者在原理上有很大的不同。docker是讲操作系统的底层虚拟化，而虚拟机是将硬件虚拟化，因此docker具有更高的便携性和跟高效的利用服务器的性能。同时由于docker的标准化，它可以无视任何基础设施的标志，可以很简单的部署到任何的一个地方，另外docker重要的优点就是可以提供良好的隔离兼容。\n​\t其主要概念中最重要的就是为images container\n  Images 是一个只读的模版，可以用来创建container，可以直接下载已经构建好的image，也可以自己通过Dockerfile来创建。   container 是image的可运行实例，其可以通过API和CLI(命令行)进行操作。   NGC ​\tNGC是NVIDIA官方提供的容器，其主要的作用是为用户提供一个简单、高效、安全的镜像，方便用户可以最轻松的使用NVIDIA GPU。\n使用Docker CLI从NGC容器注册表中提取容器\n 打开NGC网站，其中可以浏览自己所需要的容器  自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。并进入其中。里面有该容器的参考文档。只需要将其Pull记住。  我们一般会提供一个使用jupyter的8888端口一个使用xshell和xftp的22端口。并且将用户名和密码告知。  docker命令 dockers ps -a 查看容器\ndocker images 查看镜像\ndocker start 容器id 启动容器\ndocker attach 容器id 进入容器\ndocker stop 容器id 停止容器\ndocker rm 容器id 删除容器\n docker image rm 镜像id 删除镜像id",
     "inLanguage" : "en-us",
     "author" : "wuyangzz",
     "creator" : "wuyangzz",
@@ -182,25 +182,25 @@
 <li>我们一般会提供一个使用jupyter的8888端口一个使用xshell和xftp的22端口。并且将用户名和密码告知。</li>
 </ol>
 <h3 id="docker命令">docker命令</h3>
-<p>dockers ps -a <strong>查看容器</strong></p>
-<p>docker images 查看镜像</p>
-<p>docker start 容器id   <strong>启动容器</strong></p>
-<p>docker attach 容器id  <strong>进入容器</strong></p>
-<p>docker stop 容器id  <strong>停止容器</strong></p>
-<p>docker rm 容器id  <strong>删除容器</strong></p>
-<p>docker image rm  <strong>镜像id  删除镜像id</strong></p>
-<p>docker load 本地镜像  <strong>导入本地镜像</strong></p>
+<p><code>dockers ps -a</code> <strong>查看容器</strong></p>
+<p><code>docker images</code> 查看镜像</p>
+<p><code>docker start 容器id</code>   <strong>启动容器</strong></p>
+<p><code>docker attach 容器id</code>  <strong>进入容器</strong></p>
+<p><code>docker stop 容器id</code>  <strong>停止容器</strong></p>
+<p><code>docker rm 容器id</code>  <strong>删除容器</strong></p>
+<p><code> docker image rm</code>  <strong>镜像id  删除镜像id</strong></p>
+<p><code>docker load</code> 本地镜像  <strong>导入本地镜像</strong></p>
 <h5 id="ubuntu-基本命令">ubuntu 基本命令</h5>
-<p>ps -ef |grep 程序名  <strong>查看正在运行的程序</strong></p>
-<p>kill -9 程序pid  <strong>杀死改pid的程序</strong></p>
-<p>nohup jupyter-lab &ndash;ip 0.0.0.0 &ndash;port 8888 &ndash;allow-root &gt; jupyter.log 2&gt;&amp;1 &amp; <strong>运行jupyter</strong></p>
-<p>sudo apt-get install openssh-server <strong>安装ssh服务器</strong></p>
+<p><code>ps -ef |grep 程序名</code> <strong>查看正在运行的程序</strong></p>
+<p><code>kill -9 程序pid</code>  <strong>杀死改pid的程序</strong></p>
+<p><code>nohup jupyter-lab --ip 0.0.0.0 --port 8888 --allow-root &gt; jupyter.log 2&gt;&amp;1 &amp;</code> <strong>运行jupyter</strong></p>
+<p><code> sudo apt-get install openssh-server</code> <strong>安装ssh服务器</strong></p>
 <p><strong>配置ssh客户端</strong>，去掉PasswordAuthentication yes前面的#号，保存退出</p>
-<p>sudo vi /etc/ssh/ssh_config</p>
+<p><code>sudo vi /etc/ssh/ssh_config</code></p>
 <p>​	把PermitRootLogin prohibit-password改成PermitRootLogin yes</p>
 <p><strong>重启ssh服务</strong></p>
-<p>​	sudo /etc/init.d/ssh restart</p>
-<p>passwd root <strong>修改root密码</strong></p>
+<p>​	<code>sudo /etc/init.d/ssh restart</code></p>
+<p><code> passwd root</code> <strong>修改root密码</strong></p>
 <ol>
 <li><em>## step 1：终端输入</em></li>
 <li>jupyter notebook <em>&ndash;generate -config</em></li>
