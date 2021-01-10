@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="wuyangzz">
+  
+  
+  
+  <link rel="prev" href="https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/" />
+  
+  <link rel="canonical" href="https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%BB%86%E5%88%99/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           实验室GPU服务器操作细则 | wuyangzz
+       
+  </title>
+  <meta name="title" content="实验室GPU服务器操作细则 | wuyangzz">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/wuyangzz.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "实验室GPU服务器操作细则",
+    "headline" : "实验室GPU服务器操作细则",
+    "description" : "实验室GPU服务器操作细则 实验室GPU简介  系统 ubuntu18.04 IP:172.23.253.104 172.23.253.15 双路3090显卡  docker docker 简介 ​\tdocker镜像可以看作是一个以及配置好了很多环境的操作系统，docker与虚拟机类似，但是两者在原理上有很大的不同。docker是讲操作系统的底层虚拟化，而虚拟机是将硬件虚拟化，因此docker具有更高的便携性和跟高效的利用服务器的性能。同时由于docker的标准化，它可以无视任何基础设施的标志，可以很简单的部署到任何的一个地方，另外docker重要的优点就是可以提供良好的隔离兼容。\n​\t其主要概念中最重要的就是为images container\n  Images 是一个只读的模版，可以用来创建container，可以直接下载已经构建好的image，也可以自己通过Dockerfile来创建。   container 是image的可运行实例，其可以通过API和CLI(命令行)进行操作。   NGC ​\tNGC是NVIDIA官方提供的容器，其主要的作用是为用户提供一个简单、高效、安全的镜像，方便用户可以最轻松的使用NVIDIA GPU。\n使用Docker CLI从NGC容器注册表中提取容器\n  打开NGC网站，其中可以浏览自己所需要的容器\n  自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。并进入其中。里面有该容器的参考文档。只需要将其Pull记住。\n  我们一般会提供一个使用jupyter的8888端口一个使用xshell和xftp的22端口。并且将用户名和密码告知。\n  docker命令 dockers ps -a 查看容器\ndocker images 查看镜像\ndocker start 容器id 启动容器\ndocker attach 容器id 进入容器\ndocker stop 容器id 停止容器\ndocker rm 容器id 删除容器",
+    "inLanguage" : "en-us",
+    "author" : "wuyangzz",
+    "creator" : "wuyangzz",
+    "publisher": "wuyangzz",
+    "accountablePerson" : "wuyangzz",
+    "copyrightHolder" : "wuyangzz",
+    "copyrightYear" : "2021",
+    "datePublished": "2021-01-10 10:42:55 \u002b0800 \u002b0800",
+    "dateModified" : "2021-01-10 10:42:55 \u002b0800 \u002b0800",
+    "url" : "https:\/\/wuyangzz.github.io\/2021\/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%BB%86%E5%88%99\/",
+    "wordCount" : "247",
+    "keywords" : [ "GPU", "wuyangzz"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://wuyangzz.github.io/">wuyangzz</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">博客</a>
+                
+                <a class="menu-item" href="/categories/" title="">分类</a>
+                
+                <a class="menu-item" href="/tags/" title="">标签</a>
+                
+                <a class="menu-item" href="/about/" title="关于我">关于我</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://wuyangzz.github.io/">wuyangzz</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">博客</a>
+                
+                <a class="menu-item" href="/categories/" title="">分类</a>
+                
+                <a class="menu-item" href="/tags/" title="">标签</a>
+                
+                <a class="menu-item" href="/about/" title="关于我">关于我</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">实验室GPU服务器操作细则</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://wuyangzz.github.io/" rel="author">wuyangzz</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2021-01-10 itemprop="datePublished">January 10, 2021</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://wuyangzz.github.io/categories/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu/"> 实验室GPU </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h1 id="实验室gpu服务器操作细则">实验室GPU服务器操作细则</h1>
+<h1 id="实验室gpu简介">实验室GPU简介</h1>
+<ul>
+<li>系统 ubuntu18.04</li>
+<li>IP:172.23.253.104 172.23.253.15</li>
+<li>双路3090显卡</li>
+</ul>
+<h1 id="docker">docker</h1>
+<h3 id="docker-简介">docker 简介</h3>
+<p>​	docker镜像可以看作是一个以及配置好了很多环境的操作系统，docker与虚拟机类似，但是两者在原理上有很大的不同。docker是讲操作系统的底层虚拟化，而虚拟机是将硬件虚拟化，因此docker具有更高的便携性和跟高效的利用服务器的性能。同时由于docker的标准化，它可以无视任何基础设施的标志，可以很简单的部署到任何的一个地方，另外docker重要的优点就是可以提供良好的隔离兼容。</p>
+<p>​	其主要概念中最重要的就是为<strong>images</strong> <strong>container</strong></p>
+<ul>
+<li>
+<h6 id="images-是一个只读的模版可以用来创建container可以直接下载已经构建好的image也可以自己通过dockerfile来创建">Images 是一个只读的模版，可以用来创建container，可以直接下载已经构建好的image，也可以自己通过Dockerfile来创建。</h6>
+</li>
+<li>
+<h6 id="container-是image的可运行实例其可以通过api和cli命令行进行操作">container 是image的可运行实例，其可以通过API和CLI(命令行)进行操作。</h6>
+</li>
+</ul>
+<h3 id="ngc">NGC</h3>
+<p>​	NGC是NVIDIA官方提供的容器，其主要的作用是为用户提供一个简单、高效、安全的镜像，方便用户可以最轻松的使用NVIDIA GPU。</p>
+<p><a href="https://docs.nvidia.com/ngc/ngc-catalog-user-guide/index.html#pull_ngc_docker">使用Docker CLI从NGC容器注册表中提取容器</a></p>
+<ol>
+<li>
+<p>打开<a href="https://ngc.nvidia.com/catalog/containers?orderBy=modifiedDESC&amp;pageNumber=0&amp;query=&amp;quickFilter=containers&amp;filters=">NGC网站</a>，其中可以浏览自己所需要的容器</p>
+<p><img src="https://raw.githubusercontent.com/wycyz1/blog_image/main/20201206195516.png" alt="image-20201206195516130"></p>
+</li>
+<li>
+<p>自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。并进入其中。里面有该容器的参考文档。只需要将其Pull记住。</p>
+<p><img src="https://raw.githubusercontent.com/wycyz1/blog_image/main/20201207181251.png" alt="image-20201207181045933"></p>
+</li>
+<li>
+<p>我们一般会提供一个使用jupyter的8888端口一个使用xshell和xftp的22端口。并且将用户名和密码告知。</p>
+</li>
+</ol>
+<h3 id="docker命令">docker命令</h3>
+<p>dockers ps -a <strong>查看容器</strong></p>
+<p>docker images 查看镜像</p>
+<p>docker start 容器id   <strong>启动容器</strong></p>
+<p>docker attach 容器id  <strong>进入容器</strong></p>
+<p>docker stop 容器id  <strong>停止容器</strong></p>
+<p>docker rm 容器id  <strong>删除容器</strong></p>
+<p>docker image rm  <strong>镜像id  删除镜像id</strong></p>
+<p>docker load 本地镜像  <strong>导入本地镜像</strong></p>
+<h5 id="ubuntu-基本命令">ubuntu 基本命令</h5>
+<p>ps -ef |grep 程序名  <strong>查看正在运行的程序</strong></p>
+<p>kill -9 程序pid  <strong>杀死改pid的程序</strong></p>
+<p>nohup jupyter-lab &ndash;ip 0.0.0.0 &ndash;port 8888 &ndash;allow-root &gt; jupyter.log 2&gt;&amp;1 &amp; <strong>运行jupyter</strong></p>
+<p>sudo apt-get install openssh-server <strong>安装ssh服务器</strong></p>
+<p><strong>配置ssh客户端</strong>，去掉PasswordAuthentication yes前面的#号，保存退出</p>
+<p>sudo vi /etc/ssh/ssh_config</p>
+<p>​	把PermitRootLogin prohibit-password改成PermitRootLogin yes</p>
+<p><strong>重启ssh服务</strong></p>
+<p>​	sudo /etc/init.d/ssh restart</p>
+<p>passwd root <strong>修改root密码</strong></p>
+<ol>
+<li><em>## step 1：终端输入</em></li>
+<li>jupyter notebook <em>&ndash;generate -config</em></li>
+<li><em>## step 2：终端输入</em></li>
+<li>jupyter notebook password    <em># 按提示，输入密码</em></li>
+</ol>
+<pre><code>docker run --gpus &quot;device=0&quot; --name=202022000327 -it -v  &quot;/docker/contriner_dir/202022000327/&quot;:&quot;/workspace&quot; -p 32722:22 -p 32788:8888 6c3
+</code></pre><p>docker中 启动所有的容器命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">docker</span> <span style="color:#a6e22e">start</span> <span style="color:#a6e22e">$</span>(<span style="color:#a6e22e">docker</span> <span style="color:#a6e22e">ps</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">a</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">awk</span> <span style="color:#e6db74">&#39;{ print $1}&#39;</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">tail</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">n</span> <span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>)
+</code></pre></div><p>docker中    关闭所有的容器命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">docker</span> <span style="color:#a6e22e">stop</span> <span style="color:#a6e22e">$</span>(<span style="color:#a6e22e">docker</span> <span style="color:#a6e22e">ps</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">a</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">awk</span> <span style="color:#e6db74">&#39;{ print $1}&#39;</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">tail</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">n</span> <span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>)
+</code></pre></div><p>docker中 删除所有的容器命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">docker</span> <span style="color:#a6e22e">rm</span> <span style="color:#a6e22e">$</span>(<span style="color:#a6e22e">docker</span> <span style="color:#a6e22e">ps</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">a</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">awk</span> <span style="color:#e6db74">&#39;{ print $1}&#39;</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">tail</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">n</span> <span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>)
+</code></pre></div><p>docker中    删除所有的镜像</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">docker</span> <span style="color:#a6e22e">rmi</span> <span style="color:#a6e22e">$</span>(<span style="color:#a6e22e">docker</span> <span style="color:#a6e22e">images</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">awk</span> <span style="color:#e6db74">&#39;{print $3}&#39;</span> <span style="color:#f92672">|</span><span style="color:#a6e22e">tail</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">n</span> <span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>)
+</code></pre></div><ol>
+<li>
+<p>修改root账户密码</p>
+<p><code>passwd root</code></p>
+</li>
+<li>
+<p>更新sudo权限</p>
+<p><code>apt-get update apt-get install sudo</code></p>
+</li>
+<li>
+<p>更新软件  sudo apt-get update</p>
+</li>
+<li>
+<p>更新依赖 sudo apt-get upgrade</p>
+</li>
+<li>
+<p>安装ssh服务 sudo apt-get install openssh-server</p>
+</li>
+<li>
+<p>vim /etc/ssh/sshd_config</p>
+<p>#PermitRootLogin prohibit-password</p>
+<p>PermitRootLogin yes</p>
+</li>
+<li>
+<p>重启ssh服务   /etc/init.d/ssh restart</p>
+</li>
+<li>
+<p>自启 ssh sudo systemctl enable ssh</p>
+</li>
+<li>
+<p>查看ssh和从host端进入的是否环境变量一致</p>
+<p>echo $PATH</p>
+<p>如果不一样就</p>
+<p>vim /etc/profile</p>
+<p>在后面加入host段的环境变量</p>
+<p>export PATH=&quot;$PATH:<strong>/usr/local/</strong>&quot;</p>
+<p>然后哎 source /etc/profile 或者重启</p>
+</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>wuyangzz </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%BB%86%E5%88%99/>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%BB%86%E5%88%99/</span>
+            </p>
+            
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://wuyangzz.github.io/tags/gpu/">
+                    #GPU</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://wuyangzz.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/" class="prev" rel="prev" title="实验室GPU基本介绍"><i class="iconfont icon-left"></i>&nbsp;实验室GPU基本介绍</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2021</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://wuyangzz.github.io/">wuyangzz</a> | </span> 
+         
+
+         
+	<span>Powered by <a href="https://github.com/wuyangzz/" target="_blank" rel="external nofollow">wuyangzz</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span>     </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

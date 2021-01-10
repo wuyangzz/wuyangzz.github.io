@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="wuyangzz">
+  
+  
+  
+  <link rel="prev" href="https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" />
+  <link rel="next" href="https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%BB%86%E5%88%99/" />
+  <link rel="canonical" href="https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           实验室GPU基本介绍 | wuyangzz
+       
+  </title>
+  <meta name="title" content="实验室GPU基本介绍 | wuyangzz">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/wuyangzz.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "实验室GPU基本介绍",
+    "headline" : "实验室GPU基本介绍",
+    "description" : "背景 ​\t实验室利用ESC 4000G2 服务器 32G内存 3T机械硬盘 4张3090显卡搭建GPU服务器。每一张3090峰值功耗为350w，服务器电源为1650w 在四张显卡不同时最高功率的情况下满足基本你的使用条件。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境的话肯定会发生冲突。所有最后经过实际考虑Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。\n解决方案  一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境 主机采用ubuntu或者centos作为宿主主机上的系统。 虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。nvidia-docker 的使用规则和 Docker 是一致的，只需要把命令里的“docker”替换为“nvidia-docker”就可以了。 如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。 可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。 可以使用web界面如Shipyard等来对docker进行GUI管理 NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。 NGC镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。  优势  用户可以方便地登录 用户可以自由安装软件 普通用户无法操作宿主主机 用户可以使用 GPU 资源 用户可以调动任意数量的GPU来共同计算。多人操作的时候也可以每个人指定一个GPU使用。 用户之间互不干扰  ",
+    "inLanguage" : "en-us",
+    "author" : "wuyangzz",
+    "creator" : "wuyangzz",
+    "publisher": "wuyangzz",
+    "accountablePerson" : "wuyangzz",
+    "copyrightHolder" : "wuyangzz",
+    "copyrightYear" : "2021",
+    "datePublished": "2021-01-10 10:40:56 \u002b0800 \u002b0800",
+    "dateModified" : "2021-01-10 10:40:56 \u002b0800 \u002b0800",
+    "url" : "https:\/\/wuyangzz.github.io\/2021\/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D\/",
+    "wordCount" : "41",
+    "keywords" : [ "GPU", "wuyangzz"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://wuyangzz.github.io/">wuyangzz</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">博客</a>
+                
+                <a class="menu-item" href="/categories/" title="">分类</a>
+                
+                <a class="menu-item" href="/tags/" title="">标签</a>
+                
+                <a class="menu-item" href="/about/" title="关于我">关于我</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://wuyangzz.github.io/">wuyangzz</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">博客</a>
+                
+                <a class="menu-item" href="/categories/" title="">分类</a>
+                
+                <a class="menu-item" href="/tags/" title="">标签</a>
+                
+                <a class="menu-item" href="/about/" title="关于我">关于我</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">实验室GPU基本介绍</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://wuyangzz.github.io/" rel="author">wuyangzz</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2021-01-10 itemprop="datePublished">January 10, 2021</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://wuyangzz.github.io/categories/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu/"> 实验室GPU </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h1 id="背景">背景</h1>
+<p>​	实验室利用ESC 4000G2 服务器 32G内存 3T机械硬盘 4张3090显卡搭建GPU服务器。每一张3090峰值功耗为350w，服务器电源为1650w 在四张显卡不同时最高功率的情况下满足基本你的使用条件。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境的话肯定会发生冲突。所有最后经过实际考虑Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。</p>
+<h1 id="解决方案">解决方案</h1>
+<ul>
+<li>一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境</li>
+<li>主机采用ubuntu或者centos作为宿主主机上的系统。</li>
+<li>虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。nvidia-docker 的使用规则和 Docker 是一致的，只需要把命令里的“docker”替换为“nvidia-docker”就可以了。</li>
+<li>如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。</li>
+<li>可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。</li>
+<li>可以使用web界面如Shipyard等来对docker进行GUI管理</li>
+<li>NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。</li>
+<li>NGC镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。</li>
+</ul>
+<h1 id="优势">优势</h1>
+<ul>
+<li>用户可以方便地登录</li>
+<li>用户可以自由安装软件</li>
+<li>普通用户无法操作宿主主机</li>
+<li>用户可以使用 GPU 资源</li>
+<li>用户可以调动任意数量的GPU来共同计算。多人操作的时候也可以每个人指定一个GPU使用。</li>
+<li>用户之间互不干扰</li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>wuyangzz </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/</span>
+            </p>
+            
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://wuyangzz.github.io/tags/gpu/">
+                    #GPU</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://wuyangzz.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="prev" rel="prev" title="实验室GPU基本操作"><i class="iconfont icon-left"></i>&nbsp;实验室GPU基本操作</a>
+         
+        
+        <a href="https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%BB%86%E5%88%99/" class="next" rel="next" title="实验室GPU服务器操作细则">实验室GPU服务器操作细则&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2021</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://wuyangzz.github.io/">wuyangzz</a> | </span> 
+         
+
+         
+	<span>Powered by <a href="https://github.com/wuyangzz/" target="_blank" rel="external nofollow">wuyangzz</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span>     </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>
