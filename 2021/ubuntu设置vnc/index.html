@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="wuyangzz">
+  
+  
+  
+  <link rel="prev" href="https://wuyangzz.github.io/2021/gpu%E7%A7%9F%E7%94%A8%E6%89%8B%E5%86%8C/" />
+  
+  <link rel="canonical" href="https://wuyangzz.github.io/2021/ubuntu%E8%AE%BE%E7%BD%AEvnc/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Ubuntu设置vnc | wuyangzz
+       
+  </title>
+  <meta name="title" content="Ubuntu设置vnc | wuyangzz">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/wuyangzz.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "Ubuntu设置vnc",
+    "headline" : "Ubuntu设置vnc",
+    "description" : "安装配置软件   VNC的安装与配置   安装之前先输入（获取最新套件的信息）\napt-get update 输入以下命令安装VNC，安装过程中需要输入Y来确认\napt-get install vnc4server 启动VNC（第一次启动需要设置密码）\nvncserver 设置vncservgnome 桌面环境安装与配置（可直接跳至第3步） 安装x－windows的基础\nsudo apt-get install x-window-system-core 安装登录管理器\nsudo apt-get install gdm 安装Ubuntu的桌面\nsudo apt-get install ubuntu-desktop 安装gnome配套软件\nsudo apt-get install gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal 修改VNC配置文件\nsudo vim ~\/.vnc\/xstartup 修改为：\n#!\/bin\/sh # Uncomment the following two lines for normal desktop: export XKL_XMODMAP_DISABLE=1 unset SESSION_MANAGER # exec \/etc\/X11\/xinit\/xinitrc unset DBUS_SESSION_BUS_ADDRESS gnome-panel \u0026amp; gnmoe-settings-daemon \u0026amp; metacity \u0026amp; nautilus \u0026amp; gnome-terminal \u0026amp; 杀掉原桌面进程，输入命令（其中的:1是桌面号）：",
+    "inLanguage" : "zh-cn",
+    "author" : "wuyangzz",
+    "creator" : "wuyangzz",
+    "publisher": "wuyangzz",
+    "accountablePerson" : "wuyangzz",
+    "copyrightHolder" : "wuyangzz",
+    "copyrightYear" : "2021",
+    "datePublished": "2021-03-09 13:43:38 \u002b0800 \u002b0800",
+    "dateModified" : "2021-03-09 13:43:38 \u002b0800 \u002b0800",
+    "url" : "https:\/\/wuyangzz.github.io\/2021\/ubuntu%E8%AE%BE%E7%BD%AEvnc\/",
+    "wordCount" : "162",
+    "keywords" : [ "ubuntu", "wuyangzz"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://wuyangzz.github.io/">wuyangzz</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">博客</a>
+                
+                <a class="menu-item" href="/categories/" title="">分类</a>
+                
+                <a class="menu-item" href="/tags/" title="">标签</a>
+                
+                <a class="menu-item" href="/about/" title="关于我">关于我</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://wuyangzz.github.io/">wuyangzz</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">博客</a>
+                
+                <a class="menu-item" href="/categories/" title="">分类</a>
+                
+                <a class="menu-item" href="/tags/" title="">标签</a>
+                
+                <a class="menu-item" href="/about/" title="关于我">关于我</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Ubuntu设置vnc</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://wuyangzz.github.io/" rel="author">wuyangzz</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2021-03-09 itemprop="datePublished">March 9, 2021</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://wuyangzz.github.io/categories/ubuntu/"> ubuntu </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h1 id="安装配置软件">安装配置软件</h1>
+<ul>
+<li>
+<h2 id="vnc的安装与配置">VNC的安装与配置</h2>
+</li>
+</ul>
+<p>安装之前先输入（获取最新套件的信息）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apt-get update
+</code></pre></div><p>输入以下命令安装VNC，安装过程中需要输入Y来确认</p>
+<pre><code class="language-sehll" data-lang="sehll">apt-get install vnc4server
+</code></pre><p>启动VNC（第一次启动需要设置密码）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vncserver 
+</code></pre></div><h1 id="设置vncservgnome-桌面环境安装与配置可直接跳至第3步">设置vncservgnome 桌面环境安装与配置（可直接跳至第3步）</h1>
+<p>安装x－windows的基础</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get install x-window-system-core
+</code></pre></div><p>安装登录管理器</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get install gdm
+</code></pre></div><p>安装Ubuntu的桌面</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+sudo apt-get install ubuntu-desktop
+</code></pre></div><p>安装gnome配套软件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get install gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal
+</code></pre></div><p>修改VNC配置文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo vim ~/.vnc/xstartup
+</code></pre></div><p>修改为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span><span style="color:#75715e"># Uncomment the following two lines for normal desktop:</span>
+export XKL_XMODMAP_DISABLE<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+ unset SESSION_MANAGER
+<span style="color:#75715e"># exec /etc/X11/xinit/xinitrc</span>
+unset DBUS_SESSION_BUS_ADDRESS
+gnome-panel &amp;
+gnmoe-settings-daemon &amp;
+metacity &amp;
+nautilus &amp;
+gnome-terminal &amp;
+</code></pre></div><p>杀掉原桌面进程，输入命令（其中的:1是桌面号）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vncserver -kill :1
+</code></pre></div><p>输入以下命令生成新的会话：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vncserver :1
+</code></pre></div><p>ubuntu卸载gnome桌面（可直接跳至第3步）
+之前安装好了ubuntu18.04，本来想装个gnome shell来美化一下桌面，结果出现了开机黑屏（灰屏）的现象，经网上查询发现是显卡驱动在gnome3的环境下产生了不兼容，具体解决方法我还没找到，情急之下只能先卸载掉gnome桌面环境。</p>
+<p>卸载掉gnome-shell主程序</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get remove gnome-shell<span style="color:#ae81ff">\
+</span></code></pre></div><p>卸载掉gnome</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get remove gnome
+</code></pre></div><p>卸载不需要的依赖关系</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get autoremove
+</code></pre></div><p>彻底卸载删除gnome的相关配置文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get purge gnome
+</code></pre></div><p>清理安装gnome时候留下的缓存程序软件包</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get autoclean
+sudo apt-get clean
+</code></pre></div><p>ubuntu运行VNC Server无桌面时的解决方案
+配置vnc server实在是一个特别诡异的事，我在不同的ubuntu机器上配置服务时，总是遇到千奇百怪的问题，大部分情况下比较顺利，将~/.vnc/xstartup最后一句<code>x-window-manager&amp;</code>替换为<code>gnome-session&amp;</code>就能顺利地出现桌面，而有些则不行，需要改为<code>gnome-session --session=ubuntu-2d&amp;</code></p>
+<h1 id="问题">问题</h1>
+<p>而今天遇到的ubuntu 18.04，则死活不行，用realvnc viewer连接之后，只有灰灰的一个背景，没有桌面，没有terminal。
+使用xfce4桌面解决，选择些方案一是因为xfce相对较小，gnome-session死活不行的情况下，再将一个kde未免太过兴师动众，xfce我使用过一段时间，是一个相当轻量级的GUI环境，清爽易用，功能一点不含糊。决定之后，一次尝试即成功。</p>
+<p>安装xfce</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get install gnome-core xfce4
+</code></pre></div><p>配置
+编辑~/.vnc/xstartup文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+startxfce4 &amp;
+<span style="color:#f92672">[</span> -x /etc/vnc/xstartup <span style="color:#f92672">]</span> <span style="color:#f92672">&amp;&amp;</span> exec /etc/vnc/xstartup
+<span style="color:#f92672">[</span> -r $HOME/.Xresources <span style="color:#f92672">]</span> <span style="color:#f92672">&amp;&amp;</span> xrdb $HOME/.Xresources
+xsetroot -solid grey
+vncconfig -iconic &amp;
+</code></pre></div><p>输入以下命令生成新的会话：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vncserver :1
+</code></pre></div><p>本地使用VNC连接
+本地安装VNC后，使用ip地址:1（其中的:1是桌面号）的方式连接
+输入之前设置的VNC密码后点击连接</p>
+<h1 id="设置虚拟分辨率启动">设置虚拟分辨率启动</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> vnc4server -geometry 1920x1440
+</code></pre></div>
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>wuyangzz </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://wuyangzz.github.io/2021/ubuntu%E8%AE%BE%E7%BD%AEvnc/>https://wuyangzz.github.io/2021/ubuntu%E8%AE%BE%E7%BD%AEvnc/</span>
+            </p>
+            
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://wuyangzz.github.io/tags/ubuntu/">
+                    #ubuntu</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://wuyangzz.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://wuyangzz.github.io/2021/gpu%E7%A7%9F%E7%94%A8%E6%89%8B%E5%86%8C/" class="prev" rel="prev" title="GPU租用手册"><i class="iconfont icon-left"></i>&nbsp;GPU租用手册</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2021</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://wuyangzz.github.io/">wuyangzz</a> | </span> 
+         
+
+         
+	<span>Powered by <a href="https://github.com/wuyangzz/" target="_blank" rel="external nofollow">wuyangzz</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span>     </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>
