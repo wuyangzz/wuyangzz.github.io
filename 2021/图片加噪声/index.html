@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="wuyangzz">
+  
+  
+  
+  <link rel="prev" href="https://wuyangzz.github.io/2021/%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%AD%97%E5%85%B8%E5%AD%A6%E4%B9%A0/" />
+  <link rel="next" href="https://wuyangzz.github.io/2021/jupyter%E4%B8%ADmatplotlib%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" />
+  <link rel="canonical" href="https://wuyangzz.github.io/2021/%E5%9B%BE%E7%89%87%E5%8A%A0%E5%99%AA%E5%A3%B0/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           图片加噪声 | wuyangzz
+       
+  </title>
+  <meta name="title" content="图片加噪声 | wuyangzz">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/wuyangzz.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "图片加噪声",
+    "headline" : "图片加噪声",
+    "description" : "图片加噪声 图像噪声分类 1.加性噪声 f(x,y)=g(x,y)\u002bn(x,y) 一般是图像传输信道噪声和CCD摄像机图像数字化过程中产生 2.乘性噪声 f(x,y)=g(x,y)*n(x,y) 一般由 胶片中颗粒 飞点扫描图像噪声 电视扫描光栅等原因造成 3.量化噪声 模拟到数字产生的差异 量化中的误差  图像噪声模型 1.高斯噪声 (Gaussian noise) 最广泛。传感器非正常环境下产生，电子电路中噪声。 高斯分布 2.脉冲噪声 (Impulsive noise) 双极脉冲：椒盐脉冲，尖峰噪声 散粒噪声 盐噪声：随机的白色像素点 胡椒噪声：随机黑色像素点 3.瑞利噪声 (Rayleigh noise) 4.伽马(爱尔兰)噪声 (Gamma noise) 5.指数噪声(Exponential noise) 6.均匀噪声(Uniform noise)  去噪效果评价算法 1.SNR [信噪比] 计算图像自身的信噪比 输入为一幅图片 2.PSNR [峰值信噪比] 计算两个图像之间的相似度 去噪后的图片和原图做比较 3.SSIM [结构相似性] 衡量两幅图像相似度  Code import numpy as np import copy import cv2 import random import skimage.metrics import matplotlib.pyplot as plt def GaussianNoise(srcImg,percent,sigma,means=0,greyscale=256): \u0026#34;\u0026#34;\u0026#34; 为灰度图像添加 高斯噪声 :param srcImg: 源图像 :param percent: 噪声百分比 :param sigma: 高斯的标准差 :param means=0: 高斯的均值 默认为0 :param greyscale=256: 灰度图像的度 默认为256 \u0026#34;\u0026#34;\u0026#34; (h,w)= srcImg.",
+    "inLanguage" : "zh-cn",
+    "author" : "wuyangzz",
+    "creator" : "wuyangzz",
+    "publisher": "wuyangzz",
+    "accountablePerson" : "wuyangzz",
+    "copyrightHolder" : "wuyangzz",
+    "copyrightYear" : "2021",
+    "datePublished": "2021-03-26 16:55:05 \u002b0800 \u002b0800",
+    "dateModified" : "2021-03-26 16:55:05 \u002b0800 \u002b0800",
+    "url" : "https:\/\/wuyangzz.github.io\/2021\/%E5%9B%BE%E7%89%87%E5%8A%A0%E5%99%AA%E5%A3%B0\/",
+    "wordCount" : "473",
+    "keywords" : [ "噪声", "wuyangzz"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://wuyangzz.github.io/">wuyangzz</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">博客</a>
+                
+                <a class="menu-item" href="/categories/" title="">分类</a>
+                
+                <a class="menu-item" href="/tags/" title="">标签</a>
+                
+                <a class="menu-item" href="/about/" title="关于我">关于我</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://wuyangzz.github.io/">wuyangzz</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">博客</a>
+                
+                <a class="menu-item" href="/categories/" title="">分类</a>
+                
+                <a class="menu-item" href="/tags/" title="">标签</a>
+                
+                <a class="menu-item" href="/about/" title="关于我">关于我</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">图片加噪声</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://wuyangzz.github.io/" rel="author">wuyangzz</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2021-03-26 itemprop="datePublished">March 26, 2021</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://wuyangzz.github.io/categories/python/"> Python </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h1 id="图片加噪声">图片加噪声</h1>
+<h2 id="图像噪声分类">图像噪声分类</h2>
+<pre><code>1.加性噪声  f(x,y)=g(x,y)+n(x,y) 
+   一般是图像传输信道噪声和CCD摄像机图像数字化过程中产生
+2.乘性噪声 f(x,y)=g(x,y)*n(x,y)
+   一般由 胶片中颗粒 飞点扫描图像噪声 电视扫描光栅等原因造成
+3.量化噪声
+   模拟到数字产生的差异 量化中的误差
+</code></pre>
+<h2 id="图像噪声模型">图像噪声模型</h2>
+<pre><code>1.高斯噪声 (Gaussian noise)
+  最广泛。传感器非正常环境下产生，电子电路中噪声。 高斯分布
+2.脉冲噪声 (Impulsive noise)
+  双极脉冲：椒盐脉冲，尖峰噪声 散粒噪声 
+          盐噪声：随机的白色像素点
+          胡椒噪声：随机黑色像素点
+3.瑞利噪声 (Rayleigh noise)
+4.伽马(爱尔兰)噪声 (Gamma noise)
+5.指数噪声(Exponential noise)
+6.均匀噪声(Uniform noise)
+</code></pre>
+<h2 id="去噪效果评价算法">去噪效果评价算法</h2>
+<pre><code>1.SNR  [信噪比] 计算图像自身的信噪比  输入为一幅图片
+2.PSNR [峰值信噪比] 计算两个图像之间的相似度  去噪后的图片和原图做比较
+3.SSIM [结构相似性] 衡量两幅图像相似度
+</code></pre>
+<h2 id="code">Code</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> copy
+<span style="color:#f92672">import</span> cv2
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">import</span> skimage.metrics
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">GaussianNoise</span>(srcImg,percent,sigma,means<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,greyscale<span style="color:#f92672">=</span><span style="color:#ae81ff">256</span>):   
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    为灰度图像添加 高斯噪声
+</span><span style="color:#e6db74">        :param srcImg: 源图像
+</span><span style="color:#e6db74">        :param percent: 噪声百分比
+</span><span style="color:#e6db74">        :param sigma: 高斯的标准差
+</span><span style="color:#e6db74">        :param means=0: 高斯的均值  默认为0
+</span><span style="color:#e6db74">        :param greyscale=256: 灰度图像的度  默认为256
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    (h,w)<span style="color:#f92672">=</span> srcImg<span style="color:#f92672">.</span>shape     <span style="color:#75715e">#源图像的长宽</span>
+    NoiseImg<span style="color:#f92672">=</span>copy<span style="color:#f92672">.</span>deepcopy(srcImg)           <span style="color:#75715e">#复制源图像</span>
+    places<span style="color:#f92672">=</span>random<span style="color:#f92672">.</span>sample(range(h<span style="color:#f92672">*</span>w),int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h))            <span style="color:#75715e">#随机按照百分比选择噪声点位置</span>
+
+    <span style="color:#66d9ef">for</span> place <span style="color:#f92672">in</span> places:
+        x,y<span style="color:#f92672">=</span>place<span style="color:#f92672">%</span>w,place<span style="color:#f92672">//</span>w <span style="color:#75715e"># 坐标</span>
+        <span style="color:#75715e"># f(x,y)=g(x,y)+n(x,y) </span>
+        fxy<span style="color:#f92672">=</span>int(NoiseImg[x,y]<span style="color:#f92672">+</span>random<span style="color:#f92672">.</span>gauss(means,sigma))
+        <span style="color:#75715e"># 范围修正</span>
+        <span style="color:#66d9ef">if</span> fxy<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>:
+            fxy<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">elif</span> fxy<span style="color:#f92672">&gt;</span>greyscale<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+            fxy<span style="color:#f92672">=</span>greyscale<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+        NoiseImg[x,y]<span style="color:#f92672">=</span>fxy
+    <span style="color:#66d9ef">return</span> NoiseImg
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">SaltPepperNoise</span>(srcImg,percent,mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;BOTH&#34;</span>,greyscale<span style="color:#f92672">=</span><span style="color:#ae81ff">256</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    对灰度图像添加椒盐噪声
+</span><span style="color:#e6db74">        :param srcImg: 源图片
+</span><span style="color:#e6db74">        :param percent: 百分比
+</span><span style="color:#e6db74">        :param mode=&#34;BOTH&#34;: 模式：BOTH:椒盐模式  SALT:盐 PEPPRR 椒
+</span><span style="color:#e6db74">        :param greyscale=256: 灰度图像的度  默认为256
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    (h,w)<span style="color:#f92672">=</span> srcImg<span style="color:#f92672">.</span>shape     <span style="color:#75715e">#源图像的长宽</span>
+    NoiseImg<span style="color:#f92672">=</span>copy<span style="color:#f92672">.</span>deepcopy(srcImg)           <span style="color:#75715e">#复制源图像</span>
+    places<span style="color:#f92672">=</span>random<span style="color:#f92672">.</span>sample(range(h<span style="color:#f92672">*</span>w),int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h))            <span style="color:#75715e">#随机按照百分比选择噪声点位置</span>
+
+    <span style="color:#66d9ef">for</span> place <span style="color:#f92672">in</span> places:
+        x,y<span style="color:#f92672">=</span>place<span style="color:#f92672">%</span>w,place<span style="color:#f92672">//</span>w <span style="color:#75715e"># 坐标</span>
+        <span style="color:#66d9ef">if</span> mode<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;SALT&#34;</span>:     <span style="color:#75715e">#加盐</span>
+            NoiseImg[x,y]<span style="color:#f92672">=</span><span style="color:#ae81ff">255</span>
+        <span style="color:#66d9ef">elif</span> mode<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;PEPPER&#34;</span>: <span style="color:#75715e">#加胡椒</span>
+            NoiseImg[x,y]<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">else</span>:                <span style="color:#75715e">#</span>
+            NoiseImg[x,y]<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> <span style="color:#66d9ef">if</span> random<span style="color:#f92672">.</span>random()<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0.5</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">255</span>
+    <span style="color:#66d9ef">return</span> NoiseImg
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">RayleighNoise</span>(srcImg,scale,percent,greyscale<span style="color:#f92672">=</span><span style="color:#ae81ff">256</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    对灰度头像加上瑞利噪声
+</span><span style="color:#e6db74">        :param srcImg: 源图像
+</span><span style="color:#e6db74">        :param scale: 规模
+</span><span style="color:#e6db74">        :param percent:百分比
+</span><span style="color:#e6db74">        :param greyscale=256: 灰度图像的度  默认为256
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+
+    (h,w)<span style="color:#f92672">=</span> srcImg<span style="color:#f92672">.</span>shape     <span style="color:#75715e">#源图像的长宽</span>
+    NoiseImg<span style="color:#f92672">=</span>copy<span style="color:#f92672">.</span>deepcopy(srcImg)           <span style="color:#75715e">#复制源图像</span>
+
+    places<span style="color:#f92672">=</span>random<span style="color:#f92672">.</span>sample(range(h<span style="color:#f92672">*</span>w),int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h))    <span style="color:#75715e">#位置</span>
+    Rayleighs<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>rayleigh(scale,int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h)) <span style="color:#75715e">#瑞利噪声</span>
+
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h)):
+        x,y<span style="color:#f92672">=</span>places[i]<span style="color:#f92672">%</span>w,places[i]<span style="color:#f92672">//</span>w <span style="color:#75715e"># 坐标</span>
+        fxy<span style="color:#f92672">=</span>NoiseImg[x,y]<span style="color:#f92672">+</span>int(Rayleighs[i]) <span style="color:#75715e">#加上噪声</span>
+         <span style="color:#75715e"># 范围修正</span>
+        <span style="color:#66d9ef">if</span> fxy<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>:
+            fxy<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">elif</span> fxy<span style="color:#f92672">&gt;</span>greyscale<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+            fxy<span style="color:#f92672">=</span>greyscale<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+        NoiseImg[x,y]<span style="color:#f92672">=</span>fxy
+    <span style="color:#66d9ef">return</span> NoiseImg
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">GammaNoise</span>(srcImg,k,theta,percent,greyscale<span style="color:#f92672">=</span><span style="color:#ae81ff">256</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    为灰度图像添加伽马噪声
+</span><span style="color:#e6db74">        :param srcImg: 源图像
+</span><span style="color:#e6db74">        :param k: 伽马分布参数k
+</span><span style="color:#e6db74">        :param theta: 伽马分布参数theta
+</span><span style="color:#e6db74">        :param percent: 百分比
+</span><span style="color:#e6db74">        :param greyscale=256:  灰度图像的度  默认为256
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+
+    (h,w)<span style="color:#f92672">=</span> srcImg<span style="color:#f92672">.</span>shape     <span style="color:#75715e">#源图像的长宽</span>
+    NoiseImg<span style="color:#f92672">=</span>copy<span style="color:#f92672">.</span>deepcopy(srcImg)           <span style="color:#75715e">#复制源图像</span>
+
+    places<span style="color:#f92672">=</span>random<span style="color:#f92672">.</span>sample(range(h<span style="color:#f92672">*</span>w),int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h))    <span style="color:#75715e">#位置</span>
+    Gammas<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>gamma(k,theta,int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h)) <span style="color:#75715e">#伽马噪声</span>
+
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h)):
+        x,y<span style="color:#f92672">=</span>places[i]<span style="color:#f92672">%</span>w,places[i]<span style="color:#f92672">//</span>w <span style="color:#75715e"># 坐标</span>
+        fxy<span style="color:#f92672">=</span>NoiseImg[x,y]<span style="color:#f92672">+</span>int(Gammas[i]) <span style="color:#75715e">#加上噪声</span>
+         <span style="color:#75715e"># 范围修正</span>
+        <span style="color:#66d9ef">if</span> fxy<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>:
+            fxy<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">elif</span> fxy<span style="color:#f92672">&gt;</span>greyscale<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+            fxy<span style="color:#f92672">=</span>greyscale<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+        NoiseImg[x,y]<span style="color:#f92672">=</span>fxy
+    <span style="color:#66d9ef">return</span> NoiseImg
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">ExponentialNoise</span>(srcImg,beta,percent,greyscale<span style="color:#f92672">=</span><span style="color:#ae81ff">256</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    为灰度图像添加指数噪声
+</span><span style="color:#e6db74">        :param srcImg: 源图像
+</span><span style="color:#e6db74">        :param beta: 指数分布参数
+</span><span style="color:#e6db74">        :param percent: 百分比
+</span><span style="color:#e6db74">        :param greyscale=257:  灰度图像的度  默认为258
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+
+    (h,w)<span style="color:#f92672">=</span> srcImg<span style="color:#f92672">.</span>shape     <span style="color:#75715e">#源图像的长宽</span>
+    NoiseImg<span style="color:#f92672">=</span>copy<span style="color:#f92672">.</span>deepcopy(srcImg)           <span style="color:#75715e">#复制源图像</span>
+
+    places<span style="color:#f92672">=</span>random<span style="color:#f92672">.</span>sample(range(h<span style="color:#f92672">*</span>w),int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h))    <span style="color:#75715e">#位置</span>
+    Expons<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>exponential(beta,int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h))  <span style="color:#75715e">#指数噪声</span>
+
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h)):
+        x,y<span style="color:#f92672">=</span>places[i]<span style="color:#f92672">%</span>w,places[i]<span style="color:#f92672">//</span>w <span style="color:#75715e"># 坐标</span>
+        fxy<span style="color:#f92672">=</span>NoiseImg[x,y]<span style="color:#f92672">+</span>int(Expons[i]) <span style="color:#75715e">#加上噪声</span>
+         <span style="color:#75715e"># 范围修正</span>
+        <span style="color:#66d9ef">if</span> fxy<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>:
+            fxy<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">elif</span> fxy<span style="color:#f92672">&gt;</span>greyscale<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+            fxy<span style="color:#f92672">=</span>greyscale<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+        NoiseImg[x,y]<span style="color:#f92672">=</span>fxy
+    <span style="color:#66d9ef">return</span> NoiseImg
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">UniformNoise</span>(srcImg,a,b,percent,greyscale<span style="color:#f92672">=</span><span style="color:#ae81ff">256</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    为灰度图像添加均匀噪声
+</span><span style="color:#e6db74">        :param srcImg: 源图像  
+</span><span style="color:#e6db74">        :param a: 均匀分布参数a  low
+</span><span style="color:#e6db74">        :param b: 均匀分布参数b  high
+</span><span style="color:#e6db74">        :param percent: 百分比
+</span><span style="color:#e6db74">        :param greyscale=256：灰度图像的度  默认为256
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    (h,w)<span style="color:#f92672">=</span> srcImg<span style="color:#f92672">.</span>shape     <span style="color:#75715e">#源图像的长宽</span>
+    NoiseImg<span style="color:#f92672">=</span>copy<span style="color:#f92672">.</span>deepcopy(srcImg)           <span style="color:#75715e">#复制源图像</span>
+
+    places<span style="color:#f92672">=</span>random<span style="color:#f92672">.</span>sample(range(h<span style="color:#f92672">*</span>w),int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h))    <span style="color:#75715e">#位置</span>
+    unis<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>uniform(a,b,int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h))         <span style="color:#75715e">#均匀噪声</span>
+
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(int(percent<span style="color:#f92672">*</span>w<span style="color:#f92672">*</span>h)):
+        x,y<span style="color:#f92672">=</span>places[i]<span style="color:#f92672">%</span>w,places[i]<span style="color:#f92672">//</span>w <span style="color:#75715e"># 坐标</span>
+        fxy<span style="color:#f92672">=</span>NoiseImg[x,y]<span style="color:#f92672">+</span>int(unis[i]) <span style="color:#75715e">#加上噪声</span>
+         <span style="color:#75715e"># 范围修正</span>
+        <span style="color:#66d9ef">if</span> fxy<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>:
+            fxy<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">elif</span> fxy<span style="color:#f92672">&gt;</span>greyscale<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+            fxy<span style="color:#f92672">=</span>greyscale<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+        NoiseImg[x,y]<span style="color:#f92672">=</span>fxy
+    <span style="color:#66d9ef">return</span> NoiseImg
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cal_SNR</span>(img):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    计算图像的SNR 使用方差法
+</span><span style="color:#e6db74">        :param img: 
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    snr<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>mean(img)<span style="color:#f92672">/</span>np<span style="color:#f92672">.</span>std(img)
+
+    <span style="color:#66d9ef">return</span> snr
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cal_PSNR</span>(img,img_n):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    计算图像的PSNR  使用skimage 自带的方法
+</span><span style="color:#e6db74">        :param img: 原始图像
+</span><span style="color:#e6db74">        :param img_n: 噪声图像
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">return</span> skimage<span style="color:#f92672">.</span>metrics<span style="color:#f92672">.</span>peak_signal_noise_ratio(img, img_n, data_range<span style="color:#f92672">=</span><span style="color:#ae81ff">255</span>)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cal_SSIM</span>(img,img_n):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    计算图像的SSIM  使用skimage 自带的方法
+</span><span style="color:#e6db74">        :param img: 原始图像
+</span><span style="color:#e6db74">        :param img_n: 噪声图像
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">return</span> skimage<span style="color:#f92672">.</span>metrics<span style="color:#f92672">.</span>structural_similarity(img, img_n, data_range<span style="color:#f92672">=</span><span style="color:#ae81ff">255</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+    img<span style="color:#f92672">=</span>cv2<span style="color:#f92672">.</span>imread(<span style="color:#e6db74">&#39;lenna.bmp&#39;</span>,<span style="color:#ae81ff">0</span>) 
+    <span style="color:#75715e"># cv2.imshow(&#34;original&#34;,img)</span>
+
+    <span style="color:#75715e">#高斯噪声</span>
+    g_per,means,sigma<span style="color:#f92672">=</span><span style="color:#ae81ff">1.0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">50</span>
+    gaussImg<span style="color:#f92672">=</span>GaussianNoise(img,g_per,sigma)
+    cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;guass&#34;</span>,gaussImg)
+    cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;./image/GuassNoise_per{}_sigma{}_means{}_lenna.jpg&#34;</span><span style="color:#f92672">.</span>format(g_per,sigma,means),gaussImg)
+
+    <span style="color:#75715e">#椒盐噪声</span>
+    s_per,mode<span style="color:#f92672">=</span><span style="color:#ae81ff">0.08</span>,<span style="color:#e6db74">&#34;BOTH&#34;</span>
+    spImg<span style="color:#f92672">=</span>SaltPepperNoise(img,s_per)
+    cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;SaltPepper&#34;</span>,spImg)
+    cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;./image/SaltPepperNoise_per{}_mode{}_lenna.jpg&#34;</span><span style="color:#f92672">.</span>format(s_per,mode),spImg)
+
+    <span style="color:#75715e">#瑞利噪声</span>
+    scale,r_per<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>,<span style="color:#ae81ff">0.5</span>
+    rayImg<span style="color:#f92672">=</span>RayleighNoise(img,scale,r_per)
+    cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Rayleigh&#34;</span>,rayImg)
+    cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;./image/RayleighNoise_per{}_scale{}_lenna.jpg&#34;</span><span style="color:#f92672">.</span>format(r_per,scale),rayImg)
+
+    <span style="color:#75715e">#伽马噪声</span>
+    k,theta,ga_per<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">0.5</span>
+    gammaImg<span style="color:#f92672">=</span>GammaNoise(img,k,theta,ga_per)
+    cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Gamma&#34;</span>,gammaImg)
+    cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;./image/GammaNoise_k{}_theta{}_per{}_lenna.jpg&#34;</span><span style="color:#f92672">.</span>format(k,theta,ga_per),gammaImg)
+
+    <span style="color:#75715e">#指数噪声</span>
+    beta,e_per<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">0.5</span>
+    expImg<span style="color:#f92672">=</span>ExponentialNoise(img,beta,e_per)
+    cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Exponential&#34;</span>,expImg)
+    cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;./image/Exponential_beta{}_per{}_lenna.jpg&#34;</span><span style="color:#f92672">.</span>format(beta,e_per),expImg)
+
+   <span style="color:#75715e"># 均匀噪声</span>
+    a,b,u_per<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">150</span>,<span style="color:#ae81ff">0.5</span>
+    uniImg<span style="color:#f92672">=</span>UniformNoise(img,a,b,u_per)
+    cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Uniform&#34;</span>,uniImg)
+    cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;./image/UniformNoise_a{}_b{}_per{}_lenna.jpg&#34;</span><span style="color:#f92672">.</span>format(a,b,u_per),uniImg)
+    <span style="color:#66d9ef">print</span>(cal_SNR(img))
+    <span style="color:#66d9ef">print</span>(cal_SNR(gaussImg))
+    <span style="color:#66d9ef">print</span>(cal_PSNR(img,gaussImg))
+    <span style="color:#66d9ef">print</span>(cal_SSIM(img,gaussImg))
+    cv2<span style="color:#f92672">.</span>waitKey()
+    fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,figsize <span style="color:#f92672">=</span> (<span style="color:#ae81ff">40</span>,<span style="color:#ae81ff">30</span>))
+    ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>imshow(gaussImg,cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+    ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;高斯噪声&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">40</span>) 
+    ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>imshow(spImg,cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+    ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;椒盐噪声&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">40</span>) 
+    ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>imshow(rayImg,cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+    ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;瑞利噪声&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">40</span>) 
+    ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>imshow(gammaImg,cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+    ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;伽马噪声&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">40</span>) 
+    ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>imshow(expImg,cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+    ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;指数噪声&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">40</span>) 
+    ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>imshow(uniImg,cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+    ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;均匀噪声&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">40</span>) 
+
+
+</code></pre></div><pre><code>2.5921675411422913
+1.882286386646585
+14.599118975174203
+0.13775556598303823
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/wuyangzz/blog_image/main/output_3_1.png" alt="output_3_1"></p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>wuyangzz </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://wuyangzz.github.io/2021/%E5%9B%BE%E7%89%87%E5%8A%A0%E5%99%AA%E5%A3%B0/>https://wuyangzz.github.io/2021/%E5%9B%BE%E7%89%87%E5%8A%A0%E5%99%AA%E5%A3%B0/</span>
+            </p>
+            
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://wuyangzz.github.io/tags/%E5%99%AA%E5%A3%B0/">
+                    #噪声</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://wuyangzz.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://wuyangzz.github.io/2021/%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%AD%97%E5%85%B8%E5%AD%A6%E4%B9%A0/" class="prev" rel="prev" title="稀疏表示和字典学习"><i class="iconfont icon-left"></i>&nbsp;稀疏表示和字典学习</a>
+         
+        
+        <a href="https://wuyangzz.github.io/2021/jupyter%E4%B8%ADmatplotlib%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class="next" rel="next" title="Jupyter中matplotlib中文乱码问题">Jupyter中matplotlib中文乱码问题&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2021</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://wuyangzz.github.io/">wuyangzz</a> | </span> 
+         
+
+         
+	<span>Powered by <a href="https://github.com/wuyangzz/" target="_blank" rel="external nofollow">wuyangzz</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span>     </div>
+</footer>
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

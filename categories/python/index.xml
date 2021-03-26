@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on wuyangzz</title>
+    <link>https://wuyangzz.github.io/categories/python/</link>
+    <description>Recent content in Python on wuyangzz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 26 Mar 2021 17:01:43 +0800</lastBuildDate><atom:link href="https://wuyangzz.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jupyter中matplotlib中文乱码问题</title>
+      <link>https://wuyangzz.github.io/2021/jupyter%E4%B8%ADmatplotlib%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 26 Mar 2021 17:01:43 +0800</pubDate>
+      
+      <guid>https://wuyangzz.github.io/2021/jupyter%E4%B8%ADmatplotlib%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</guid>
+      <description>下载字体 首先下载中文字体，链接如下。
+字体下载链接 win中下载号以后可以直接安装字体
+修改matplotlibrc文件 matplotlibrc文件的位置如下：
+D:\Anaconda3\Lib\site-packages\matplotlib\mpl-data （1）删掉 font.family前面的 # 并改为SimHei （2）删掉 font.sans-serif 前面的 #
+需要将刚才下载的SimHei添加到其中，如红色方框所示。  保存退出！
+把这个路径下的文件都删除（tex.cache和fontlist-.v310josn） c://用户//用户名//.matplotlib
+重新启动jupyter </description>
+    </item>
+    
+    <item>
+      <title>图片加噪声</title>
+      <link>https://wuyangzz.github.io/2021/%E5%9B%BE%E7%89%87%E5%8A%A0%E5%99%AA%E5%A3%B0/</link>
+      <pubDate>Fri, 26 Mar 2021 16:55:05 +0800</pubDate>
+      
+      <guid>https://wuyangzz.github.io/2021/%E5%9B%BE%E7%89%87%E5%8A%A0%E5%99%AA%E5%A3%B0/</guid>
+      <description>图片加噪声 图像噪声分类 1.加性噪声 f(x,y)=g(x,y)+n(x,y) 一般是图像传输信道噪声和CCD摄像机图像数字化过程中产生 2.乘性噪声 f(x,y)=g(x,y)*n(x,y) 一般由 胶片中颗粒 飞点扫描图像噪声 电视扫描光栅等原因造成 3.量化噪声 模拟到数字产生的差异 量化中的误差  图像噪声模型 1.高斯噪声 (Gaussian noise) 最广泛。传感器非正常环境下产生，电子电路中噪声。 高斯分布 2.脉冲噪声 (Impulsive noise) 双极脉冲：椒盐脉冲，尖峰噪声 散粒噪声 盐噪声：随机的白色像素点 胡椒噪声：随机黑色像素点 3.瑞利噪声 (Rayleigh noise) 4.伽马(爱尔兰)噪声 (Gamma noise) 5.指数噪声(Exponential noise) 6.均匀噪声(Uniform noise)  去噪效果评价算法 1.SNR [信噪比] 计算图像自身的信噪比 输入为一幅图片 2.PSNR [峰值信噪比] 计算两个图像之间的相似度 去噪后的图片和原图做比较 3.SSIM [结构相似性] 衡量两幅图像相似度  Code import numpy as np import copy import cv2 import random import skimage.metrics import matplotlib.pyplot as plt def GaussianNoise(srcImg,percent,sigma,means=0,greyscale=256): &amp;#34;&amp;#34;&amp;#34; 为灰度图像添加 高斯噪声 :param srcImg: 源图像 :param percent: 噪声百分比 :param sigma: 高斯的标准差 :param means=0: 高斯的均值 默认为0 :param greyscale=256: 灰度图像的度 默认为256 &amp;#34;&amp;#34;&amp;#34; (h,w)= srcImg.</description>
+    </item>
+    
+  </channel>
+</rss>
