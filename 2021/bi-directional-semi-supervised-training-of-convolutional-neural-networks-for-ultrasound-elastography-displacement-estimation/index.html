@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Bi Directional Semi Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation | wuyangzz</title>
+<meta name="keywords" content="">
+<meta name="description" content="文章阅读 标题Title Bi-Directional Semi-Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation Ali K. Z. Tehrani, Mostafa Sharifzadeh, Emad Boctor and Hassan Rivaz 超声弹性成像位移估计的卷积神经网络双向半监督训练 审稿文章 发表于TUFFC
+摘要Abstract 超声弹性成像的性能在很大程度上取决于位移估计的准确性。最近，卷积神经网络(CNN)在光流估计中显示出良好的性能，并已被用于位移估计 自己实验室最先发表。由于在计算机视觉图像和高频射频超声数据之间存在很大的差距 RFPWC-Net该文章中明确表表明，所以在计算机视觉图像上训练的网络不能直接用于位移估计 (因为超声数据最主要的是有很多的高频数据和噪点) 。许多研究人员试图采用光流CNN，通过应用 迁移学习(自己的心脏模型能不能使用KITTI和fly以及sinetl数据集合上进行先训练，训练以后在进行迁移学习) 来提高CNN的使用性能。然而，实际超声数据中的地面真实位移是未知的，并且仿真数据与真实数据相比表现出域移，并且生成的计算量也很大。为了解决这个问题，已经提出了半监督方法，其中使用真实的超声数据来微调对计算机视觉图像进行预训练的网络。本文采用半监督方法，利用位移场的一阶和二阶导数进行正则化。我们还修改了网络结构以估计向前和向后位移，并提出使用向前和向后应变之间的一致性作为额外的正则化以进一步提高性能。我们用几个实验体模和活体数据验证了我们的方法。我们还表明，由我们提出的方法使用实验体模数据微调的网络在活体数据上表现良好，类似于在活体数据上微调的网络。我们的结果还表明，该方法的性能优于现有的深度学习方法，并且与计算量较大的基于优化的算法相当。
+介绍Introduction 超声成像与其他成像手段相比，价格便宜，携带方便，已被越来越多的研究者和临床医生用于诊断和图像引导介入治疗。超声弹性成像(USE)是一种检测组织粘弹性属性的成像技术，已被发现用于不同的应用，包括消融监测[1]、[2]和乳房病变定性[3]。使用方法跟踪组织的运动，大致可分为两组：准静态超声弹性成像和动态超声弹性成像。在动态弹性成像中，声辐射力或内力被用来在组织中产生快速运动[4]。相反，在准静态弹性成像中，组织中的运动是缓慢的，可以通过操作者简单地按下探头(徒手触诊)或使用机械臂来诱导[5]-[8]。
+本位主要估计的是使用手触摸组织得到的准静态弹性成像 实际上，弹性成像 (Elastography) 一词最早由 Ophir 等人提出 [a]，因此狭义的弹性成像仅指这种静态力激励下的成像技术 [b]。 其中准静态超声成像技术因具有高分辨率、实时性、不需要额外改进传统超声设备等优点而得到广泛应用。然而,准静态超声弹性成像算法仍然面临着挑战:不正确的匹配点导致弹性成像效果差、实时性要求较高、根据经验设置的窗口系数不能自适应组织等。 [a] Ophir J, Cespedes I, Ponnekanti H, et al. Elastography: a quantitative method for imaging the elasticity of biological tissues[J].Ultrasonic Imaging,1991,13(2):111-134. [b] 罗建文, 白净.">
+<meta name="author" content="wuyangzz">
+<link rel="canonical" href="https://wuyangzz.github.io/2021/bi-directional-semi-supervised-training-of-convolutional-neural-networks-for-ultrasound-elastography-displacement-estimation/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abc7c82c3d415a6df50430738d1cbcc4c76fea558bc5a0c830d3babf78167a35.css" integrity="sha256-q8fILD1BWm31BDBzjRy8xMdv6lWLxaDIMNO6v3gWejU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://wuyangzz.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://wuyangzz.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://wuyangzz.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://wuyangzz.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://wuyangzz.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Bi Directional Semi Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation" />
+<meta property="og:description" content="文章阅读 标题Title Bi-Directional Semi-Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation Ali K. Z. Tehrani, Mostafa Sharifzadeh, Emad Boctor and Hassan Rivaz 超声弹性成像位移估计的卷积神经网络双向半监督训练 审稿文章 发表于TUFFC
+摘要Abstract 超声弹性成像的性能在很大程度上取决于位移估计的准确性。最近，卷积神经网络(CNN)在光流估计中显示出良好的性能，并已被用于位移估计 自己实验室最先发表。由于在计算机视觉图像和高频射频超声数据之间存在很大的差距 RFPWC-Net该文章中明确表表明，所以在计算机视觉图像上训练的网络不能直接用于位移估计 (因为超声数据最主要的是有很多的高频数据和噪点) 。许多研究人员试图采用光流CNN，通过应用 迁移学习(自己的心脏模型能不能使用KITTI和fly以及sinetl数据集合上进行先训练，训练以后在进行迁移学习) 来提高CNN的使用性能。然而，实际超声数据中的地面真实位移是未知的，并且仿真数据与真实数据相比表现出域移，并且生成的计算量也很大。为了解决这个问题，已经提出了半监督方法，其中使用真实的超声数据来微调对计算机视觉图像进行预训练的网络。本文采用半监督方法，利用位移场的一阶和二阶导数进行正则化。我们还修改了网络结构以估计向前和向后位移，并提出使用向前和向后应变之间的一致性作为额外的正则化以进一步提高性能。我们用几个实验体模和活体数据验证了我们的方法。我们还表明，由我们提出的方法使用实验体模数据微调的网络在活体数据上表现良好，类似于在活体数据上微调的网络。我们的结果还表明，该方法的性能优于现有的深度学习方法，并且与计算量较大的基于优化的算法相当。
+介绍Introduction 超声成像与其他成像手段相比，价格便宜，携带方便，已被越来越多的研究者和临床医生用于诊断和图像引导介入治疗。超声弹性成像(USE)是一种检测组织粘弹性属性的成像技术，已被发现用于不同的应用，包括消融监测[1]、[2]和乳房病变定性[3]。使用方法跟踪组织的运动，大致可分为两组：准静态超声弹性成像和动态超声弹性成像。在动态弹性成像中，声辐射力或内力被用来在组织中产生快速运动[4]。相反，在准静态弹性成像中，组织中的运动是缓慢的，可以通过操作者简单地按下探头(徒手触诊)或使用机械臂来诱导[5]-[8]。
+本位主要估计的是使用手触摸组织得到的准静态弹性成像 实际上，弹性成像 (Elastography) 一词最早由 Ophir 等人提出 [a]，因此狭义的弹性成像仅指这种静态力激励下的成像技术 [b]。 其中准静态超声成像技术因具有高分辨率、实时性、不需要额外改进传统超声设备等优点而得到广泛应用。然而,准静态超声弹性成像算法仍然面临着挑战:不正确的匹配点导致弹性成像效果差、实时性要求较高、根据经验设置的窗口系数不能自适应组织等。 [a] Ophir J, Cespedes I, Ponnekanti H, et al. Elastography: a quantitative method for imaging the elasticity of biological tissues[J].Ultrasonic Imaging,1991,13(2):111-134. [b] 罗建文, 白净." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wuyangzz.github.io/2021/bi-directional-semi-supervised-training-of-convolutional-neural-networks-for-ultrasound-elastography-displacement-estimation/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-09-22T20:35:49&#43;08:00" />
+<meta property="article:modified_time" content="2021-09-22T20:35:49&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Bi Directional Semi Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation"/>
+<meta name="twitter:description" content="文章阅读 标题Title Bi-Directional Semi-Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation Ali K. Z. Tehrani, Mostafa Sharifzadeh, Emad Boctor and Hassan Rivaz 超声弹性成像位移估计的卷积神经网络双向半监督训练 审稿文章 发表于TUFFC
+摘要Abstract 超声弹性成像的性能在很大程度上取决于位移估计的准确性。最近，卷积神经网络(CNN)在光流估计中显示出良好的性能，并已被用于位移估计 自己实验室最先发表。由于在计算机视觉图像和高频射频超声数据之间存在很大的差距 RFPWC-Net该文章中明确表表明，所以在计算机视觉图像上训练的网络不能直接用于位移估计 (因为超声数据最主要的是有很多的高频数据和噪点) 。许多研究人员试图采用光流CNN，通过应用 迁移学习(自己的心脏模型能不能使用KITTI和fly以及sinetl数据集合上进行先训练，训练以后在进行迁移学习) 来提高CNN的使用性能。然而，实际超声数据中的地面真实位移是未知的，并且仿真数据与真实数据相比表现出域移，并且生成的计算量也很大。为了解决这个问题，已经提出了半监督方法，其中使用真实的超声数据来微调对计算机视觉图像进行预训练的网络。本文采用半监督方法，利用位移场的一阶和二阶导数进行正则化。我们还修改了网络结构以估计向前和向后位移，并提出使用向前和向后应变之间的一致性作为额外的正则化以进一步提高性能。我们用几个实验体模和活体数据验证了我们的方法。我们还表明，由我们提出的方法使用实验体模数据微调的网络在活体数据上表现良好，类似于在活体数据上微调的网络。我们的结果还表明，该方法的性能优于现有的深度学习方法，并且与计算量较大的基于优化的算法相当。
+介绍Introduction 超声成像与其他成像手段相比，价格便宜，携带方便，已被越来越多的研究者和临床医生用于诊断和图像引导介入治疗。超声弹性成像(USE)是一种检测组织粘弹性属性的成像技术，已被发现用于不同的应用，包括消融监测[1]、[2]和乳房病变定性[3]。使用方法跟踪组织的运动，大致可分为两组：准静态超声弹性成像和动态超声弹性成像。在动态弹性成像中，声辐射力或内力被用来在组织中产生快速运动[4]。相反，在准静态弹性成像中，组织中的运动是缓慢的，可以通过操作者简单地按下探头(徒手触诊)或使用机械臂来诱导[5]-[8]。
+本位主要估计的是使用手触摸组织得到的准静态弹性成像 实际上，弹性成像 (Elastography) 一词最早由 Ophir 等人提出 [a]，因此狭义的弹性成像仅指这种静态力激励下的成像技术 [b]。 其中准静态超声成像技术因具有高分辨率、实时性、不需要额外改进传统超声设备等优点而得到广泛应用。然而,准静态超声弹性成像算法仍然面临着挑战:不正确的匹配点导致弹性成像效果差、实时性要求较高、根据经验设置的窗口系数不能自适应组织等。 [a] Ophir J, Cespedes I, Ponnekanti H, et al. Elastography: a quantitative method for imaging the elasticity of biological tissues[J].Ultrasonic Imaging,1991,13(2):111-134. [b] 罗建文, 白净."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://wuyangzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Bi Directional Semi Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation",
+      "item": "https://wuyangzz.github.io/2021/bi-directional-semi-supervised-training-of-convolutional-neural-networks-for-ultrasound-elastography-displacement-estimation/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Bi Directional Semi Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation",
+  "name": "Bi Directional Semi Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation",
+  "description": "文章阅读 标题Title Bi-Directional Semi-Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation Ali K. Z. Tehrani, Mostafa Sharifzadeh, Emad Boctor and Hassan Rivaz 超声弹性成像位移估计的卷积神经网络双向半监督训练 审稿文章 发表于TUFFC\n摘要Abstract 超声弹性成像的性能在很大程度上取决于位移估计的准确性。最近，卷积神经网络(CNN)在光流估计中显示出良好的性能，并已被用于位移估计 自己实验室最先发表。由于在计算机视觉图像和高频射频超声数据之间存在很大的差距 RFPWC-Net该文章中明确表表明，所以在计算机视觉图像上训练的网络不能直接用于位移估计 (因为超声数据最主要的是有很多的高频数据和噪点) 。许多研究人员试图采用光流CNN，通过应用 迁移学习(自己的心脏模型能不能使用KITTI和fly以及sinetl数据集合上进行先训练，训练以后在进行迁移学习) 来提高CNN的使用性能。然而，实际超声数据中的地面真实位移是未知的，并且仿真数据与真实数据相比表现出域移，并且生成的计算量也很大。为了解决这个问题，已经提出了半监督方法，其中使用真实的超声数据来微调对计算机视觉图像进行预训练的网络。本文采用半监督方法，利用位移场的一阶和二阶导数进行正则化。我们还修改了网络结构以估计向前和向后位移，并提出使用向前和向后应变之间的一致性作为额外的正则化以进一步提高性能。我们用几个实验体模和活体数据验证了我们的方法。我们还表明，由我们提出的方法使用实验体模数据微调的网络在活体数据上表现良好，类似于在活体数据上微调的网络。我们的结果还表明，该方法的性能优于现有的深度学习方法，并且与计算量较大的基于优化的算法相当。\n介绍Introduction 超声成像与其他成像手段相比，价格便宜，携带方便，已被越来越多的研究者和临床医生用于诊断和图像引导介入治疗。超声弹性成像(USE)是一种检测组织粘弹性属性的成像技术，已被发现用于不同的应用，包括消融监测[1]、[2]和乳房病变定性[3]。使用方法跟踪组织的运动，大致可分为两组：准静态超声弹性成像和动态超声弹性成像。在动态弹性成像中，声辐射力或内力被用来在组织中产生快速运动[4]。相反，在准静态弹性成像中，组织中的运动是缓慢的，可以通过操作者简单地按下探头(徒手触诊)或使用机械臂来诱导[5]-[8]。\n本位主要估计的是使用手触摸组织得到的准静态弹性成像 实际上，弹性成像 (Elastography) 一词最早由 Ophir 等人提出 [a]，因此狭义的弹性成像仅指这种静态力激励下的成像技术 [b]。 其中准静态超声成像技术因具有高分辨率、实时性、不需要额外改进传统超声设备等优点而得到广泛应用。然而,准静态超声弹性成像算法仍然面临着挑战:不正确的匹配点导致弹性成像效果差、实时性要求较高、根据经验设置的窗口系数不能自适应组织等。 [a] Ophir J, Cespedes I, Ponnekanti H, et al. Elastography: a quantitative method for imaging the elasticity of biological tissues[J].Ultrasonic Imaging,1991,13(2):111-134. [b] 罗建文, 白净.",
+  "keywords": [
+    ""
+  ],
+  "articleBody": "文章阅读 标题Title Bi-Directional Semi-Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation Ali K. Z. Tehrani, Mostafa Sharifzadeh, Emad Boctor and Hassan Rivaz 超声弹性成像位移估计的卷积神经网络双向半监督训练 审稿文章 发表于TUFFC\n摘要Abstract 超声弹性成像的性能在很大程度上取决于位移估计的准确性。最近，卷积神经网络(CNN)在光流估计中显示出良好的性能，并已被用于位移估计 自己实验室最先发表。由于在计算机视觉图像和高频射频超声数据之间存在很大的差距 RFPWC-Net该文章中明确表表明，所以在计算机视觉图像上训练的网络不能直接用于位移估计 (因为超声数据最主要的是有很多的高频数据和噪点) 。许多研究人员试图采用光流CNN，通过应用 迁移学习(自己的心脏模型能不能使用KITTI和fly以及sinetl数据集合上进行先训练，训练以后在进行迁移学习) 来提高CNN的使用性能。然而，实际超声数据中的地面真实位移是未知的，并且仿真数据与真实数据相比表现出域移，并且生成的计算量也很大。为了解决这个问题，已经提出了半监督方法，其中使用真实的超声数据来微调对计算机视觉图像进行预训练的网络。本文采用半监督方法，利用位移场的一阶和二阶导数进行正则化。我们还修改了网络结构以估计向前和向后位移，并提出使用向前和向后应变之间的一致性作为额外的正则化以进一步提高性能。我们用几个实验体模和活体数据验证了我们的方法。我们还表明，由我们提出的方法使用实验体模数据微调的网络在活体数据上表现良好，类似于在活体数据上微调的网络。我们的结果还表明，该方法的性能优于现有的深度学习方法，并且与计算量较大的基于优化的算法相当。\n介绍Introduction 超声成像与其他成像手段相比，价格便宜，携带方便，已被越来越多的研究者和临床医生用于诊断和图像引导介入治疗。超声弹性成像(USE)是一种检测组织粘弹性属性的成像技术，已被发现用于不同的应用，包括消融监测[1]、[2]和乳房病变定性[3]。使用方法跟踪组织的运动，大致可分为两组：准静态超声弹性成像和动态超声弹性成像。在动态弹性成像中，声辐射力或内力被用来在组织中产生快速运动[4]。相反，在准静态弹性成像中，组织中的运动是缓慢的，可以通过操作者简单地按下探头(徒手触诊)或使用机械臂来诱导[5]-[8]。\n本位主要估计的是使用手触摸组织得到的准静态弹性成像 实际上，弹性成像 (Elastography) 一词最早由 Ophir 等人提出 [a]，因此狭义的弹性成像仅指这种静态力激励下的成像技术 [b]。 其中准静态超声成像技术因具有高分辨率、实时性、不需要额外改进传统超声设备等优点而得到广泛应用。然而,准静态超声弹性成像算法仍然面临着挑战:不正确的匹配点导致弹性成像效果差、实时性要求较高、根据经验设置的窗口系数不能自适应组织等。 [a] Ophir J, Cespedes I, Ponnekanti H, et al. Elastography: a quantitative method for imaging the elasticity of biological tissues[J].Ultrasonic Imaging,1991,13(2):111-134. [b] 罗建文, 白净. 超声弹性成像的研究进展[J].中国医疗器械信息, 2005,11(5):23-31.\n用于执行位移估计步骤的现有技术可以分为传统的和基于深度学习的方法。基于窗口的方法[6]、[9]-[12]和基于优化的方法[8]、[13]-[15]是被广泛使用的两组主要的传统方法。最近基于优化的方法已经超过了基于窗口的方法[14]、[15]。基于优化的方法的主要思想是确定初始粗略估计，通常通过动态规划(DP)[8]，然后最小化正则化的代价函数以获得位移图。Overwind是一种最新的算法，它结合了基于窗口的方法和基于优化的方法[15]。OVERWIND采用L1范数作为正则化算子，以保持边界上位移的尖锐性。\nOverwind是一种最新的算法，它结合了基于窗口的方法和基于优化的方法[15]。OVERWIND采用L1范数作为正则化算子，以保持边界上位移的尖锐性。 最近提出的基于深度学习的方法利用光流卷积神经网络(CNN)来获得位移图。最初的几项工作使用光流CNN作为黑盒，用于使用[16]、[17]或作为基于优化的方法的初始估计器，而不是DP[18]、[19]。然而，计算机视觉图像和美国数据有很大的不同，用于前者的CNN架构没有针对高频RF数据进行优化。为了解决这个问题，考虑到射频数据的物理特性，我们修改了著名的PWC-Net架构[20]以适应使用。我们将该网络称为改进的PWC-Net(MPWC-Net)，与PWC-Net相比，得到的位移精度要高得多。在另一项工作中，我们提出了MPWC-Net++，它是MPWC-Net的改进版本，具有更大的搜索范围和更精确的输出位移[22]。这些方法需要GPU高效运行，并且可以在GPU计算能力迅速增强的情况下执行高帧率使用。然而，它们的主要缺点是与传统方法相比，它们具有更大的方差，这是因为它们与传统方法相比没有被正则化。因此，与传统方法[21]-[23]相比，它们的应变图像的整体质量较低。\n",
+  "wordCount" : "76",
+  "inLanguage": "en",
+  "datePublished": "2021-09-22T20:35:49+08:00",
+  "dateModified": "2021-09-22T20:35:49+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "wuyangzz"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://wuyangzz.github.io/2021/bi-directional-semi-supervised-training-of-convolutional-neural-networks-for-ultrasound-elastography-displacement-estimation/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "wuyangzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://wuyangzz.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://wuyangzz.github.io/" accesskey="h" title="wuyangzz (Alt + H)">wuyangzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://wuyangzz.github.io/posts/" title="博客">
+                    <span>博客</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/about/" title="关于我">
+                    <span>关于我</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Bi Directional Semi Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation
+    </h1>
+    <div class="post-meta"><span title='2021-09-22 20:35:49 +0800 CST'>September 22, 2021</span>&nbsp;·&nbsp;wuyangzz
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="文章阅读">文章阅读<a hidden class="anchor" aria-hidden="true" href="#文章阅读">#</a></h1>
+<h2 id="标题title">标题Title<a hidden class="anchor" aria-hidden="true" href="#标题title">#</a></h2>
+<pre><code>Bi-Directional Semi-Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation 
+Ali K. Z. Tehrani, Mostafa Sharifzadeh, Emad Boctor and Hassan Rivaz 
+超声弹性成像位移估计的卷积神经网络双向半监督训练
+</code></pre><p>审稿文章 发表于TUFFC</p>
+<h2 id="摘要abstract">摘要Abstract<a hidden class="anchor" aria-hidden="true" href="#摘要abstract">#</a></h2>
+<p>超声弹性成像的性能在很大程度上<strong>取决于位移估计的准确性</strong>。最近，卷积神经网络(CNN)在光流估计中显示出良好的性能，并已被用于位移估计 <a href="https://journals.sagepub.com/doi/10.1177/0161734620902527"><strong>自己实验室最先发表</strong></a>。由于在计算机视觉图像和高频射频超声数据之间存在很大的差距 <a href="https://users.encs.concordia.ca/~impact/rfmpwc-net-an-optical-flow-cnn-network-for-ultrasound-elastography/"><strong>RFPWC-Net该文章中明确表表明</strong></a>，所以在计算机视觉图像上训练的网络不能直接用于位移估计 (<strong>因为超声数据最主要的是有很多的高频数据和噪点</strong>) 。许多研究人员试图采用光流CNN，通过应用 <strong>迁移学习(自己的心脏模型能不能使用KITTI和fly以及sinetl数据集合上进行先训练，训练以后在进行迁移学习)</strong> 来提高CNN的使用性能。然而，实际超声数据中的地面真实位移是未知的，并且仿真数据与真实数据相比表现出域移，并且生成的计算量也很大。为了解决这个问题，已经提出了半监督方法，其中使用真实的超声数据来微调对计算机视觉图像进行预训练的网络。本文采用半监督方法，利用<strong>位移场的一阶和二阶导数进行正则化</strong>。我们还修改了网络结构以估计向前和向后位移，并提出<strong>使用向前和向后应变之间的一致性</strong>作为额外的正则化以进一步提高性能。我们用几个实验体模和活体数据验证了我们的方法。我们还表明，由我们提出的方法使用实验体模数据微调的网络在活体数据上表现良好，类似于在活体数据上微调的网络。我们的结果还表明，该方法的性能优于现有的深度学习方法，并且与计算量较大的基于优化的算法相当。</p>
+<h2 id="介绍introduction">介绍Introduction<a hidden class="anchor" aria-hidden="true" href="#介绍introduction">#</a></h2>
+<p>超声成像与其他成像手段相比，价格便宜，携带方便，已被越来越多的研究者和临床医生用于诊断和图像引导介入治疗。超声弹性成像(USE)是一种检测组织粘弹性属性的成像技术，已被发现用于不同的应用，包括消融监测[1]、[2]和乳房病变定性[3]。使用方法跟踪组织的运动，大致可分为两组：<strong>准静态超声弹性成像和动态超声弹性成像</strong>。在动态弹性成像中，声辐射力或内力被用来在组织中产生快速运动[4]。相反，在准静态弹性成像中，组织中的运动是缓慢的，可以通过操作者简单地按下探头(徒手触诊)或使用机械臂来诱导[5]-[8]。</p>
+<p>本位主要估计的是<strong>使用手触摸组织得到的准静态弹性成像</strong>
+实际上，弹性成像 (Elastography) 一词最早由 Ophir 等人提出 [a]，因此狭义的弹性成像仅指这种静态力激励下的成像技术 [b]。
+其中准静态超声成像技术因具有高分辨率、实时性、不需要额外改进传统超声设备等优点而得到广泛应用。然而,准静态超声弹性成像算法仍然面临着挑战:不正确的匹配点导致弹性成像效果差、实时性要求较高、根据经验设置的窗口系数不能自适应组织等。
+[a] Ophir J, Cespedes I, Ponnekanti H, et al. Elastography: a quantitative method for imaging the elasticity of biological tissues[J].Ultrasonic Imaging,1991,13(2):111-134.
+[b] 罗建文, 白净. 超声弹性成像的研究进展[J].中国医疗器械信息, 2005,11(5):23-31.</p>
+<p>用于执行位移估计步骤的现有技术可以分为传统的和基于深度学习的方法。基于窗口的方法[6]、[9]-[12]和基于优化的方法[8]、[13]-[15]是被广泛使用的两组主要的传统方法。最近基于优化的方法已经超过了基于窗口的方法[14]、[15]。基于优化的方法的主要思想是确定初始粗略估计，通常通过动态规划(DP)[8]，然后最小化正则化的代价函数以获得位移图。Overwind是一种最新的算法，它结合了基于窗口的方法和基于优化的方法[15]。OVERWIND采用L1范数作为正则化算子，以保持边界上位移的尖锐性。</p>
+<p>Overwind是一种最新的算法，它结合了基于窗口的方法和基于优化的方法[15]。OVERWIND采<strong>用L1范数作为正则化算子，以保持边界上位移的尖锐性</strong>。
+最近提出的基于深度学习的方法利用光流卷积神经网络(CNN)来获得位移图。最初的几项工作使用光流CNN作为黑盒，用于使用[16]、[17]或作为基于优化的方法的初始估计器，而不是DP[18]、[19]。然而，计算机视觉图像和美国数据有很大的不同，用于前者的CNN架构没有针对高频RF数据进行优化。为了解决这个问题，考虑到射频数据的物理特性，我们修改了著名的PWC-Net架构[20]以适应使用。我们将该网络称为改进的PWC-Net(MPWC-Net)，与PWC-Net相比，得到的位移精度要高得多。在另一项工作中，我们提出了MPWC-Net++，它是MPWC-Net的改进版本，具有更大的搜索范围和更精确的输出位移[22]。这些方法需要GPU高效运行，并且可以在GPU计算能力迅速增强的情况下执行高帧率使用。然而，它们的主要缺点是与传统方法相比，它们具有更大的方差，这是因为它们与传统方法相比没有被正则化。因此，与传统方法[21]-[23]相比，它们的应变图像的整体质量较低。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://wuyangzz.github.io/">wuyangzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

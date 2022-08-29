@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Dicom文件处理 | wuyangzz</title>
+<meta name="keywords" content="">
+<meta name="description" content="使用阈值去掉杂乱的信息 import cv2 import os import pydicom import numpy as np # dicom图像输入路径 inputdir = &#39;/workspace/20210910/Bmodel/inputs&#39; # dicom图像输出路径 outdir = &#39;/workspace/20210910/Bmodel/max_contours_images/&#39; # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 def findMaxcontours(data): _, binaryzation = cv2.threshold(data, 2, 255, cv2.THRESH_BINARY_INV) binaryzation = np.uint8(binaryzation) # 找到所有的轮廓 contours, _ = cv2.findContours( binaryzation, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE) area = [] # 找到最大的轮廓 实际应该为第二大轮廓 for k in range(len(contours)): area.append(cv2.contourArea(contours[k])) # max_idx = np.argmax(np.array(area)) max_idx = np.argsort(np.array(area))[-2] # cv2.fillContexPoly(mask[i], contours[max_idx], 0) # 填充最大的轮廓 mask = cv2.">
+<meta name="author" content="wuyangzz">
+<link rel="canonical" href="https://wuyangzz.github.io/2021/dicom%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abc7c82c3d415a6df50430738d1cbcc4c76fea558bc5a0c830d3babf78167a35.css" integrity="sha256-q8fILD1BWm31BDBzjRy8xMdv6lWLxaDIMNO6v3gWejU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://wuyangzz.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://wuyangzz.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://wuyangzz.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://wuyangzz.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://wuyangzz.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Dicom文件处理" />
+<meta property="og:description" content="使用阈值去掉杂乱的信息 import cv2 import os import pydicom import numpy as np # dicom图像输入路径 inputdir = &#39;/workspace/20210910/Bmodel/inputs&#39; # dicom图像输出路径 outdir = &#39;/workspace/20210910/Bmodel/max_contours_images/&#39; # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 def findMaxcontours(data): _, binaryzation = cv2.threshold(data, 2, 255, cv2.THRESH_BINARY_INV) binaryzation = np.uint8(binaryzation) # 找到所有的轮廓 contours, _ = cv2.findContours( binaryzation, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE) area = [] # 找到最大的轮廓 实际应该为第二大轮廓 for k in range(len(contours)): area.append(cv2.contourArea(contours[k])) # max_idx = np.argmax(np.array(area)) max_idx = np.argsort(np.array(area))[-2] # cv2.fillContexPoly(mask[i], contours[max_idx], 0) # 填充最大的轮廓 mask = cv2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wuyangzz.github.io/2021/dicom%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-09T10:17:39&#43;08:00" />
+<meta property="article:modified_time" content="2021-10-09T10:17:39&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dicom文件处理"/>
+<meta name="twitter:description" content="使用阈值去掉杂乱的信息 import cv2 import os import pydicom import numpy as np # dicom图像输入路径 inputdir = &#39;/workspace/20210910/Bmodel/inputs&#39; # dicom图像输出路径 outdir = &#39;/workspace/20210910/Bmodel/max_contours_images/&#39; # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 def findMaxcontours(data): _, binaryzation = cv2.threshold(data, 2, 255, cv2.THRESH_BINARY_INV) binaryzation = np.uint8(binaryzation) # 找到所有的轮廓 contours, _ = cv2.findContours( binaryzation, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE) area = [] # 找到最大的轮廓 实际应该为第二大轮廓 for k in range(len(contours)): area.append(cv2.contourArea(contours[k])) # max_idx = np.argmax(np.array(area)) max_idx = np.argsort(np.array(area))[-2] # cv2.fillContexPoly(mask[i], contours[max_idx], 0) # 填充最大的轮廓 mask = cv2."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://wuyangzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Dicom文件处理",
+      "item": "https://wuyangzz.github.io/2021/dicom%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Dicom文件处理",
+  "name": "Dicom文件处理",
+  "description": "使用阈值去掉杂乱的信息 import cv2 import os import pydicom import numpy as np # dicom图像输入路径 inputdir = \u0026#39;/workspace/20210910/Bmodel/inputs\u0026#39; # dicom图像输出路径 outdir = \u0026#39;/workspace/20210910/Bmodel/max_contours_images/\u0026#39; # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 def findMaxcontours(data): _, binaryzation = cv2.threshold(data, 2, 255, cv2.THRESH_BINARY_INV) binaryzation = np.uint8(binaryzation) # 找到所有的轮廓 contours, _ = cv2.findContours( binaryzation, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE) area = [] # 找到最大的轮廓 实际应该为第二大轮廓 for k in range(len(contours)): area.append(cv2.contourArea(contours[k])) # max_idx = np.argmax(np.array(area)) max_idx = np.argsort(np.array(area))[-2] # cv2.fillContexPoly(mask[i], contours[max_idx], 0) # 填充最大的轮廓 mask = cv2.",
+  "keywords": [
+    ""
+  ],
+  "articleBody": "使用阈值去掉杂乱的信息 import cv2 import os import pydicom import numpy as np # dicom图像输入路径 inputdir = '/workspace/20210910/Bmodel/inputs' # dicom图像输出路径 outdir = '/workspace/20210910/Bmodel/max_contours_images/' # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 def findMaxcontours(data): _, binaryzation = cv2.threshold(data, 2, 255, cv2.THRESH_BINARY_INV) binaryzation = np.uint8(binaryzation) # 找到所有的轮廓 contours, _ = cv2.findContours( binaryzation, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE) area = [] # 找到最大的轮廓 实际应该为第二大轮廓 for k in range(len(contours)): area.append(cv2.contourArea(contours[k])) # max_idx = np.argmax(np.array(area)) max_idx = np.argsort(np.array(area))[-2] # cv2.fillContexPoly(mask[i], contours[max_idx], 0) # 填充最大的轮廓 mask = cv2.drawContours(np.zeros(data.shape), contours, max_idx, 1, cv2.FILLED) image1 = np.multiply(mask, data) image1 = cv2.cvtColor(np.uint8(image1), cv2.COLOR_GRAY2BGR) return image1 for file_name in files_name_list: path=os.path.join(inputdir,file_name) ds=pydicom.read_file(path) # 获取该文件的帧数 num_frame=ds.pixel_array.shape[0] # 逐帧保存为PNG无损图像 for i in range(num_frame): if i == 0: image1 = findMaxcontours(ds.pixel_array[i, :, :]) else: image2 = findMaxcontours(ds.pixel_array[i, :, :]) cv2.imwrite(os.path.join(outdir, str( count)+\"_1.png\"), image1, [cv2.IMWRITE_PNG_COMPRESSION, 0]) cv2.imwrite(os.path.join(outdir, str( count)+\"_2.png\"), image2, [cv2.IMWRITE_PNG_COMPRESSION, 0]) image1=image2 count+=1 dicom处理为tf train数据格式\nimport cv2 import os import pydicom import numpy as np import tensorflow as tf import conversion_utils # 遍历所有文件 def write_data_example(record_writer, image1, image2): \"\"\"Write data example to disk.\"\"\" assert image1.shape[0] == image2.shape[0] assert image1.shape[1] == image2.shape[1] # assert image1.shape[2] == image2.shape[2] feature = { 'height': conversion_utils.int64_feature(image1.shape[0]), 'width': conversion_utils.int64_feature(image1.shape[1]), } example = tf.train.SequenceExample( context=tf.train.Features(feature=feature), feature_lists=tf.train.FeatureLists( feature_list={ 'images': tf.train.FeatureList(feature=[ conversion_utils.bytes_feature( image1.astype('uint8').tobytes()), conversion_utils.bytes_feature( image2.astype('uint8').tobytes()) ]), })) record_writer.write(example.SerializeToString()) def findMaxcontours(data): _, binaryzation = cv2.threshold(data, 2, 255, cv2.THRESH_BINARY_INV) binaryzation = np.uint8(binaryzation) # 找到所有的轮廓 contours, _ = cv2.findContours( binaryzation, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE) area = [] # 找到最大的轮廓 实际应该为第二大轮廓 for k in range(len(contours)): area.append(cv2.contourArea(contours[k])) # max_idx = np.argmax(np.array(area)) max_idx = np.argsort(np.array(area))[-2] # cv2.fillContexPoly(mask[i], contours[max_idx], 0) # 填充最大的轮廓 mask = cv2.drawContours(np.zeros(data.shape), contours, max_idx, 1, cv2.FILLED) image1 = np.multiply(mask, data) image1 = cv2.cvtColor(np.uint8(image1), cv2.COLOR_GRAY2BGR) return image1 if __name__ == '__main__': # dicom图像输入路径 inputdir = '/workspace/20210910/Bmodel/inputs' # dicom图像输出路径 outdir_tfcard = '/workspace/20210910/Bmodel/max_contours_tfcard_size512*512_间隔1帧_RGB' outdir_image = '/workspace/20210910/Bmodel/max_contours_images_size512*512_间隔1帧_RGB' if not tf.io.gfile.exists(outdir_tfcard): print('Making new tfcard directory', outdir_tfcard) tf.io.gfile.makedirs(outdir_tfcard) if not tf.io.gfile.exists(outdir_image): print('Making new image directory', outdir_image) tf.io.gfile.makedirs(outdir_image) filename = os.path.join(outdir_tfcard, 'fdicom@1') files_name_list = os.listdir(inputdir) count = 0 with tf.io.TFRecordWriter(filename) as record_writer: for file_name in files_name_list: # 获取文件夹下文件列表 path = os.path.join(inputdir, file_name) ds = pydicom.read_file(path) # 获取该文件的帧数 num_frame = ds.pixel_array.shape[0] print('Read a new dicom file: ' + file_name + \" frame: %d\", num_frame) ds1 = ds.pixel_array[:-1] ds2 = ds.pixel_array[1:] # 逐帧保存为PNG无损图像 for i in range(ds1.shape[0]): image1 = findMaxcontours(ds1[i, :, :]) image2 = findMaxcontours(ds2[i, :, :]) image1=image1[60:572, 114:626, :] image2=image2[60:572, 114:626, :] cv2.imwrite(os.path.join(outdir_image, str( count)+\"_1.png\"), image1, [cv2.IMWRITE_PNG_COMPRESSION, 0]) cv2.imwrite(os.path.join(outdir_image, str( count)+\"_2.png\"), image2, [cv2.IMWRITE_PNG_COMPRESSION, 0]) write_data_example(record_writer, image1, image2) count += 1 print('Read a new frame: %d', count) 20211012修改版本\nimport cv2 import os import pydicom import numpy as np import tensorflow as tf import conversion_utils import tensorflow as tf from tensorflow import keras # 遍历所有文件 def write_data_example(record_writer, image1, image2): \"\"\"Write data example to disk.\"\"\" assert image1.shape[0] == image2.shape[0] assert image1.shape[1] == image2.shape[1] # assert image1.shape[2] == image2.shape[2] feature = { 'height': conversion_utils.int64_feature(image1.shape[0]), 'width': conversion_utils.int64_feature(image1.shape[1]), } example = tf.train.SequenceExample( context=tf.train.Features(feature=feature), feature_lists=tf.train.FeatureLists( feature_list={ 'images': tf.train.FeatureList(feature=[ conversion_utils.bytes_feature( image1.astype('uint8').tobytes()), conversion_utils.bytes_feature( image2.astype('uint8').tobytes()) ]), })) record_writer.write(example.SerializeToString()) def findMaxcontours_mask(data): _, binaryzation = cv2.threshold(data*255, 2, 255, cv2.THRESH_BINARY_INV) binaryzation = np.uint8(binaryzation) # 找到所有的轮廓 contours, _ = cv2.findContours( binaryzation, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE) area = [] # 找到最大的轮廓 实际应该为第二大轮廓 for k in range(len(contours)): area.append(cv2.contourArea(contours[k])) # max_idx = np.argmax(np.array(area)) max_idx = np.argsort(np.array(area))[-2] # cv2.fillContexPoly(mask[i], contours[max_idx], 0) # 填充最大的轮廓 mask = cv2.drawContours(np.zeros(data.shape), contours, max_idx, 1, cv2.FILLED) return mask def findMaxcontours_raw(data): _, binaryzation = cv2.threshold(data, 2, 255, cv2.THRESH_BINARY_INV) binaryzation = np.uint8(binaryzation) # 找到所有的轮廓 contours, _ = cv2.findContours( binaryzation, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE) area = [] # 找到最大的轮廓 实际应该为第二大轮廓 for k in range(len(contours)): area.append(cv2.contourArea(contours[k])) max_idx = np.argmax(np.array(area)) # max_idx = np.argsort(np.array(area))[-2] # cv2.fillContexPoly(mask[i], contours[max_idx], 0) # 填充最大的轮廓 mask = cv2.drawContours(np.ones(data.shape), contours, max_idx, 0, cv2.FILLED) image = np.multiply(mask, data) return image if __name__ == '__main__': # dicom图像输入路径 inputdir = '/workspace/20210910/Bmodel/inputs' # dicom图像输出路径 # outdir_tfcard_unet = '/workspace/20210910/datasets/512_512_tf_UNET' # outdir_tfcard_raw = '/workspace/20210910/datasets/512_512_tf_RAW' # outdir_image_unet = '/workspace/20210910/datasets/512_512_image_UNET' # outdir_image_raw = '/workspace/20210910/datasets/512_512_image_RAW' outdir_tfcard_unet = '/workspace/20210910/datasets/480_384_tf_UNET' outdir_tfcard_raw = '/workspace/20210910/datasets/480_384_tf_RAW' outdir_image_unet = '/workspace/20210910/datasets/480_384_image_UNET' outdir_image_raw = '/workspace/20210910/datasets/480_384_image_RAW' model_path = '/workspace/my-unet3plus/model/图像大小320使用crop进行训练/model' model_size = 320 # 检查输出文件夹 if not tf.io.gfile.exists(outdir_tfcard_unet): print('Making new tfcard directory', outdir_tfcard_unet) tf.io.gfile.makedirs(outdir_tfcard_unet) if not tf.io.gfile.exists(outdir_tfcard_raw): print('Making new image directory', outdir_tfcard_raw) tf.io.gfile.makedirs(outdir_tfcard_raw) if not tf.io.gfile.exists(outdir_image_unet): print('Making new tfcard directory', outdir_image_unet) tf.io.gfile.makedirs(outdir_image_unet) if not tf.io.gfile.exists(outdir_image_raw): print('Making new image directory', outdir_image_raw) tf.io.gfile.makedirs(outdir_image_raw) tfcard_unet_dir = os.path.join(outdir_tfcard_unet, 'tfcard_unet@1') tfcard_raw_dir = os.path.join(outdir_tfcard_raw, 'tfcard_raw@1') dicom_files_list = os.listdir(inputdir) count = 0 '''导入模型''' os.environ[\"CUDA_VISIBLE_DEVICES\"] = \"0\" unet3plus = keras.models.load_model(model_path, compile=False) with tf.io.TFRecordWriter(tfcard_unet_dir) as record_writer_unet: with tf.io.TFRecordWriter(tfcard_raw_dir) as record_writer_raw: for dicom_file in dicom_files_list: # 获取文件夹下文件列表 dicom_file_dir = os.path.join(inputdir, dicom_file) ds_dicom = pydicom.read_file(dicom_file_dir) # 获取该文件的帧数 num_frame = ds_dicom.pixel_array.shape[0] print('读取dicom文件: ' + dicom_file + \" 数量为: %d\", num_frame) # 图像大小 51 2* 512 # images_read = ds_dicom.pixel_array[:, 60:572, 114:626] # 图像大小为480*384 images_read = ds_dicom.pixel_array[:, 68:548, 238:622] # 整理图像 _, h, w = images_read.shape for i in range(images_read.shape[0]): if i == 0: images = findMaxcontours_raw(images_read[i, :, :]).reshape( 1, h, w) else: images = np.append(images, findMaxcontours_raw( images_read[i, :, :]).reshape(1, h, w), axis=0) # resize 图像好作为模型输入 for i in range(images.shape[0]): if i==0: resize_images = cv2.resize( images[i, :, :], (model_size, model_size), interpolation=cv2.INTER_AREA).reshape(1, model_size, model_size) else: resize_images = np.append(resize_images, cv2.resize( images[i, :, :], (model_size, model_size), interpolation=cv2.INTER_AREA).reshape(1, model_size, model_size), axis=0) # 预测图像 resize_mask = unet3plus.predict([(resize_images / 255).reshape( images.shape[0], model_size, model_size, 1)], batch_size=16)[-1].reshape( images.shape[0], model_size, model_size) # 整理预测后的图像并且从新resize为原大小 resize_mask = np.uint8(resize_mask0.3) _, h, w = images.shape for i in range(images.shape[0]): if i == 0: masks = findMaxcontours_mask(cv2.resize( resize_mask[i, :, :], (w, h), interpolation=cv2.INTER_NEAREST)).reshape(1, h, w) else: masks = np.append(masks, findMaxcontours_mask(cv2.resize( resize_mask[i, :, :], (w, h), interpolation=cv2.INTER_NEAREST)).reshape(1, h, w), axis=0) # 划分图像 images_1, images_2 = images[:-1], images[1:] masks_1, masks_2 = masks[:-1],masks[1:] # 逐帧保存为PNG无损图像 for i in range(images_1.shape[0]): image1, image2 = np.uint8(images_1[i,:, :]), np.uint8(images_2[i, :, :]) mask1, mask2 = masks_1[i, :, :], masks_2[i, :, :] # 膨胀运算 kernel_2 = np.ones((4, 4), dtype=np.uint8) mask1, mask2 = np.uint8(cv2.dilate( mask1, kernel_2, 1)), np.uint8(cv2.dilate(mask2, kernel_2, 1)) # 进行叠加 mask_1_2 = np.uint8(np.add(mask1, mask2)  0.9) mask1_sum, mask2_sum, mask_1_2_sum = mask1.sum(), mask2.sum(), mask_1_2.sum() if mask1_sum  13000 or mask2_sum  13000 or mask_1_2_sum13000: continue else: image1_unet = np.multiply( image1, mask_1_2) image2_unet = np.multiply( image2, mask_1_2) # 保存原图 cv2.imwrite(os.path.join(outdir_image_raw, str( count)+\"_1.png\"), image1, [cv2.IMWRITE_PNG_COMPRESSION, 0]) cv2.imwrite(os.path.join(outdir_image_raw, str( count)+\"_2.png\"), image2, [cv2.IMWRITE_PNG_COMPRESSION, 0]) image1=cv2.cvtColor( np.uint8(image1), cv2.COLOR_GRAY2BGR) image2 = cv2.cvtColor( np.uint8(image2), cv2.COLOR_GRAY2BGR) write_data_example(record_writer_raw, image1, image2) # 保存unet图 cv2.imwrite(os.path.join(outdir_image_unet, str( count)+\"_1.png\"), image1_unet, [cv2.IMWRITE_PNG_COMPRESSION, 0]) cv2.imwrite(os.path.join(outdir_image_unet, str( count)+\"_2.png\"), image2_unet, [cv2.IMWRITE_PNG_COMPRESSION, 0]) image1_unet = cv2.cvtColor( np.uint8(image1_unet), cv2.COLOR_GRAY2BGR) image2_unet = cv2.cvtColor( np.uint8(image2_unet), cv2.COLOR_GRAY2BGR) write_data_example( record_writer_unet, image1_unet, image2_unet) count += 1 print('总对数为: %d', count) import numpy as np from glob import glob from tensorflow import keras from tensorflow.keras.layers import Input, Conv2D, Dropout, Activation, UpSampling2D, GlobalMaxPooling2D, multiply from tensorflow.keras.backend import max from tensorflow.python.ops.math_ops import to_int32 from keras_unet_collection import models, base, utils from keras_unet_collection import losses import os import cv2 import sys import matplotlib.pyplot as plt os.environ[\"CUDA_VISIBLE_DEVICES\"] = \"0\" def plot_un(resize_img, resize_mask, plot_dir, name): # 保存resize后的数据 fig_height, fig_width=6, 6 plt.figure(figsize=(fig_width * 3, fig_height * 1)) plt.subplot(1, 3, 1) plt.title('RESIZE_IMG', fontsize=10) plt.axis('off') plt.imshow(resize_img, cmap='gray') plt.subplot(1, 3, 2) plt.axis('off') plt.title('MASK_IMG', fontsize=10) plt.imshow(resize_mask, cmap='gray') plt.subplot(1, 3, 3) plt.axis('off') resize_img_copy=resize_img.copy() _, resize_mask_1=cv2.threshold(resize_mask, 125, 255, cv2.THRESH_BINARY_INV) # gray = cv2.cvtColor(resize_mask, cv2.COLOR_BGR2GRAY) resize_mask_1=resize_mask_1.astype(np.uint8) contours, _=cv2.findContours( resize_mask_1, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE) area=[] for k in range(len(contours)): area.append(cv2.contourArea(contours[k])) # max_idx = np.argmax(np.array(area)) max_idx = np.argsort(np.array(area))[-2] cv2.drawContours(resize_img_copy, contours, max_idx, 255, thickness=3) plt.title('IMG', fontsize=10) plt.imshow(resize_img_copy, cmap='gray') plt.savefig(os.path.join(plot_dir, name), bbox_inches='tight', pad_inches=0.1, dpi=100) plt.close() def plot_image(raw_img,resize_img,resize_mask,plot_dir,id): # 保存原始数据 if resize_mask.sum()1300000: print('\\n'+os.path.join(plot_dir, str(id))) return if not os.path.exists(os.path.join(plot_dir)): os.makedirs(os.path.join(plot_dir)) cv2.imwrite(os.path.join(plot_dir, str(id)+\"_原图.png\"), raw_img) cv2.imwrite(os.path.join(plot_dir, str( id)+\"_resize.png\"), resize_img) cv2.imwrite(os.path.join(plot_dir, str(id)+\"_mask.png\"), resize_mask) mask_resize_int = np.uint8(cv2.resize( resize_mask, (raw_img.shape[1], raw_img.shape[0]))  125) cv2.imwrite(os.path.join(plot_dir, str(id)+\"_unet.png\"), np.multiply(raw_img, mask_resize_int)) # cv2.imwrite() try: plot_un(resize_img, resize_mask, plot_dir, str(id)+\"_resize_predict.png\") plot_un(raw_img, cv2.resize(resize_mask, (raw_img.shape[1], raw_img.shape[0])), plot_dir, str(id)+\"_predict.png\") except: print('\\n'+plot_dir+str(id)+\"_predict.png\") def predict_dataset(dataset_folder): images = os.listdir(dataset_folder) # images = [_ for _ in os.listdir(dataset_folder) if _.endswith(\"_1.png\")] images = [os.path.join(dataset_folder, i) for i in images] images = sorted(images, key=lambda x: int(os.path.basename(x).split('.')[0])) for image in images: image = cv2.imread(image, 0) yield image def predict_main(dataset_folder, model_folder, model_image_size, plot_folder): model = keras.models.load_model(model_folder, compile=False) print(\"Start Predict \"+plot_folder) for i, image in enumerate(predict_dataset(dataset_folder)): sys.stdout.write(f'{i},') sys.stdout.flush() image_resize = cv2.resize(image, (model_image_size, model_image_size)) infer_mask = model.predict( (image_resize / 255).reshape(1, image_resize.shape[0], image_resize.shape[0], 1))[-1] # cv2.imwrite(os.path.join(plot_folder, str(i)+\"_原图.png\"), image) # cv2.imwrite(os.path.join(plot_folder, str( # i)+\"_resize.png\"), image_resize) # cv2.imwrite(os.path.join(plot_folder, str(i)+\"_mask.png\"), # infer_mask[0, :, :, 0]*255) plot_image(image, image_resize, infer_mask[0, :, :, 0]*255, plot_folder, i) print(\"End Predict\") if __name__ == '__main__': dataset_folder = \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0010\" model_folder = \"/workspace/my-unet3plus/model/图像大小320使用crop进行训练/model\" plot_folder = \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0010_UNET\" model_image_size = 320 # predict_main(dataset_folder, model_folder, model_image_size, plot_folder) predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0009\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0009_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0010\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0010_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0011\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0011_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0112\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0112_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0113\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0113_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0114\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0114_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0115\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0115_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0158\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0158_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0159\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0159_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0160\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0160_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0161\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0161_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0163\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0163_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0165\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0165_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0166\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0166_UNET\") predict_main(\"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0167\", model_folder, model_image_size, \"/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0167_UNET\") ",
+  "wordCount" : "1372",
+  "inLanguage": "en",
+  "datePublished": "2021-10-09T10:17:39+08:00",
+  "dateModified": "2021-10-09T10:17:39+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "wuyangzz"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://wuyangzz.github.io/2021/dicom%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "wuyangzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://wuyangzz.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://wuyangzz.github.io/" accesskey="h" title="wuyangzz (Alt + H)">wuyangzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://wuyangzz.github.io/posts/" title="博客">
+                    <span>博客</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/about/" title="关于我">
+                    <span>关于我</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Dicom文件处理
+    </h1>
+    <div class="post-meta"><span title='2021-10-09 10:17:39 +0800 CST'>October 9, 2021</span>&nbsp;·&nbsp;wuyangzz
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="使用阈值去掉杂乱的信息">使用阈值去掉杂乱的信息<a hidden class="anchor" aria-hidden="true" href="#使用阈值去掉杂乱的信息">#</a></h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> cv2
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> pydicom
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#75715e"># dicom图像输入路径</span>
+inputdir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/20210910/Bmodel/inputs&#39;</span>
+<span style="color:#75715e"># dicom图像输出路径</span>
+outdir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/20210910/Bmodel/max_contours_images/&#39;</span>
+
+<span style="color:#75715e"># 获取文件夹下文件列表</span>
+files_name_list<span style="color:#f92672">=</span>os<span style="color:#f92672">.</span>listdir(inputdir)
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+<span style="color:#75715e"># 遍历所有文件</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">findMaxcontours</span>(data):
+    _, binaryzation <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>threshold(data, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">255</span>,
+                                    cv2<span style="color:#f92672">.</span>THRESH_BINARY_INV)
+    binaryzation <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>uint8(binaryzation)
+    <span style="color:#75715e"># 找到所有的轮廓</span>
+    contours, _ <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>findContours(
+        binaryzation, cv2<span style="color:#f92672">.</span>RETR_TREE, cv2<span style="color:#f92672">.</span>CHAIN_APPROX_NONE)
+    area <span style="color:#f92672">=</span> []
+    <span style="color:#75715e"># 找到最大的轮廓 实际应该为第二大轮廓</span>
+    <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(len(contours)):
+        area<span style="color:#f92672">.</span>append(cv2<span style="color:#f92672">.</span>contourArea(contours[k]))
+    <span style="color:#75715e"># max_idx = np.argmax(np.array(area))</span>
+    max_idx <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>argsort(np<span style="color:#f92672">.</span>array(area))[<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
+    <span style="color:#75715e"># cv2.fillContexPoly(mask[i], contours[max_idx], 0)</span>
+    <span style="color:#75715e"># 填充最大的轮廓</span>
+    mask <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>drawContours(np<span style="color:#f92672">.</span>zeros(data<span style="color:#f92672">.</span>shape), contours,
+                            max_idx, <span style="color:#ae81ff">1</span>, cv2<span style="color:#f92672">.</span>FILLED)
+
+    image1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>multiply(mask, data)
+    image1 <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(np<span style="color:#f92672">.</span>uint8(image1), cv2<span style="color:#f92672">.</span>COLOR_GRAY2BGR)
+    <span style="color:#66d9ef">return</span> image1
+
+<span style="color:#66d9ef">for</span> file_name <span style="color:#f92672">in</span> files_name_list:
+    path<span style="color:#f92672">=</span>os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(inputdir,file_name)
+    ds<span style="color:#f92672">=</span>pydicom<span style="color:#f92672">.</span>read_file(path)
+    <span style="color:#75715e"># 获取该文件的帧数</span>
+    num_frame<span style="color:#f92672">=</span>ds<span style="color:#f92672">.</span>pixel_array<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]
+    <span style="color:#75715e"># 逐帧保存为PNG无损图像</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(num_frame):
+        <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            image1 <span style="color:#f92672">=</span> findMaxcontours(ds<span style="color:#f92672">.</span>pixel_array[i, :, :])
+        <span style="color:#66d9ef">else</span>:
+            image2 <span style="color:#f92672">=</span> findMaxcontours(ds<span style="color:#f92672">.</span>pixel_array[i, :, :])
+            cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir, str(
+                count)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_1.png&#34;</span>), image1, [cv2<span style="color:#f92672">.</span>IMWRITE_PNG_COMPRESSION, <span style="color:#ae81ff">0</span>])
+            cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir, str(
+                count)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_2.png&#34;</span>), image2, [cv2<span style="color:#f92672">.</span>IMWRITE_PNG_COMPRESSION, <span style="color:#ae81ff">0</span>])
+            image1<span style="color:#f92672">=</span>image2
+            count<span style="color:#f92672">+=</span><span style="color:#ae81ff">1</span>
+
+</code></pre></div><p>dicom处理为tf train数据格式</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> cv2
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> pydicom
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> tensorflow <span style="color:#f92672">as</span> tf
+
+<span style="color:#f92672">import</span> conversion_utils
+
+
+
+
+<span style="color:#75715e"># 遍历所有文件</span>
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">write_data_example</span>(record_writer, image1, image2):
+    <span style="color:#e6db74">&#34;&#34;&#34;Write data example to disk.&#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">assert</span> image1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> image2<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]
+    <span style="color:#66d9ef">assert</span> image1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> image2<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]
+    <span style="color:#75715e"># assert image1.shape[2] == image2.shape[2]</span>
+
+    feature <span style="color:#f92672">=</span> {
+        <span style="color:#e6db74">&#39;height&#39;</span>: conversion_utils<span style="color:#f92672">.</span>int64_feature(image1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]),
+        <span style="color:#e6db74">&#39;width&#39;</span>: conversion_utils<span style="color:#f92672">.</span>int64_feature(image1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]),
+    }
+    example <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>SequenceExample(
+        context<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>Features(feature<span style="color:#f92672">=</span>feature),
+        feature_lists<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>FeatureLists(
+            feature_list<span style="color:#f92672">=</span>{
+                <span style="color:#e6db74">&#39;images&#39;</span>:
+                    tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>FeatureList(feature<span style="color:#f92672">=</span>[
+                        conversion_utils<span style="color:#f92672">.</span>bytes_feature(
+                            image1<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;uint8&#39;</span>)<span style="color:#f92672">.</span>tobytes()),
+                        conversion_utils<span style="color:#f92672">.</span>bytes_feature(
+                            image2<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;uint8&#39;</span>)<span style="color:#f92672">.</span>tobytes())
+                    ]),
+            }))
+    record_writer<span style="color:#f92672">.</span>write(example<span style="color:#f92672">.</span>SerializeToString())
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">findMaxcontours</span>(data):
+    _, binaryzation <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>threshold(data, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">255</span>,
+                                    cv2<span style="color:#f92672">.</span>THRESH_BINARY_INV)
+    binaryzation <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>uint8(binaryzation)
+    <span style="color:#75715e"># 找到所有的轮廓</span>
+    contours, _ <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>findContours(
+        binaryzation, cv2<span style="color:#f92672">.</span>RETR_TREE, cv2<span style="color:#f92672">.</span>CHAIN_APPROX_NONE)
+    area <span style="color:#f92672">=</span> []
+    <span style="color:#75715e"># 找到最大的轮廓 实际应该为第二大轮廓</span>
+    <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(len(contours)):
+        area<span style="color:#f92672">.</span>append(cv2<span style="color:#f92672">.</span>contourArea(contours[k]))
+    <span style="color:#75715e"># max_idx = np.argmax(np.array(area))</span>
+    max_idx <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>argsort(np<span style="color:#f92672">.</span>array(area))[<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
+    <span style="color:#75715e"># cv2.fillContexPoly(mask[i], contours[max_idx], 0)</span>
+    <span style="color:#75715e"># 填充最大的轮廓</span>
+    mask <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>drawContours(np<span style="color:#f92672">.</span>zeros(data<span style="color:#f92672">.</span>shape), contours,
+                            max_idx, <span style="color:#ae81ff">1</span>, cv2<span style="color:#f92672">.</span>FILLED)
+
+    image1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>multiply(mask, data)
+    image1 <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(np<span style="color:#f92672">.</span>uint8(image1), cv2<span style="color:#f92672">.</span>COLOR_GRAY2BGR)
+    <span style="color:#66d9ef">return</span> image1
+
+
+
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    <span style="color:#75715e"># dicom图像输入路径</span>
+    inputdir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/20210910/Bmodel/inputs&#39;</span>
+    <span style="color:#75715e"># dicom图像输出路径</span>
+    outdir_tfcard <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/20210910/Bmodel/max_contours_tfcard_size512*512_间隔1帧_RGB&#39;</span>
+    outdir_image <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/20210910/Bmodel/max_contours_images_size512*512_间隔1帧_RGB&#39;</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>exists(outdir_tfcard):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Making new tfcard directory&#39;</span>, outdir_tfcard)
+        tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>makedirs(outdir_tfcard)
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>exists(outdir_image):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Making new image directory&#39;</span>, outdir_image)
+        tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>makedirs(outdir_image)
+    filename <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir_tfcard, <span style="color:#e6db74">&#39;fdicom@1&#39;</span>)
+    files_name_list <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(inputdir)
+    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>TFRecordWriter(filename) <span style="color:#66d9ef">as</span> record_writer:
+        <span style="color:#66d9ef">for</span> file_name <span style="color:#f92672">in</span> files_name_list:
+            <span style="color:#75715e"># 获取文件夹下文件列表</span>
+            path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(inputdir, file_name)
+            ds <span style="color:#f92672">=</span> pydicom<span style="color:#f92672">.</span>read_file(path)
+            <span style="color:#75715e"># 获取该文件的帧数</span>
+            num_frame <span style="color:#f92672">=</span> ds<span style="color:#f92672">.</span>pixel_array<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Read a new dicom file: &#39;</span> <span style="color:#f92672">+</span> file_name <span style="color:#f92672">+</span>
+                                      <span style="color:#e6db74">&#34;      frame: </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span>, num_frame)
+            ds1 <span style="color:#f92672">=</span> ds<span style="color:#f92672">.</span>pixel_array[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+            ds2 <span style="color:#f92672">=</span> ds<span style="color:#f92672">.</span>pixel_array[<span style="color:#ae81ff">1</span>:]
+            <span style="color:#75715e"># 逐帧保存为PNG无损图像</span>
+            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(ds1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]):
+                image1 <span style="color:#f92672">=</span> findMaxcontours(ds1[i, :, :])
+                image2 <span style="color:#f92672">=</span> findMaxcontours(ds2[i, :, :])
+                image1<span style="color:#f92672">=</span>image1[<span style="color:#ae81ff">60</span>:<span style="color:#ae81ff">572</span>, <span style="color:#ae81ff">114</span>:<span style="color:#ae81ff">626</span>, :]
+                image2<span style="color:#f92672">=</span>image2[<span style="color:#ae81ff">60</span>:<span style="color:#ae81ff">572</span>, <span style="color:#ae81ff">114</span>:<span style="color:#ae81ff">626</span>, :]
+                cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir_image, str(
+                    count)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_1.png&#34;</span>), image1, [cv2<span style="color:#f92672">.</span>IMWRITE_PNG_COMPRESSION, <span style="color:#ae81ff">0</span>])
+                cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir_image, str(
+                    count)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_2.png&#34;</span>), image2, [cv2<span style="color:#f92672">.</span>IMWRITE_PNG_COMPRESSION, <span style="color:#ae81ff">0</span>])
+                write_data_example(record_writer, image1, image2)
+                count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Read a new frame: </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#39;</span>, count)
+
+</code></pre></div><p>20211012修改版本</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> cv2
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> pydicom
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> tensorflow <span style="color:#f92672">as</span> tf
+
+<span style="color:#f92672">import</span> conversion_utils
+<span style="color:#f92672">import</span> tensorflow <span style="color:#f92672">as</span> tf
+<span style="color:#f92672">from</span> tensorflow <span style="color:#f92672">import</span> keras
+
+<span style="color:#75715e"># 遍历所有文件</span>
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">write_data_example</span>(record_writer, image1, image2):
+    <span style="color:#e6db74">&#34;&#34;&#34;Write data example to disk.&#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">assert</span> image1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> image2<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]
+    <span style="color:#66d9ef">assert</span> image1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> image2<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]
+    <span style="color:#75715e"># assert image1.shape[2] == image2.shape[2]</span>
+
+    feature <span style="color:#f92672">=</span> {
+        <span style="color:#e6db74">&#39;height&#39;</span>: conversion_utils<span style="color:#f92672">.</span>int64_feature(image1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]),
+        <span style="color:#e6db74">&#39;width&#39;</span>: conversion_utils<span style="color:#f92672">.</span>int64_feature(image1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]),
+    }
+    example <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>SequenceExample(
+        context<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>Features(feature<span style="color:#f92672">=</span>feature),
+        feature_lists<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>FeatureLists(
+            feature_list<span style="color:#f92672">=</span>{
+                <span style="color:#e6db74">&#39;images&#39;</span>:
+                    tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>FeatureList(feature<span style="color:#f92672">=</span>[
+                        conversion_utils<span style="color:#f92672">.</span>bytes_feature(
+                            image1<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;uint8&#39;</span>)<span style="color:#f92672">.</span>tobytes()),
+                        conversion_utils<span style="color:#f92672">.</span>bytes_feature(
+                            image2<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;uint8&#39;</span>)<span style="color:#f92672">.</span>tobytes())
+                    ]),
+            }))
+    record_writer<span style="color:#f92672">.</span>write(example<span style="color:#f92672">.</span>SerializeToString())
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">findMaxcontours_mask</span>(data):
+    _, binaryzation <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>threshold(data<span style="color:#f92672">*</span><span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">255</span>,
+                                    cv2<span style="color:#f92672">.</span>THRESH_BINARY_INV)
+    binaryzation <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>uint8(binaryzation)
+    <span style="color:#75715e"># 找到所有的轮廓</span>
+    contours, _ <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>findContours(
+        binaryzation, cv2<span style="color:#f92672">.</span>RETR_TREE, cv2<span style="color:#f92672">.</span>CHAIN_APPROX_NONE)
+    area <span style="color:#f92672">=</span> []
+    <span style="color:#75715e"># 找到最大的轮廓 实际应该为第二大轮廓</span>
+    <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(len(contours)):
+        area<span style="color:#f92672">.</span>append(cv2<span style="color:#f92672">.</span>contourArea(contours[k]))
+    <span style="color:#75715e"># max_idx = np.argmax(np.array(area))</span>
+    max_idx <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>argsort(np<span style="color:#f92672">.</span>array(area))[<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
+    <span style="color:#75715e"># cv2.fillContexPoly(mask[i], contours[max_idx], 0)</span>
+    <span style="color:#75715e"># 填充最大的轮廓</span>
+    mask <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>drawContours(np<span style="color:#f92672">.</span>zeros(data<span style="color:#f92672">.</span>shape), contours,
+                            max_idx, <span style="color:#ae81ff">1</span>, cv2<span style="color:#f92672">.</span>FILLED)
+
+    <span style="color:#66d9ef">return</span> mask
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">findMaxcontours_raw</span>(data):
+    _, binaryzation <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>threshold(data, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">255</span>,
+                                    cv2<span style="color:#f92672">.</span>THRESH_BINARY_INV)
+    binaryzation <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>uint8(binaryzation)
+    <span style="color:#75715e"># 找到所有的轮廓</span>
+    contours, _ <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>findContours(
+        binaryzation, cv2<span style="color:#f92672">.</span>RETR_TREE, cv2<span style="color:#f92672">.</span>CHAIN_APPROX_NONE)
+    area <span style="color:#f92672">=</span> []
+    <span style="color:#75715e"># 找到最大的轮廓 实际应该为第二大轮廓</span>
+    <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(len(contours)):
+        area<span style="color:#f92672">.</span>append(cv2<span style="color:#f92672">.</span>contourArea(contours[k]))
+    max_idx <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>argmax(np<span style="color:#f92672">.</span>array(area))
+    <span style="color:#75715e"># max_idx = np.argsort(np.array(area))[-2]</span>
+    <span style="color:#75715e"># cv2.fillContexPoly(mask[i], contours[max_idx], 0)</span>
+    <span style="color:#75715e"># 填充最大的轮廓</span>
+    mask <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>drawContours(np<span style="color:#f92672">.</span>ones(data<span style="color:#f92672">.</span>shape), contours,
+                            max_idx, <span style="color:#ae81ff">0</span>, cv2<span style="color:#f92672">.</span>FILLED)
+
+    image <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>multiply(mask, data)
+    <span style="color:#66d9ef">return</span> image
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    <span style="color:#75715e"># dicom图像输入路径</span>
+    inputdir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/20210910/Bmodel/inputs&#39;</span>
+    <span style="color:#75715e"># dicom图像输出路径</span>
+    <span style="color:#75715e"># outdir_tfcard_unet = &#39;/workspace/20210910/datasets/512_512_tf_UNET&#39;</span>
+    <span style="color:#75715e"># outdir_tfcard_raw = &#39;/workspace/20210910/datasets/512_512_tf_RAW&#39;</span>
+    <span style="color:#75715e"># outdir_image_unet = &#39;/workspace/20210910/datasets/512_512_image_UNET&#39;</span>
+    <span style="color:#75715e"># outdir_image_raw = &#39;/workspace/20210910/datasets/512_512_image_RAW&#39;</span>
+    outdir_tfcard_unet <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/20210910/datasets/480_384_tf_UNET&#39;</span>
+    outdir_tfcard_raw <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/20210910/datasets/480_384_tf_RAW&#39;</span>
+    outdir_image_unet <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/20210910/datasets/480_384_image_UNET&#39;</span>
+    outdir_image_raw <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/20210910/datasets/480_384_image_RAW&#39;</span>
+    model_path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/my-unet3plus/model/图像大小320使用crop进行训练/model&#39;</span>
+    model_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">320</span>
+    <span style="color:#75715e"># 检查输出文件夹</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>exists(outdir_tfcard_unet):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Making new tfcard directory&#39;</span>, outdir_tfcard_unet)
+        tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>makedirs(outdir_tfcard_unet)
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>exists(outdir_tfcard_raw):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Making new image directory&#39;</span>, outdir_tfcard_raw)
+        tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>makedirs(outdir_tfcard_raw)
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>exists(outdir_image_unet):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Making new tfcard directory&#39;</span>, outdir_image_unet)
+        tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>makedirs(outdir_image_unet)
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>exists(outdir_image_raw):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Making new image directory&#39;</span>, outdir_image_raw)
+        tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>gfile<span style="color:#f92672">.</span>makedirs(outdir_image_raw)
+    
+    tfcard_unet_dir <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir_tfcard_unet, <span style="color:#e6db74">&#39;tfcard_unet@1&#39;</span>)
+    tfcard_raw_dir <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir_tfcard_raw, <span style="color:#e6db74">&#39;tfcard_raw@1&#39;</span>)
+    dicom_files_list <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(inputdir)
+    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#e6db74">&#39;&#39;&#39;导入模型&#39;&#39;&#39;</span>
+    os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#34;CUDA_VISIBLE_DEVICES&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;0&#34;</span>
+    unet3plus <span style="color:#f92672">=</span> keras<span style="color:#f92672">.</span>models<span style="color:#f92672">.</span>load_model(model_path, compile<span style="color:#f92672">=</span>False)
+    <span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>TFRecordWriter(tfcard_unet_dir) <span style="color:#66d9ef">as</span> record_writer_unet:
+        <span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>io<span style="color:#f92672">.</span>TFRecordWriter(tfcard_raw_dir) <span style="color:#66d9ef">as</span> record_writer_raw:
+            <span style="color:#66d9ef">for</span> dicom_file <span style="color:#f92672">in</span> dicom_files_list:
+                <span style="color:#75715e"># 获取文件夹下文件列表</span>
+                dicom_file_dir <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(inputdir, dicom_file)
+                ds_dicom <span style="color:#f92672">=</span> pydicom<span style="color:#f92672">.</span>read_file(dicom_file_dir)
+                <span style="color:#75715e"># 获取该文件的帧数</span>
+                num_frame <span style="color:#f92672">=</span> ds_dicom<span style="color:#f92672">.</span>pixel_array<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]
+                <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;读取dicom文件: &#39;</span> <span style="color:#f92672">+</span> dicom_file <span style="color:#f92672">+</span>
+                    <span style="color:#e6db74">&#34;      数量为: </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span>, num_frame)
+                <span style="color:#75715e"># 图像大小 51 2* 512</span>
+                <span style="color:#75715e"># images_read = ds_dicom.pixel_array[:, 60:572, 114:626]</span>
+                <span style="color:#75715e"># 图像大小为480*384</span>
+                images_read <span style="color:#f92672">=</span> ds_dicom<span style="color:#f92672">.</span>pixel_array[:, <span style="color:#ae81ff">68</span>:<span style="color:#ae81ff">548</span>, <span style="color:#ae81ff">238</span>:<span style="color:#ae81ff">622</span>]
+                <span style="color:#75715e"># 整理图像</span>
+                _, h, w <span style="color:#f92672">=</span> images_read<span style="color:#f92672">.</span>shape
+                <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(images_read<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]):
+                    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                        images <span style="color:#f92672">=</span> findMaxcontours_raw(images_read[i, :, :])<span style="color:#f92672">.</span>reshape(
+                            <span style="color:#ae81ff">1</span>, h, w)
+                    <span style="color:#66d9ef">else</span>:
+                        images <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>append(images, findMaxcontours_raw(
+                            images_read[i, :, :])<span style="color:#f92672">.</span>reshape(<span style="color:#ae81ff">1</span>, h, w), axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+                <span style="color:#75715e"># resize 图像好作为模型输入</span>
+                <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(images<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]):
+                    <span style="color:#66d9ef">if</span> i<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>:
+                        resize_images <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>resize(
+                            images[i, :, :], (model_size, model_size), 
+                            interpolation<span style="color:#f92672">=</span>cv2<span style="color:#f92672">.</span>INTER_AREA)<span style="color:#f92672">.</span>reshape(<span style="color:#ae81ff">1</span>, model_size, model_size)
+                    <span style="color:#66d9ef">else</span>:
+                        resize_images <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>append(resize_images, cv2<span style="color:#f92672">.</span>resize(
+                            images[i, :, :], (model_size, model_size),
+                            interpolation<span style="color:#f92672">=</span>cv2<span style="color:#f92672">.</span>INTER_AREA)<span style="color:#f92672">.</span>reshape(<span style="color:#ae81ff">1</span>, model_size, model_size), axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+                <span style="color:#75715e"># 预测图像</span>
+                resize_mask <span style="color:#f92672">=</span> unet3plus<span style="color:#f92672">.</span>predict([(resize_images <span style="color:#f92672">/</span> <span style="color:#ae81ff">255</span>)<span style="color:#f92672">.</span>reshape(
+                    images<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>], model_size, model_size, <span style="color:#ae81ff">1</span>)],
+                    batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">16</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>reshape(
+                    images<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>], model_size,
+                    model_size)
+                <span style="color:#75715e"># 整理预测后的图像并且从新resize为原大小</span>
+                resize_mask <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>uint8(resize_mask<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0.3</span>)
+                _, h, w <span style="color:#f92672">=</span> images<span style="color:#f92672">.</span>shape
+                <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(images<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]):
+                    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                        masks <span style="color:#f92672">=</span> findMaxcontours_mask(cv2<span style="color:#f92672">.</span>resize(
+                            resize_mask[i, :, :], (w, h),
+                            interpolation<span style="color:#f92672">=</span>cv2<span style="color:#f92672">.</span>INTER_NEAREST))<span style="color:#f92672">.</span>reshape(<span style="color:#ae81ff">1</span>, h, w)
+                    <span style="color:#66d9ef">else</span>:
+                        masks <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>append(masks, findMaxcontours_mask(cv2<span style="color:#f92672">.</span>resize(
+                            resize_mask[i, :, :], (w, h),
+                            interpolation<span style="color:#f92672">=</span>cv2<span style="color:#f92672">.</span>INTER_NEAREST))<span style="color:#f92672">.</span>reshape(<span style="color:#ae81ff">1</span>, h, w), axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+                <span style="color:#75715e"># 划分图像</span>
+                images_1, images_2 <span style="color:#f92672">=</span> images[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], images[<span style="color:#ae81ff">1</span>:]
+                masks_1, masks_2 <span style="color:#f92672">=</span> masks[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>],masks[<span style="color:#ae81ff">1</span>:]
+                <span style="color:#75715e"># 逐帧保存为PNG无损图像</span>
+                <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(images_1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]):
+                    image1, image2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>uint8(images_1[i,:, :]), np<span style="color:#f92672">.</span>uint8(images_2[i, :, :])
+                    mask1, mask2 <span style="color:#f92672">=</span> masks_1[i, :, :], masks_2[i, :, :]
+                    <span style="color:#75715e"># 膨胀运算</span>
+                    kernel_2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>ones((<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>), dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>uint8)
+                    mask1, mask2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>uint8(cv2<span style="color:#f92672">.</span>dilate(
+                        mask1, kernel_2, <span style="color:#ae81ff">1</span>)), np<span style="color:#f92672">.</span>uint8(cv2<span style="color:#f92672">.</span>dilate(mask2, kernel_2, <span style="color:#ae81ff">1</span>))
+                    <span style="color:#75715e"># 进行叠加</span>
+                    mask_1_2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>uint8(np<span style="color:#f92672">.</span>add(mask1, mask2) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.9</span>)
+                    mask1_sum, mask2_sum, mask_1_2_sum <span style="color:#f92672">=</span> mask1<span style="color:#f92672">.</span>sum(), mask2<span style="color:#f92672">.</span>sum(), mask_1_2<span style="color:#f92672">.</span>sum()
+
+                    <span style="color:#66d9ef">if</span> mask1_sum <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">13000</span> <span style="color:#f92672">or</span> mask2_sum <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">13000</span> <span style="color:#f92672">or</span> mask_1_2_sum<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">13000</span>:
+                        <span style="color:#66d9ef">continue</span>
+                    <span style="color:#66d9ef">else</span>:
+                        image1_unet <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>multiply(
+                            image1, mask_1_2)
+                        image2_unet <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>multiply(
+                            image2, mask_1_2)
+                        <span style="color:#75715e"># 保存原图</span>
+                        cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir_image_raw, str(
+                            count)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_1.png&#34;</span>), image1, [cv2<span style="color:#f92672">.</span>IMWRITE_PNG_COMPRESSION, <span style="color:#ae81ff">0</span>])
+                        cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir_image_raw, str(
+                            count)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_2.png&#34;</span>), image2, [cv2<span style="color:#f92672">.</span>IMWRITE_PNG_COMPRESSION, <span style="color:#ae81ff">0</span>])
+                        image1<span style="color:#f92672">=</span>cv2<span style="color:#f92672">.</span>cvtColor(
+                            np<span style="color:#f92672">.</span>uint8(image1), cv2<span style="color:#f92672">.</span>COLOR_GRAY2BGR)
+                        image2 <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(
+                            np<span style="color:#f92672">.</span>uint8(image2), cv2<span style="color:#f92672">.</span>COLOR_GRAY2BGR)
+                        write_data_example(record_writer_raw, image1, image2)
+                        <span style="color:#75715e"># 保存unet图</span>
+                        cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir_image_unet, str(
+                            count)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_1.png&#34;</span>), image1_unet, [cv2<span style="color:#f92672">.</span>IMWRITE_PNG_COMPRESSION, <span style="color:#ae81ff">0</span>])
+                        cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir_image_unet, str(
+                            count)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_2.png&#34;</span>), image2_unet, [cv2<span style="color:#f92672">.</span>IMWRITE_PNG_COMPRESSION, <span style="color:#ae81ff">0</span>])
+                        image1_unet <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(
+                            np<span style="color:#f92672">.</span>uint8(image1_unet), cv2<span style="color:#f92672">.</span>COLOR_GRAY2BGR)
+                        image2_unet <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(
+                            np<span style="color:#f92672">.</span>uint8(image2_unet), cv2<span style="color:#f92672">.</span>COLOR_GRAY2BGR)
+                        write_data_example(
+                            record_writer_unet, image1_unet, image2_unet)
+                        count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+                <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;总对数为: </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#39;</span>, count)
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">from</span> glob <span style="color:#f92672">import</span> glob
+<span style="color:#f92672">from</span> tensorflow <span style="color:#f92672">import</span> keras
+<span style="color:#f92672">from</span> tensorflow.keras.layers <span style="color:#f92672">import</span> Input, Conv2D, Dropout, Activation, UpSampling2D, GlobalMaxPooling2D, multiply
+<span style="color:#f92672">from</span> tensorflow.keras.backend <span style="color:#f92672">import</span> max
+<span style="color:#f92672">from</span> tensorflow.python.ops.math_ops <span style="color:#f92672">import</span> to_int32
+<span style="color:#f92672">from</span> keras_unet_collection <span style="color:#f92672">import</span> models, base, utils
+<span style="color:#f92672">from</span> keras_unet_collection <span style="color:#f92672">import</span> losses
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> cv2
+<span style="color:#f92672">import</span> sys
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#34;CUDA_VISIBLE_DEVICES&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;0&#34;</span>
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">plot_un</span>(resize_img, resize_mask, plot_dir, name):
+    <span style="color:#75715e"># 保存resize后的数据</span>
+    fig_height, fig_width<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">6</span>
+    plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(fig_width <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span>, fig_height <span style="color:#f92672">*</span> <span style="color:#ae81ff">1</span>))
+    plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>)
+    plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;RESIZE_IMG&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+    plt<span style="color:#f92672">.</span>axis(<span style="color:#e6db74">&#39;off&#39;</span>)
+    plt<span style="color:#f92672">.</span>imshow(resize_img, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+    plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>)
+    plt<span style="color:#f92672">.</span>axis(<span style="color:#e6db74">&#39;off&#39;</span>)
+    plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;MASK_IMG&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+    plt<span style="color:#f92672">.</span>imshow(resize_mask, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+
+    plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>)
+    plt<span style="color:#f92672">.</span>axis(<span style="color:#e6db74">&#39;off&#39;</span>)
+    resize_img_copy<span style="color:#f92672">=</span>resize_img<span style="color:#f92672">.</span>copy()
+    _, resize_mask_1<span style="color:#f92672">=</span>cv2<span style="color:#f92672">.</span>threshold(resize_mask, <span style="color:#ae81ff">125</span>, <span style="color:#ae81ff">255</span>,
+                                    cv2<span style="color:#f92672">.</span>THRESH_BINARY_INV)
+    <span style="color:#75715e"># gray = cv2.cvtColor(resize_mask, cv2.COLOR_BGR2GRAY)</span>
+    resize_mask_1<span style="color:#f92672">=</span>resize_mask_1<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>uint8)
+    contours, _<span style="color:#f92672">=</span>cv2<span style="color:#f92672">.</span>findContours(
+        resize_mask_1, cv2<span style="color:#f92672">.</span>RETR_TREE, cv2<span style="color:#f92672">.</span>CHAIN_APPROX_NONE)
+    area<span style="color:#f92672">=</span>[]
+    <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(len(contours)):
+        area<span style="color:#f92672">.</span>append(cv2<span style="color:#f92672">.</span>contourArea(contours[k]))
+    <span style="color:#75715e"># max_idx = np.argmax(np.array(area))</span>
+    max_idx <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>argsort(np<span style="color:#f92672">.</span>array(area))[<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
+
+    cv2<span style="color:#f92672">.</span>drawContours(resize_img_copy, contours,
+                        max_idx, <span style="color:#ae81ff">255</span>, thickness<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
+    plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;IMG&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+    plt<span style="color:#f92672">.</span>imshow(resize_img_copy, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+    plt<span style="color:#f92672">.</span>savefig(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(plot_dir, name),
+                bbox_inches<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;tight&#39;</span>, pad_inches<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>, dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
+    plt<span style="color:#f92672">.</span>close()
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">plot_image</span>(raw_img,resize_img,resize_mask,plot_dir,id):
+    <span style="color:#75715e"># 保存原始数据</span>
+    <span style="color:#66d9ef">if</span> resize_mask<span style="color:#f92672">.</span>sum()<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1300000</span>:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">+</span>os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(plot_dir, str(id)))
+        <span style="color:#66d9ef">return</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(plot_dir)):
+        os<span style="color:#f92672">.</span>makedirs(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(plot_dir))
+    cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(plot_dir, str(id)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_原图.png&#34;</span>), raw_img)
+    cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(plot_dir, str(
+        id)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_resize.png&#34;</span>), resize_img)
+    cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(plot_dir, str(id)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_mask.png&#34;</span>),
+                resize_mask)
+    mask_resize_int <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>uint8(cv2<span style="color:#f92672">.</span>resize(
+        resize_mask, (raw_img<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>], raw_img<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>])) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">125</span>)
+    cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(plot_dir, str(id)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_unet.png&#34;</span>),
+                np<span style="color:#f92672">.</span>multiply(raw_img, mask_resize_int))
+    <span style="color:#75715e"># cv2.imwrite()</span>
+    <span style="color:#66d9ef">try</span>:
+        plot_un(resize_img, resize_mask, plot_dir, str(id)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_resize_predict.png&#34;</span>)
+        plot_un(raw_img, cv2<span style="color:#f92672">.</span>resize(resize_mask, (raw_img<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>], raw_img<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>])),
+            plot_dir, str(id)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_predict.png&#34;</span>)
+    <span style="color:#66d9ef">except</span>:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">+</span>plot_dir<span style="color:#f92672">+</span>str(id)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_predict.png&#34;</span>)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">predict_dataset</span>(dataset_folder):
+    images <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(dataset_folder)
+    <span style="color:#75715e"># images = [_ for _ in os.listdir(dataset_folder) if _.endswith(&#34;_1.png&#34;)]</span>
+    images <span style="color:#f92672">=</span> [os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(dataset_folder, i) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> images]
+    images <span style="color:#f92672">=</span> sorted(images,
+                    key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> x: int(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>basename(x)<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;.&#39;</span>)[<span style="color:#ae81ff">0</span>]))
+    <span style="color:#66d9ef">for</span> image <span style="color:#f92672">in</span> images:
+        image <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(image, <span style="color:#ae81ff">0</span>)
+        <span style="color:#66d9ef">yield</span> image
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">predict_main</span>(dataset_folder, model_folder, model_image_size, plot_folder):
+    model <span style="color:#f92672">=</span> keras<span style="color:#f92672">.</span>models<span style="color:#f92672">.</span>load_model(model_folder, compile<span style="color:#f92672">=</span>False)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Start Predict &#34;</span><span style="color:#f92672">+</span>plot_folder)
+    <span style="color:#66d9ef">for</span> i, image <span style="color:#f92672">in</span> enumerate(predict_dataset(dataset_folder)):
+        sys<span style="color:#f92672">.</span>stdout<span style="color:#f92672">.</span>write(f<span style="color:#e6db74">&#39;{i},&#39;</span>)
+        sys<span style="color:#f92672">.</span>stdout<span style="color:#f92672">.</span>flush()
+        image_resize <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>resize(image, (model_image_size, model_image_size))
+        infer_mask <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>predict(
+            (image_resize <span style="color:#f92672">/</span> <span style="color:#ae81ff">255</span>)<span style="color:#f92672">.</span>reshape(<span style="color:#ae81ff">1</span>, image_resize<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],
+                                         image_resize<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>], <span style="color:#ae81ff">1</span>))[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+        <span style="color:#75715e"># cv2.imwrite(os.path.join(plot_folder, str(i)+&#34;_原图.png&#34;), image)</span>
+        <span style="color:#75715e"># cv2.imwrite(os.path.join(plot_folder, str(</span>
+        <span style="color:#75715e">#     i)+&#34;_resize.png&#34;), image_resize)</span>
+        <span style="color:#75715e"># cv2.imwrite(os.path.join(plot_folder, str(i)+&#34;_mask.png&#34;),</span>
+        <span style="color:#75715e">#             infer_mask[0, :, :, 0]*255)</span>
+        plot_image(image, image_resize,
+                   infer_mask[<span style="color:#ae81ff">0</span>, :, :, <span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span><span style="color:#ae81ff">255</span>, plot_folder, i)
+        
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;End Predict&#34;</span>)
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    dataset_folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0010&#34;</span>
+    model_folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/workspace/my-unet3plus/model/图像大小320使用crop进行训练/model&#34;</span>
+    plot_folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0010_UNET&#34;</span>
+    model_image_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">320</span>
+    <span style="color:#75715e"># predict_main(dataset_folder, model_folder, model_image_size, plot_folder)</span>
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0009&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0009_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0010&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0010_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0011&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0011_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0112&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0112_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0113&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0113_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0114&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0114_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0115&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0115_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0158&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0158_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0159&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0159_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0160&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0160_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0161&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0161_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0163&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0163_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0165&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0165_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0166&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0166_UNET&#34;</span>)
+    predict_main(<span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0167&#34;</span>,
+                 model_folder, model_image_size, <span style="color:#e6db74">&#34;/workspace/20210910/Bmodel/直接crop为512*512灰度图像/IM_0167_UNET&#34;</span>)
+</code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://wuyangzz.github.io/">wuyangzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

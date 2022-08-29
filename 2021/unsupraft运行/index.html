@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>UnSupRAFT运行 | wuyangzz</title>
+<meta name="keywords" content="">
+<meta name="description" content="数据准备 dicom_to_image.py：
+import cv2 import os import pydicom # dicom图像输入路径 inputdir = &#39;/workspace/20210910/Bmodel/inputs&#39; # dicom图像输出路径 outdir = &#39;/workspace/UnSupRAFT/datasets/heart/&#39; # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 for file_name in files_name_list: path=os.path.join(inputdir,file_name) ds=pydicom.read_file(path) # 获取该文件的帧数 num_frame=ds.pixel_array.shape[0] # 逐帧保存为PNG无损图像 for i in range(num_frame): # if not os.path.exists(os.path.join(outdir,file_name)): # os.makedirs(os.path.join(outdir,file_name)) if i==0: image1 =ds.pixel_array[i, 70:550, 47:751] else: image2 = ds.pixel_array[i, 70:550, 47:751] cv2.imwrite(os.path.join(outdir, str( count)&#43;&#34;_1.png&#34;), image1, [cv2.IMWRITE_PNG_COMPRESSION, 0]) cv2.imwrite(os.path.join(outdir, str( count)&#43;&#34;_2.png&#34;), image2, [cv2.IMWRITE_PNG_COMPRESSION, 0]) image1=image2 count&#43;=1 设置数据集heart_dataset.">
+<meta name="author" content="wuyangzz">
+<link rel="canonical" href="https://wuyangzz.github.io/2021/unsupraft%E8%BF%90%E8%A1%8C/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abc7c82c3d415a6df50430738d1cbcc4c76fea558bc5a0c830d3babf78167a35.css" integrity="sha256-q8fILD1BWm31BDBzjRy8xMdv6lWLxaDIMNO6v3gWejU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://wuyangzz.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://wuyangzz.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://wuyangzz.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://wuyangzz.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://wuyangzz.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="UnSupRAFT运行" />
+<meta property="og:description" content="数据准备 dicom_to_image.py：
+import cv2 import os import pydicom # dicom图像输入路径 inputdir = &#39;/workspace/20210910/Bmodel/inputs&#39; # dicom图像输出路径 outdir = &#39;/workspace/UnSupRAFT/datasets/heart/&#39; # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 for file_name in files_name_list: path=os.path.join(inputdir,file_name) ds=pydicom.read_file(path) # 获取该文件的帧数 num_frame=ds.pixel_array.shape[0] # 逐帧保存为PNG无损图像 for i in range(num_frame): # if not os.path.exists(os.path.join(outdir,file_name)): # os.makedirs(os.path.join(outdir,file_name)) if i==0: image1 =ds.pixel_array[i, 70:550, 47:751] else: image2 = ds.pixel_array[i, 70:550, 47:751] cv2.imwrite(os.path.join(outdir, str( count)&#43;&#34;_1.png&#34;), image1, [cv2.IMWRITE_PNG_COMPRESSION, 0]) cv2.imwrite(os.path.join(outdir, str( count)&#43;&#34;_2.png&#34;), image2, [cv2.IMWRITE_PNG_COMPRESSION, 0]) image1=image2 count&#43;=1 设置数据集heart_dataset." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wuyangzz.github.io/2021/unsupraft%E8%BF%90%E8%A1%8C/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-09-29T10:44:43&#43;08:00" />
+<meta property="article:modified_time" content="2021-09-29T10:44:43&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="UnSupRAFT运行"/>
+<meta name="twitter:description" content="数据准备 dicom_to_image.py：
+import cv2 import os import pydicom # dicom图像输入路径 inputdir = &#39;/workspace/20210910/Bmodel/inputs&#39; # dicom图像输出路径 outdir = &#39;/workspace/UnSupRAFT/datasets/heart/&#39; # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 for file_name in files_name_list: path=os.path.join(inputdir,file_name) ds=pydicom.read_file(path) # 获取该文件的帧数 num_frame=ds.pixel_array.shape[0] # 逐帧保存为PNG无损图像 for i in range(num_frame): # if not os.path.exists(os.path.join(outdir,file_name)): # os.makedirs(os.path.join(outdir,file_name)) if i==0: image1 =ds.pixel_array[i, 70:550, 47:751] else: image2 = ds.pixel_array[i, 70:550, 47:751] cv2.imwrite(os.path.join(outdir, str( count)&#43;&#34;_1.png&#34;), image1, [cv2.IMWRITE_PNG_COMPRESSION, 0]) cv2.imwrite(os.path.join(outdir, str( count)&#43;&#34;_2.png&#34;), image2, [cv2.IMWRITE_PNG_COMPRESSION, 0]) image1=image2 count&#43;=1 设置数据集heart_dataset."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://wuyangzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "UnSupRAFT运行",
+      "item": "https://wuyangzz.github.io/2021/unsupraft%E8%BF%90%E8%A1%8C/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "UnSupRAFT运行",
+  "name": "UnSupRAFT运行",
+  "description": "数据准备 dicom_to_image.py：\nimport cv2 import os import pydicom # dicom图像输入路径 inputdir = \u0026#39;/workspace/20210910/Bmodel/inputs\u0026#39; # dicom图像输出路径 outdir = \u0026#39;/workspace/UnSupRAFT/datasets/heart/\u0026#39; # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 for file_name in files_name_list: path=os.path.join(inputdir,file_name) ds=pydicom.read_file(path) # 获取该文件的帧数 num_frame=ds.pixel_array.shape[0] # 逐帧保存为PNG无损图像 for i in range(num_frame): # if not os.path.exists(os.path.join(outdir,file_name)): # os.makedirs(os.path.join(outdir,file_name)) if i==0: image1 =ds.pixel_array[i, 70:550, 47:751] else: image2 = ds.pixel_array[i, 70:550, 47:751] cv2.imwrite(os.path.join(outdir, str( count)+\u0026#34;_1.png\u0026#34;), image1, [cv2.IMWRITE_PNG_COMPRESSION, 0]) cv2.imwrite(os.path.join(outdir, str( count)+\u0026#34;_2.png\u0026#34;), image2, [cv2.IMWRITE_PNG_COMPRESSION, 0]) image1=image2 count+=1 设置数据集heart_dataset.",
+  "keywords": [
+    ""
+  ],
+  "articleBody": "数据准备 dicom_to_image.py：\nimport cv2 import os import pydicom # dicom图像输入路径 inputdir = '/workspace/20210910/Bmodel/inputs' # dicom图像输出路径 outdir = '/workspace/UnSupRAFT/datasets/heart/' # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 for file_name in files_name_list: path=os.path.join(inputdir,file_name) ds=pydicom.read_file(path) # 获取该文件的帧数 num_frame=ds.pixel_array.shape[0] # 逐帧保存为PNG无损图像 for i in range(num_frame): # if not os.path.exists(os.path.join(outdir,file_name)): # os.makedirs(os.path.join(outdir,file_name)) if i==0: image1 =ds.pixel_array[i, 70:550, 47:751] else: image2 = ds.pixel_array[i, 70:550, 47:751] cv2.imwrite(os.path.join(outdir, str( count)+\"_1.png\"), image1, [cv2.IMWRITE_PNG_COMPRESSION, 0]) cv2.imwrite(os.path.join(outdir, str( count)+\"_2.png\"), image2, [cv2.IMWRITE_PNG_COMPRESSION, 0]) image1=image2 count+=1 设置数据集heart_dataset.py\n# Data loading based on https://github.com/NVIDIA/flownet2-pytorch from posixpath import join import numpy as np import torch import torch.utils.data as data import torch.nn.functional as F import tqdm import os import math import random from glob import glob import os.path as osp from core.utils import frame_utils from core.utils.augmentor import FlowAugmentor, SparseFlowAugmentor import albumentations as albu from albumentations.pytorch import ToTensor class FlowDataset(data.Dataset): def __init__(self, aug_params=None, sparse=False): self.augmentor = None self.sparse = sparse if aug_params is not None: if sparse: self.augmentor = SparseFlowAugmentor(**aug_params) else: self.augmentor = FlowAugmentor(**aug_params) self.is_test = False self.init_seed = False self.flow_list = [] self.image_list = [] self.extra_info = [] self.frames_transforms = albu.Compose([ albu.Normalize((0., 0., 0.), (1., 1., 1.)), ToTensor() ]) def __getitem__(self, index): if self.is_test: img1 = frame_utils.read_gen(self.image_list[index][0]) img2 = frame_utils.read_gen(self.image_list[index][1]) # self img1=np.repeat(np.array(img1)[:, :, np.newaxis], 3, axis=2) img2 = np.repeat(np.array(img2)[:, :, np.newaxis], 3, axis=2) img1 = np.array(img1).astype(np.uint8)[..., :3] img2 = np.array(img2).astype(np.uint8)[..., :3] img1 = torch.from_numpy(img1).permute(2, 0, 1).float() img2 = torch.from_numpy(img2).permute(2, 0, 1).float() return img1, img2, self.extra_info[index] if not self.init_seed: worker_info = torch.utils.data.get_worker_info() if worker_info is not None: torch.manual_seed(worker_info.id) np.random.seed(worker_info.id) random.seed(worker_info.id) self.init_seed = True index = index % len(self.image_list) valid = None if self.sparse: flow, valid = frame_utils.readFlowKITTI(self.flow_list[index]) else: flow = frame_utils.read_gen(self.flow_list[index]) img1 = frame_utils.read_gen(self.image_list[index][0]) img2 = frame_utils.read_gen(self.image_list[index][1]) flow = np.array(flow).astype(np.float32) img1 = np.array(img1).astype(np.uint8) img2 = np.array(img2).astype(np.uint8) frame1 = self.frames_transforms(image=img1)['image'] frame2 = self.frames_transforms(image=img2)['image'] # import cv2 # cv2.imshow('image1', img1) # cv2.imshow('image2', img2) # cv2.waitKey(-1) # grayscale images if len(img1.shape) == 2: img1 = np.tile(img1[..., None], (1, 1, 3)) img2 = np.tile(img2[..., None], (1, 1, 3)) else: img1 = img1[..., :3] img2 = img2[..., :3] if self.augmentor is not None: if self.sparse: img1, img2, flow, valid = self.augmentor( img1, img2, flow, valid) else: img1, img2, flow = self.augmentor(img1, img2, flow) img1 = torch.from_numpy(img1).permute(2, 0, 1).float() img2 = torch.from_numpy(img2).permute(2, 0, 1).float() flow = torch.from_numpy(flow).permute(2, 0, 1).float() if valid is not None: valid = torch.from_numpy(valid) else: valid = (flow[0].abs()  1000) \u0026 (flow[1].abs()  1000) return img1, img2, flow, valid.float(), frame1, frame2 def __rmul__(self, v): self.flow_list = v * self.flow_list self.image_list = v * self.image_list return self def __len__(self): return len(self.image_list) class HeartDataset(FlowDataset): def __init__(self, aug_params=None, split='testing', root='datasets/heart'): super(HeartDataset, self).__init__(aug_params, sparse=True) if split == 'testing': self.is_test = True root = os.path.join('/workspace/UnSupRAFT', root) images1 = sorted(glob(osp.join(root, '*_1.png'))) images2 = sorted(glob(osp.join(root, '*_2.png'))) import sys sys.path.append('UnSupRAFT') for img1, img2 in zip(images1, images2): frame_id = img1.split('/')[-1] self.extra_info += [[frame_id]] self.image_list += [[img1, img2]] def fetch_dataloader(args, TRAIN_DS='C+T+K+S+H'): \"\"\" Create the data loader for the corresponding trainign set \"\"\" train_dataset = HeartDataset() train_loader = data.DataLoader(train_dataset, batch_size=args.batch_size, pin_memory=False, shuffle=True, num_workers=4, drop_last=True) print('Training with %dimage pairs' % len(train_dataset)) return train_loader # 测试数据集 if __name__=='__main__': aug_params = { 'crop_size': [512, 512], 'min_scale': -0.2, 'max_scale': 0.4, 'do_flip': False } train_dataset = HeartDataset(aug_params) train_loader = data.DataLoader(train_dataset, batch_size=1, pin_memory=True, shuffle=True, num_workers=1, drop_last=True) print('Training with %dimage pairs' % len(train_dataset)) for batch_ndx, sample in enumerate(train_loader): image1=sample[0].cuda() image2=sample[1].cuda() id=sample[2] for x in sample: print(x) print(sample.inp.is_pinned()) print(sample.tgt.is_pinned()) 运行文件hear_train.py\nfrom __future__ import print_function, division import sys # sys.path.append('') ''' python -u train.py --name raft-chairs --stage chairs --validation chairs --gpus 0 --num_steps 100000 --batch_size 8 --lr 0.0004 --image_size 368 496 --wdecay 0.0001 ''' import argparse import os import cv2 import time import numpy as np import matplotlib.pyplot as plt import torch import torch.nn as nn import torch.optim as optim import torch.nn.functional as F from torch.utils.data import DataLoader import sys sys.path.append('core') from raft import RAFT import evaluate from core import datasets from tqdm import tqdm from torch.utils.tensorboard import SummaryWriter from core.utils.unsupervised_loss import unsup_loss import heart_dataset try: from torch.cuda.amp import GradScaler except: # dummy GradScaler for PyTorch class GradScaler: def __init__(self): pass def scale(self, loss): return loss def unscale_(self, optimizer): pass def step(self, optimizer): optimizer.step() def update(self): pass # exclude extremly large displacements MAX_FLOW = 400 SUM_FREQ = 100 VAL_FREQ = 200 def sequence_loss(flow_preds, warped_images, img1, total_steps, gamma=0.8, max_flow=MAX_FLOW): \"\"\" Loss function defined over sequence of flow predictions \"\"\" n_predictions = len(flow_preds) flow_loss = 0.0 # exlude invalid pixels and extremely large diplacements # mag = torch.sum(flow_gt**2, dim=1).sqrt() for i in range(n_predictions): i_weight = gamma**(n_predictions - i - 1) # if total_steps # i_loss = (flow_preds[i] - flow_gt).abs() # else: i_loss = unsup_loss(flow_preds[i], warped_images[i], img1) flow_loss += i_weight * (i_loss).mean() # epe = torch.sum((flow_preds[-1] - flow_gt)**2, dim=1).sqrt() # epe = epe.view(-1) metrics = { 'loss': flow_loss.item() } return flow_loss, metrics def count_parameters(model): return sum(p.numel() for p in model.parameters() if p.requires_grad) def fetch_optimizer(args, model): \"\"\" Create the optimizer and learning rate scheduler \"\"\" optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.wdecay, eps=args.epsilon) scheduler = optim.lr_scheduler.OneCycleLR(optimizer, args.lr, args.num_steps + 100, pct_start=0.05, cycle_momentum=False, anneal_strategy='linear') return optimizer, scheduler class Logger: def __init__(self, model, scheduler): self.model = model self.scheduler = scheduler self.total_steps = 0 self.running_loss = {} self.writer = None def _print_training_status(self): metrics_data = [ self.running_loss[k] / SUM_FREQ for k in sorted(self.running_loss.keys()) ] training_str = \"[{:6d}, {:10.7f}] \".format( self.total_steps + 1, self.scheduler.get_last_lr()[0]) metrics_str = (\"{:10.4f}, \" * len(metrics_data)).format(*metrics_data) # print the training status print(training_str + metrics_str) if self.writer is None: self.writer = SummaryWriter() for k in self.running_loss: self.writer.add_scalar(k, self.running_loss[k] / SUM_FREQ, self.total_steps) self.running_loss[k] = 0.0 def push(self, metrics): self.total_steps += 1 for key in metrics: if key not in self.running_loss: self.running_loss[key] = 0.0 self.running_loss[key] += metrics[key] if self.total_steps % SUM_FREQ == SUM_FREQ - 1: self._print_training_status() self.running_loss = {} def write_dict(self, results): if self.writer is None: self.writer = SummaryWriter() for key in results: self.writer.add_scalar(key, results[key], self.total_steps) def close(self): self.writer.close() def train(args): model = nn.DataParallel(RAFT(args), device_ids=args.gpus) print(\"Parameter Count: %d\" % count_parameters(model)) if args.restore_ckpt is not None: model.load_state_dict(torch.load(args.restore_ckpt), strict=False) model.cuda() model.train() if args.stage != 'chairs': model.module.freeze_bn() train_loader = heart_dataset.fetch_dataloader(args) optimizer, scheduler = fetch_optimizer(args, model) total_steps = 95000 scaler = GradScaler(enabled=args.mixed_precision) logger = Logger(model, scheduler) VAL_FREQ = 5000 add_noise = True should_keep_training = True while should_keep_training: for i_batch, data_blob in tqdm(enumerate(train_loader), total=len(train_loader)): optimizer.zero_grad() image1 = data_blob[0].cuda() image2 = data_blob[1].cuda() id = data_blob[2] # image1, image2 = [ # x for x in data_blob # ] if args.add_noise: stdv = np.random.uniform(0.0, 5.0) image1 = (image1 + stdv * torch.randn(*image1.shape).cuda()).clamp( 0.0, 255.0) image2 = (image2 + stdv * torch.randn(*image2.shape).cuda()).clamp( 0.0, 255.0) # def forward(self, image1, image2, flow_gt=None, frame1=None, frame2=None, \\ # iters=12, flow_init=None, upsample=True, test_mode=False): flow_predictions, warped_images = model(image1, image2, iters=args.iters) loss, metrics = sequence_loss(flow_predictions, \\ warped_images, image1, total_steps=total_steps, gamma=args.gamma) scaler.scale(loss).backward() scaler.unscale_(optimizer) torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip) scaler.step(optimizer) scheduler.step() scaler.update() logger.push(metrics) # print(total_steps, total_steps % VAL_FREQ) if total_steps % VAL_FREQ == VAL_FREQ - 1: PATH = 'checkpoints/heart/%d_%s.pth' % (total_steps + 1, args.name) torch.save(model.state_dict(), PATH) # results = {} # for val_dataset in args.validation: # if val_dataset == 'chairs': # results.update(evaluate.validate_chairs(model.module)) # elif val_dataset == 'sintel': # results.update(evaluate.validate_sintel(model.module)) # elif val_dataset == 'kitti': # results.update(evaluate.validate_kitti(model.module)) # logger.write_dict(results) model.train() if args.stage != 'chairs': model.module.freeze_bn() total_steps += 1 if total_steps  args.num_steps: should_keep_training = False break logger.close() PATH = 'checkpoints/%s.pth' % args.name torch.save(model.state_dict(), PATH) return PATH if __name__ == '__main__': parser = argparse.ArgumentParser() parser.add_argument('--name', default='raft', help=\"name your experiment\") parser.add_argument('--stage', default='heart', help=\"determines which dataset to use for training\") parser.add_argument('--restore_ckpt', help=\"restore checkpoint\") parser.add_argument('--small', action='store_true', help='use small model') parser.add_argument('--validation', type=str, nargs='+') parser.add_argument('--lr', type=float, default=0.00002) parser.add_argument('--num_steps', type=int, default=100000) parser.add_argument('--batch_size', type=int, default=4) parser.add_argument('--image_size', type=int, nargs='+', default=[512, 512]) parser.add_argument('--gpus', type=int, nargs='+', default=[0]) parser.add_argument('--mixed_precision', action='store_true', help='use mixed precision') parser.add_argument('--iters', type=int, default=12) parser.add_argument('--wdecay', type=float, default=.00005) parser.add_argument('--epsilon', type=float, default=1e-8) parser.add_argument('--clip', type=float, default=1.0) parser.add_argument('--dropout', type=float, default=0.0) parser.add_argument('--gamma', type=float, default=0.8, help='exponential weighting') parser.add_argument('--add_noise', action='store_true') args = parser.parse_args() torch.manual_seed(1234) np.random.seed(1234) if not os.path.isdir('checkpoints'): os.mkdir('checkpoints') train(args) 修改raft.py\ndef forward(self, image1, image2, flow_gt, frame1, frame2, \\ iters=12, flow_init=None, upsample=True, test_mode=False): #修改为 def forward(self, image1, image2, flow_gt=None, frame1=None, frame2=None, \\ iters=12, flow_init=None, upsample=True, test_mode=False): #预测代码修改evaluate.py\nimport sys sys.path.append('core') from PIL import Image import argparse import os import time import numpy as np import torch import torch.nn.functional as F import matplotlib.pyplot as plt from core import datasets from utils import flow_viz from utils import frame_utils from raft import RAFT from utils.utils import InputPadder, forward_interpolate from tqdm import tqdm from scipy.special import softmax import cv2 import pickle def viz(img, flows, val_id): img = img[0].permute(1,2,0).cpu().numpy() new_flows = [] for flo in flows: try: flo = flo[0].permute(1,2,0).cpu().numpy() except: flo = flo.permute(1,2,0).cpu().numpy() flo = flow_viz.flow_to_image(flo) new_flows.append(flo) img_flo = np.concatenate([img, *new_flows], axis=0) img = img_flo[:, :, [2,1,0]]#/255.0 cv2.imwrite(f'outputs/{val_id}.png', img) img /= 255.0 # cv2.imshow('image', img) # cv2.waitKey() # cv2.destroyAllWindows() @torch.no_grad() def create_sintel_submission(model, iters=32, warm_start=False, output_path='sintel_submission'): \"\"\" Create submission for the Sintel leaderboard \"\"\" model.eval() for dstype in ['clean', 'final']: test_dataset = datasets.MpiSintel(split='test', aug_params=None, dstype=dstype) flow_prev, sequence_prev = None, None for test_id in tqdm(range(len(test_dataset))): image1, image2, (sequence, frame) = test_dataset[test_id] if sequence != sequence_prev: flow_prev = None padder = InputPadder(image1.shape) image1, image2 = padder.pad(image1[None].cuda(), image2[None].cuda()) flow_low, flow_pr = model(image1, image2, \\ frame1=None, frame2=None, flow_gt=None, \\ iters=iters, flow_init=flow_prev, test_mode=True) flow = padder.unpad(flow_pr[0]).permute(1, 2, 0).cpu().numpy() if warm_start: flow_prev = forward_interpolate(flow_low[0])[None].cuda() output_dir = os.path.join(output_path, dstype, sequence) output_file = os.path.join(output_dir, 'frame%04d.flo' % (frame+1)) if not os.path.exists(output_dir): os.makedirs(output_dir) frame_utils.writeFlow(output_file, flow) sequence_prev = sequence @torch.no_grad() def create_kitti_submission(model, iters=24, output_path='kitti_submission'): \"\"\" Create submission for the Sintel leaderboard \"\"\" model.eval() test_dataset = datasets.KITTI(split='testing', aug_params=None) if not os.path.exists(output_path): os.makedirs(output_path) for test_id in range(len(test_dataset)): image1, image2, (frame_id, ) = test_dataset[test_id] padder = InputPadder(image1.shape, mode='kitti') image1, image2 = padder.pad(image1[None].cuda(), image2[None].cuda()) _, flow_pr = model(image1, image2, iters=iters, test_mode=True) flow = padder.unpad(flow_pr[0]).permute(1, 2, 0).cpu().numpy() output_filename = os.path.join(output_path, frame_id) frame_utils.writeFlowKITTI(output_filename, flow) @torch.no_grad() def validate_chairs(model, iters=24): \"\"\" Perform evaluation on the FlyingChairs (test) split \"\"\" model.eval() epe_list = [] val_dataset = datasets.FlyingChairs(split='validation') # val_dataset = datasets.FlyingChairs(split='validation') for val_id in tqdm(range(len(val_dataset))): image1, image2, flow_gt, _, frame1, frame2 = val_dataset[val_id] image1 = image1[None].cuda() image2 = image2[None].cuda() _, flow_pr = model(image1, image2, flow_gt, \\ frame1=frame1, frame2=frame2, \\ iters=iters, test_mode=True) # viz(image1, [flow_pr, flow_gt], val_id) epe = torch.sum((flow_pr[0].cpu() - flow_gt)**2, dim=0).sqrt() epe_list.append(epe.view(-1).numpy()) epe = np.mean(np.concatenate(epe_list)) print(\"Validation Chairs EPE: %f\" % epe) return {'chairs': epe} @torch.no_grad() def validate_sintel(model, iters=32): \"\"\" Peform validation using the Sintel (train) split \"\"\" model.eval() results = {} # for dstype in ['clean', 'final']: feature_maps = [] for dstype in ['clean']: val_dataset = datasets.MpiSintel(split='training', dstype=dstype) # val_dataset = datasets.MpiSintel(split='test', dstype=dstype) epe_list = [] for val_id in tqdm(range(len(val_dataset))): frame1, frame2 = None, None image1, image2, flow_gt, _, frame1, frame2 = val_dataset[val_id] image1 = image1[None].cuda() image2 = image2[None].cuda() padder = InputPadder(image1.shape) image1, image2 = padder.pad(image1, image2) _, flow_pr, fmap1 = model(image1, image2, flow_gt, \\ frame1=frame1, frame2=frame2, \\ iters=iters, test_mode=True) feature_maps.append(fmap1.cpu().numpy()) flow = padder.unpad(flow_pr[0]).cpu() epe = torch.sum((flow - flow_gt)**2, dim=0).sqrt() epe_list.append(epe.view(-1).numpy()) if val_id  900: break pickle.dump(feature_maps, open( \"umap_pickles/save_900.p\", \"wb\" )) exit() epe_all = np.concatenate(epe_list) epe = np.mean(epe_all) px1 = np.mean(epe_all1) px3 = np.mean(epe_all3) px5 = np.mean(epe_all5) print(\"Validation (%s) EPE: %f, 1px: %f, 3px: %f, 5px: %f\" % (dstype, epe, px1, px3, px5)) results[dstype] = np.mean(epe_list) return results @torch.no_grad() def validate_kitti(model, iters=24): \"\"\" Peform validation using the KITTI-2015 (train) split \"\"\" output_path = 'kitti_submission' if not os.path.exists(output_path): os.makedirs(output_path) model.eval() val_dataset = datasets.KITTI(split='training') out_list, epe_list = [], [] for val_id in range(len(val_dataset)): # image1, image2, flow_gt, valid_gt = val_dataset[val_id] image1, image2, flow_gt, valid_gt, frame1, frame2 = val_dataset[val_id] image1 = image1[None].cuda() image2 = image2[None].cuda() padder = InputPadder(image1.shape, mode='kitti') image1, image2 = padder.pad(image1, image2) flow_low, flow_pr = model(image1, image2, flow_gt, \\ frame1=frame1, frame2=frame2, \\ iters=iters, test_mode=True) flow = padder.unpad(flow_pr[0]).cpu() viz(image1[:, :, :-1, :-6], [flow], val_id) # output_filename = os.path.join(output_path, str(val_id)+'.flo') # frame_utils.writeFlow(output_filename, flow) epe = torch.sum((flow - flow_gt)**2, dim=0).sqrt() mag = torch.sum(flow_gt**2, dim=0).sqrt() epe = epe.view(-1) mag = mag.view(-1) val = valid_gt.view(-1) = 0.5 out = ((epe  3.0) \u0026 ((epe/mag)  0.05)).float() epe_list.append(epe[val].mean().item()) out_list.append(out[val].cpu().numpy()) epe_list = np.array(epe_list) out_list = np.concatenate(out_list) epe = np.mean(epe_list) f1 = 100 * np.mean(out_list) print(\"Validation KITTI: %f, %f\" % (epe, f1)) return {'kitti-epe': epe, 'kitti-f1': f1} if __name__ == '__main__': parser = argparse.ArgumentParser() parser.add_argument('--model',default='/workspace/UnSupRAFT/models/raft-kitti.pth', help=\"restore checkpoint\") parser.add_argument('--dataset', default='kitti' ,help=\"dataset for evaluation\") parser.add_argument('--small', action='store_true', help='use small model') parser.add_argument('--mixed_precision', action='store_true', help='use mixed precision') parser.add_argument('--alternate_corr', action='store_true', help='use efficent correlation implementation') args = parser.parse_args() model = torch.nn.DataParallel(RAFT(args)) model.load_state_dict(torch.load(args.model)) model.cuda() model.eval() # create_sintel_submission(model.module, warm_start=True) # create_kitti_submission(model.module) with torch.no_grad(): if args.dataset == 'chairs': validate_chairs(model.module) elif args.dataset == 'sintel': validate_sintel(model.module) elif args.dataset == 'kitti': validate_kitti(model.module) ",
+  "wordCount" : "1981",
+  "inLanguage": "en",
+  "datePublished": "2021-09-29T10:44:43+08:00",
+  "dateModified": "2021-09-29T10:44:43+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "wuyangzz"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://wuyangzz.github.io/2021/unsupraft%E8%BF%90%E8%A1%8C/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "wuyangzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://wuyangzz.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://wuyangzz.github.io/" accesskey="h" title="wuyangzz (Alt + H)">wuyangzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://wuyangzz.github.io/posts/" title="博客">
+                    <span>博客</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/about/" title="关于我">
+                    <span>关于我</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      UnSupRAFT运行
+    </h1>
+    <div class="post-meta"><span title='2021-09-29 10:44:43 +0800 CST'>September 29, 2021</span>&nbsp;·&nbsp;wuyangzz
+
+</div>
+  </header> 
+  <div class="post-content"><p>数据准备 <code>dicom_to_image.py</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+<span style="color:#f92672">import</span> cv2
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> pydicom
+
+<span style="color:#75715e"># dicom图像输入路径</span>
+inputdir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/20210910/Bmodel/inputs&#39;</span>
+<span style="color:#75715e"># dicom图像输出路径</span>
+outdir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/workspace/UnSupRAFT/datasets/heart/&#39;</span>
+
+<span style="color:#75715e"># 获取文件夹下文件列表</span>
+files_name_list<span style="color:#f92672">=</span>os<span style="color:#f92672">.</span>listdir(inputdir)
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+<span style="color:#75715e"># 遍历所有文件</span>
+<span style="color:#66d9ef">for</span> file_name <span style="color:#f92672">in</span> files_name_list:
+    path<span style="color:#f92672">=</span>os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(inputdir,file_name)
+    ds<span style="color:#f92672">=</span>pydicom<span style="color:#f92672">.</span>read_file(path)
+    <span style="color:#75715e"># 获取该文件的帧数</span>
+    num_frame<span style="color:#f92672">=</span>ds<span style="color:#f92672">.</span>pixel_array<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]
+    <span style="color:#75715e"># 逐帧保存为PNG无损图像</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(num_frame):
+        <span style="color:#75715e"># if not os.path.exists(os.path.join(outdir,file_name)):</span>
+        <span style="color:#75715e">#     os.makedirs(os.path.join(outdir,file_name))</span>
+        <span style="color:#66d9ef">if</span> i<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>:
+            image1 <span style="color:#f92672">=</span>ds<span style="color:#f92672">.</span>pixel_array[i, <span style="color:#ae81ff">70</span>:<span style="color:#ae81ff">550</span>, <span style="color:#ae81ff">47</span>:<span style="color:#ae81ff">751</span>]
+        <span style="color:#66d9ef">else</span>:
+            image2 <span style="color:#f92672">=</span> ds<span style="color:#f92672">.</span>pixel_array[i, <span style="color:#ae81ff">70</span>:<span style="color:#ae81ff">550</span>, <span style="color:#ae81ff">47</span>:<span style="color:#ae81ff">751</span>]
+            cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir, str(
+                count)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_1.png&#34;</span>), image1, [cv2<span style="color:#f92672">.</span>IMWRITE_PNG_COMPRESSION, <span style="color:#ae81ff">0</span>])
+            cv2<span style="color:#f92672">.</span>imwrite(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(outdir, str(
+                count)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;_2.png&#34;</span>), image2, [cv2<span style="color:#f92672">.</span>IMWRITE_PNG_COMPRESSION, <span style="color:#ae81ff">0</span>])
+            image1<span style="color:#f92672">=</span>image2
+            count<span style="color:#f92672">+=</span><span style="color:#ae81ff">1</span>
+
+</code></pre></div><p>设置数据集heart_dataset.py</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Data loading based on https://github.com/NVIDIA/flownet2-pytorch</span>
+
+<span style="color:#f92672">from</span> posixpath <span style="color:#f92672">import</span> join
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> torch
+<span style="color:#f92672">import</span> torch.utils.data <span style="color:#f92672">as</span> data
+<span style="color:#f92672">import</span> torch.nn.functional <span style="color:#f92672">as</span> F
+<span style="color:#f92672">import</span> tqdm
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> math
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">from</span> glob <span style="color:#f92672">import</span> glob
+<span style="color:#f92672">import</span> os.path <span style="color:#f92672">as</span> osp
+
+<span style="color:#f92672">from</span> core.utils <span style="color:#f92672">import</span> frame_utils
+<span style="color:#f92672">from</span> core.utils.augmentor <span style="color:#f92672">import</span> FlowAugmentor, SparseFlowAugmentor
+<span style="color:#f92672">import</span> albumentations <span style="color:#f92672">as</span> albu
+<span style="color:#f92672">from</span> albumentations.pytorch <span style="color:#f92672">import</span> ToTensor
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FlowDataset</span>(data<span style="color:#f92672">.</span>Dataset):
+    <span style="color:#66d9ef">def</span> __init__(self, aug_params<span style="color:#f92672">=</span>None, sparse<span style="color:#f92672">=</span>False):
+        self<span style="color:#f92672">.</span>augmentor <span style="color:#f92672">=</span> None
+        self<span style="color:#f92672">.</span>sparse <span style="color:#f92672">=</span> sparse
+        <span style="color:#66d9ef">if</span> aug_params <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
+            <span style="color:#66d9ef">if</span> sparse:
+                self<span style="color:#f92672">.</span>augmentor <span style="color:#f92672">=</span> SparseFlowAugmentor(<span style="color:#f92672">**</span>aug_params)
+            <span style="color:#66d9ef">else</span>:
+                self<span style="color:#f92672">.</span>augmentor <span style="color:#f92672">=</span> FlowAugmentor(<span style="color:#f92672">**</span>aug_params)
+
+        self<span style="color:#f92672">.</span>is_test <span style="color:#f92672">=</span> False
+        self<span style="color:#f92672">.</span>init_seed <span style="color:#f92672">=</span> False
+        self<span style="color:#f92672">.</span>flow_list <span style="color:#f92672">=</span> []
+        self<span style="color:#f92672">.</span>image_list <span style="color:#f92672">=</span> []
+        self<span style="color:#f92672">.</span>extra_info <span style="color:#f92672">=</span> []
+        self<span style="color:#f92672">.</span>frames_transforms <span style="color:#f92672">=</span> albu<span style="color:#f92672">.</span>Compose([
+            albu<span style="color:#f92672">.</span>Normalize((<span style="color:#ae81ff">0.</span>, <span style="color:#ae81ff">0.</span>, <span style="color:#ae81ff">0.</span>), (<span style="color:#ae81ff">1.</span>, <span style="color:#ae81ff">1.</span>, <span style="color:#ae81ff">1.</span>)),
+            ToTensor()
+        ])
+
+    <span style="color:#66d9ef">def</span> __getitem__(self, index):
+
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>is_test:
+            img1 <span style="color:#f92672">=</span> frame_utils<span style="color:#f92672">.</span>read_gen(self<span style="color:#f92672">.</span>image_list[index][<span style="color:#ae81ff">0</span>])
+            img2 <span style="color:#f92672">=</span> frame_utils<span style="color:#f92672">.</span>read_gen(self<span style="color:#f92672">.</span>image_list[index][<span style="color:#ae81ff">1</span>])
+            <span style="color:#75715e"># self</span>
+            img1<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>repeat(np<span style="color:#f92672">.</span>array(img1)[:, :, np<span style="color:#f92672">.</span>newaxis], <span style="color:#ae81ff">3</span>, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+            img2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>repeat(np<span style="color:#f92672">.</span>array(img2)[:, :, np<span style="color:#f92672">.</span>newaxis], <span style="color:#ae81ff">3</span>, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+            img1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(img1)<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>uint8)[<span style="color:#f92672">...</span>, :<span style="color:#ae81ff">3</span>]
+            img2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(img2)<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>uint8)[<span style="color:#f92672">...</span>, :<span style="color:#ae81ff">3</span>]
+
+            img1 <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>from_numpy(img1)<span style="color:#f92672">.</span>permute(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>float()
+            img2 <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>from_numpy(img2)<span style="color:#f92672">.</span>permute(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>float()
+            <span style="color:#66d9ef">return</span> img1, img2, self<span style="color:#f92672">.</span>extra_info[index]
+
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>init_seed:
+            worker_info <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>get_worker_info()
+            <span style="color:#66d9ef">if</span> worker_info <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
+                torch<span style="color:#f92672">.</span>manual_seed(worker_info<span style="color:#f92672">.</span>id)
+                np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>seed(worker_info<span style="color:#f92672">.</span>id)
+                random<span style="color:#f92672">.</span>seed(worker_info<span style="color:#f92672">.</span>id)
+                self<span style="color:#f92672">.</span>init_seed <span style="color:#f92672">=</span> True
+
+        index <span style="color:#f92672">=</span> index <span style="color:#f92672">%</span> len(self<span style="color:#f92672">.</span>image_list)
+        valid <span style="color:#f92672">=</span> None
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>sparse:
+            flow, valid <span style="color:#f92672">=</span> frame_utils<span style="color:#f92672">.</span>readFlowKITTI(self<span style="color:#f92672">.</span>flow_list[index])
+        <span style="color:#66d9ef">else</span>:
+            flow <span style="color:#f92672">=</span> frame_utils<span style="color:#f92672">.</span>read_gen(self<span style="color:#f92672">.</span>flow_list[index])
+
+        img1 <span style="color:#f92672">=</span> frame_utils<span style="color:#f92672">.</span>read_gen(self<span style="color:#f92672">.</span>image_list[index][<span style="color:#ae81ff">0</span>])
+        img2 <span style="color:#f92672">=</span> frame_utils<span style="color:#f92672">.</span>read_gen(self<span style="color:#f92672">.</span>image_list[index][<span style="color:#ae81ff">1</span>])
+
+        flow <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(flow)<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>float32)
+        img1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(img1)<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>uint8)
+        img2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(img2)<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>uint8)
+
+        frame1 <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>frames_transforms(image<span style="color:#f92672">=</span>img1)[<span style="color:#e6db74">&#39;image&#39;</span>]
+        frame2 <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>frames_transforms(image<span style="color:#f92672">=</span>img2)[<span style="color:#e6db74">&#39;image&#39;</span>]
+
+        <span style="color:#75715e"># import cv2</span>
+        <span style="color:#75715e"># cv2.imshow(&#39;image1&#39;, img1)</span>
+        <span style="color:#75715e"># cv2.imshow(&#39;image2&#39;, img2)</span>
+        <span style="color:#75715e"># cv2.waitKey(-1)</span>
+
+        <span style="color:#75715e"># grayscale images</span>
+        <span style="color:#66d9ef">if</span> len(img1<span style="color:#f92672">.</span>shape) <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>:
+            img1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>tile(img1[<span style="color:#f92672">...</span>, None], (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>))
+            img2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>tile(img2[<span style="color:#f92672">...</span>, None], (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>))
+        <span style="color:#66d9ef">else</span>:
+            img1 <span style="color:#f92672">=</span> img1[<span style="color:#f92672">...</span>, :<span style="color:#ae81ff">3</span>]
+            img2 <span style="color:#f92672">=</span> img2[<span style="color:#f92672">...</span>, :<span style="color:#ae81ff">3</span>]
+
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>augmentor <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
+            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>sparse:
+                img1, img2, flow, valid <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>augmentor(
+                    img1, img2, flow, valid)
+            <span style="color:#66d9ef">else</span>:
+                img1, img2, flow <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>augmentor(img1, img2, flow)
+
+        img1 <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>from_numpy(img1)<span style="color:#f92672">.</span>permute(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>float()
+        img2 <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>from_numpy(img2)<span style="color:#f92672">.</span>permute(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>float()
+        flow <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>from_numpy(flow)<span style="color:#f92672">.</span>permute(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>float()
+
+        <span style="color:#66d9ef">if</span> valid <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
+            valid <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>from_numpy(valid)
+        <span style="color:#66d9ef">else</span>:
+            valid <span style="color:#f92672">=</span> (flow[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>abs() <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1000</span>) <span style="color:#f92672">&amp;</span> (flow[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>abs() <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1000</span>)
+
+        <span style="color:#66d9ef">return</span> img1, img2, flow, valid<span style="color:#f92672">.</span>float(), frame1, frame2
+
+    <span style="color:#66d9ef">def</span> __rmul__(self, v):
+        self<span style="color:#f92672">.</span>flow_list <span style="color:#f92672">=</span> v <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>flow_list
+        self<span style="color:#f92672">.</span>image_list <span style="color:#f92672">=</span> v <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>image_list
+        <span style="color:#66d9ef">return</span> self
+
+    <span style="color:#66d9ef">def</span> __len__(self):
+        <span style="color:#66d9ef">return</span> len(self<span style="color:#f92672">.</span>image_list)
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HeartDataset</span>(FlowDataset):
+    <span style="color:#66d9ef">def</span> __init__(self, aug_params<span style="color:#f92672">=</span>None, split<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;testing&#39;</span>, root<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;datasets/heart&#39;</span>):
+        super(HeartDataset, self)<span style="color:#f92672">.</span>__init__(aug_params, sparse<span style="color:#f92672">=</span>True)
+        <span style="color:#66d9ef">if</span> split <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;testing&#39;</span>:
+            self<span style="color:#f92672">.</span>is_test <span style="color:#f92672">=</span> True
+        root <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(<span style="color:#e6db74">&#39;/workspace/UnSupRAFT&#39;</span>, root)
+        images1 <span style="color:#f92672">=</span> sorted(glob(osp<span style="color:#f92672">.</span>join(root, <span style="color:#e6db74">&#39;*_1.png&#39;</span>)))
+        images2 <span style="color:#f92672">=</span> sorted(glob(osp<span style="color:#f92672">.</span>join(root, <span style="color:#e6db74">&#39;*_2.png&#39;</span>)))
+        <span style="color:#f92672">import</span> sys
+        sys<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;UnSupRAFT&#39;</span>)
+        <span style="color:#66d9ef">for</span> img1, img2 <span style="color:#f92672">in</span> zip(images1, images2):
+            frame_id <span style="color:#f92672">=</span> img1<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;/&#39;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+            self<span style="color:#f92672">.</span>extra_info <span style="color:#f92672">+=</span> [[frame_id]]
+            self<span style="color:#f92672">.</span>image_list <span style="color:#f92672">+=</span> [[img1, img2]]
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fetch_dataloader</span>(args, TRAIN_DS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;C+T+K+S+H&#39;</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34; Create the data loader for the corresponding trainign set &#34;&#34;&#34;</span>
+
+    train_dataset <span style="color:#f92672">=</span> HeartDataset()
+
+    train_loader <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>DataLoader(train_dataset,
+                                   batch_size<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>batch_size,
+                                   pin_memory<span style="color:#f92672">=</span>False,
+                                   shuffle<span style="color:#f92672">=</span>True,
+                                   num_workers<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>,
+                                   drop_last<span style="color:#f92672">=</span>True)
+
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Training with </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> image pairs&#39;</span> <span style="color:#f92672">%</span> len(train_dataset))
+    <span style="color:#66d9ef">return</span> train_loader
+
+<span style="color:#75715e"># 测试数据集</span>
+<span style="color:#66d9ef">if</span> __name__<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;__main__&#39;</span>:
+    aug_params <span style="color:#f92672">=</span> {
+        <span style="color:#e6db74">&#39;crop_size&#39;</span>: [<span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">512</span>],
+        <span style="color:#e6db74">&#39;min_scale&#39;</span>: <span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>,
+        <span style="color:#e6db74">&#39;max_scale&#39;</span>: <span style="color:#ae81ff">0.4</span>,
+        <span style="color:#e6db74">&#39;do_flip&#39;</span>: False
+    }
+    train_dataset <span style="color:#f92672">=</span> HeartDataset(aug_params)
+    train_loader <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>DataLoader(train_dataset,
+                                   batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>,
+                                   pin_memory<span style="color:#f92672">=</span>True,
+                                   shuffle<span style="color:#f92672">=</span>True,
+                                   num_workers<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>,
+                                   drop_last<span style="color:#f92672">=</span>True)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Training with </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> image pairs&#39;</span> <span style="color:#f92672">%</span> len(train_dataset))
+    <span style="color:#66d9ef">for</span> batch_ndx, sample <span style="color:#f92672">in</span> enumerate(train_loader):
+        image1<span style="color:#f92672">=</span>sample[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>cuda()
+        image2<span style="color:#f92672">=</span>sample[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>cuda()
+        id<span style="color:#f92672">=</span>sample[<span style="color:#ae81ff">2</span>]
+        <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> sample:
+            <span style="color:#66d9ef">print</span>(x)
+        <span style="color:#66d9ef">print</span>(sample<span style="color:#f92672">.</span>inp<span style="color:#f92672">.</span>is_pinned())
+        <span style="color:#66d9ef">print</span>(sample<span style="color:#f92672">.</span>tgt<span style="color:#f92672">.</span>is_pinned())
+</code></pre></div><p>运行文件hear_train.py</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> print_function, division
+<span style="color:#f92672">import</span> sys
+<span style="color:#75715e"># sys.path.append(&#39;&lt;core_path&gt;&#39;)</span>
+<span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">python -u train.py --name raft-chairs --stage chairs --validation chairs 
+</span><span style="color:#e6db74">--gpus 0 --num_steps 100000 --batch_size 8 --lr 0.0004 --image_size 368 496 --wdecay 0.0001
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+
+<span style="color:#f92672">import</span> argparse
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> cv2
+<span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+
+<span style="color:#f92672">import</span> torch
+<span style="color:#f92672">import</span> torch.nn <span style="color:#f92672">as</span> nn
+<span style="color:#f92672">import</span> torch.optim <span style="color:#f92672">as</span> optim
+<span style="color:#f92672">import</span> torch.nn.functional <span style="color:#f92672">as</span> F
+
+<span style="color:#f92672">from</span> torch.utils.data <span style="color:#f92672">import</span> DataLoader
+<span style="color:#f92672">import</span> sys
+
+sys<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;core&#39;</span>)
+<span style="color:#f92672">from</span> raft <span style="color:#f92672">import</span> RAFT
+<span style="color:#f92672">import</span> evaluate
+<span style="color:#f92672">from</span> core <span style="color:#f92672">import</span> datasets
+<span style="color:#f92672">from</span> tqdm <span style="color:#f92672">import</span> tqdm
+
+<span style="color:#f92672">from</span> torch.utils.tensorboard <span style="color:#f92672">import</span> SummaryWriter
+<span style="color:#f92672">from</span> core.utils.unsupervised_loss <span style="color:#f92672">import</span> unsup_loss
+<span style="color:#f92672">import</span> heart_dataset
+
+<span style="color:#66d9ef">try</span>:
+    <span style="color:#f92672">from</span> torch.cuda.amp <span style="color:#f92672">import</span> GradScaler
+<span style="color:#66d9ef">except</span>:
+    <span style="color:#75715e"># dummy GradScaler for PyTorch &lt; 1.6</span>
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GradScaler</span>:
+        <span style="color:#66d9ef">def</span> __init__(self):
+            <span style="color:#66d9ef">pass</span>
+
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">scale</span>(self, loss):
+            <span style="color:#66d9ef">return</span> loss
+
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">unscale_</span>(self, optimizer):
+            <span style="color:#66d9ef">pass</span>
+
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">step</span>(self, optimizer):
+            optimizer<span style="color:#f92672">.</span>step()
+
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update</span>(self):
+            <span style="color:#66d9ef">pass</span>
+
+
+<span style="color:#75715e"># exclude extremly large displacements</span>
+MAX_FLOW <span style="color:#f92672">=</span> <span style="color:#ae81ff">400</span>
+SUM_FREQ <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+VAL_FREQ <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sequence_loss</span>(flow_preds, warped_images, img1, total_steps, gamma<span style="color:#f92672">=</span><span style="color:#ae81ff">0.8</span>, max_flow<span style="color:#f92672">=</span>MAX_FLOW):
+    <span style="color:#e6db74">&#34;&#34;&#34; Loss function defined over sequence of flow predictions &#34;&#34;&#34;</span>
+
+    n_predictions <span style="color:#f92672">=</span> len(flow_preds)
+    flow_loss <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>
+
+    <span style="color:#75715e"># exlude invalid pixels and extremely large diplacements</span>
+    <span style="color:#75715e"># mag = torch.sum(flow_gt**2, dim=1).sqrt()</span>
+
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n_predictions):
+        i_weight <span style="color:#f92672">=</span> gamma<span style="color:#f92672">**</span>(n_predictions <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+
+        <span style="color:#75715e"># if total_steps &lt; 0:</span>
+        <span style="color:#75715e">#     i_loss = (flow_preds[i] - flow_gt).abs()</span>
+        <span style="color:#75715e"># else:</span>
+        i_loss <span style="color:#f92672">=</span> unsup_loss(flow_preds[i], warped_images[i], img1)
+
+        flow_loss <span style="color:#f92672">+=</span> i_weight <span style="color:#f92672">*</span> (i_loss)<span style="color:#f92672">.</span>mean()
+
+    <span style="color:#75715e"># epe = torch.sum((flow_preds[-1] - flow_gt)**2, dim=1).sqrt()</span>
+    <span style="color:#75715e"># epe = epe.view(-1)</span>
+
+    metrics <span style="color:#f92672">=</span> {
+        <span style="color:#e6db74">&#39;loss&#39;</span>: flow_loss<span style="color:#f92672">.</span>item()
+    }
+
+    <span style="color:#66d9ef">return</span> flow_loss, metrics
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">count_parameters</span>(model):
+    <span style="color:#66d9ef">return</span> sum(p<span style="color:#f92672">.</span>numel() <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> model<span style="color:#f92672">.</span>parameters() <span style="color:#66d9ef">if</span> p<span style="color:#f92672">.</span>requires_grad)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fetch_optimizer</span>(args, model):
+    <span style="color:#e6db74">&#34;&#34;&#34; Create the optimizer and learning rate scheduler &#34;&#34;&#34;</span>
+    optimizer <span style="color:#f92672">=</span> optim<span style="color:#f92672">.</span>AdamW(model<span style="color:#f92672">.</span>parameters(),
+                            lr<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>lr,
+                            weight_decay<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>wdecay,
+                            eps<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>epsilon)
+
+    scheduler <span style="color:#f92672">=</span> optim<span style="color:#f92672">.</span>lr_scheduler<span style="color:#f92672">.</span>OneCycleLR(optimizer,
+                                              args<span style="color:#f92672">.</span>lr,
+                                              args<span style="color:#f92672">.</span>num_steps <span style="color:#f92672">+</span> <span style="color:#ae81ff">100</span>,
+                                              pct_start<span style="color:#f92672">=</span><span style="color:#ae81ff">0.05</span>,
+                                              cycle_momentum<span style="color:#f92672">=</span>False,
+                                              anneal_strategy<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;linear&#39;</span>)
+
+    <span style="color:#66d9ef">return</span> optimizer, scheduler
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Logger</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, model, scheduler):
+        self<span style="color:#f92672">.</span>model <span style="color:#f92672">=</span> model
+        self<span style="color:#f92672">.</span>scheduler <span style="color:#f92672">=</span> scheduler
+        self<span style="color:#f92672">.</span>total_steps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        self<span style="color:#f92672">.</span>running_loss <span style="color:#f92672">=</span> {}
+        self<span style="color:#f92672">.</span>writer <span style="color:#f92672">=</span> None
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_print_training_status</span>(self):
+        metrics_data <span style="color:#f92672">=</span> [
+            self<span style="color:#f92672">.</span>running_loss[k] <span style="color:#f92672">/</span> SUM_FREQ
+            <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> sorted(self<span style="color:#f92672">.</span>running_loss<span style="color:#f92672">.</span>keys())
+        ]
+        training_str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;[{:6d}, {:10.7f}] &#34;</span><span style="color:#f92672">.</span>format(
+            self<span style="color:#f92672">.</span>total_steps <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>,
+            self<span style="color:#f92672">.</span>scheduler<span style="color:#f92672">.</span>get_last_lr()[<span style="color:#ae81ff">0</span>])
+        metrics_str <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#34;{:10.4f}, &#34;</span> <span style="color:#f92672">*</span> len(metrics_data))<span style="color:#f92672">.</span>format(<span style="color:#f92672">*</span>metrics_data)
+
+        <span style="color:#75715e"># print the training status</span>
+        <span style="color:#66d9ef">print</span>(training_str <span style="color:#f92672">+</span> metrics_str)
+
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>writer <span style="color:#f92672">is</span> None:
+            self<span style="color:#f92672">.</span>writer <span style="color:#f92672">=</span> SummaryWriter()
+
+        <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>running_loss:
+            self<span style="color:#f92672">.</span>writer<span style="color:#f92672">.</span>add_scalar(k, self<span style="color:#f92672">.</span>running_loss[k] <span style="color:#f92672">/</span> SUM_FREQ,
+                                   self<span style="color:#f92672">.</span>total_steps)
+            self<span style="color:#f92672">.</span>running_loss[k] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">push</span>(self, metrics):
+        self<span style="color:#f92672">.</span>total_steps <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+        <span style="color:#66d9ef">for</span> key <span style="color:#f92672">in</span> metrics:
+            <span style="color:#66d9ef">if</span> key <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>running_loss:
+                self<span style="color:#f92672">.</span>running_loss[key] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>
+
+            self<span style="color:#f92672">.</span>running_loss[key] <span style="color:#f92672">+=</span> metrics[key]
+
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>total_steps <span style="color:#f92672">%</span> SUM_FREQ <span style="color:#f92672">==</span> SUM_FREQ <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>:
+            self<span style="color:#f92672">.</span>_print_training_status()
+            self<span style="color:#f92672">.</span>running_loss <span style="color:#f92672">=</span> {}
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">write_dict</span>(self, results):
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>writer <span style="color:#f92672">is</span> None:
+            self<span style="color:#f92672">.</span>writer <span style="color:#f92672">=</span> SummaryWriter()
+
+        <span style="color:#66d9ef">for</span> key <span style="color:#f92672">in</span> results:
+            self<span style="color:#f92672">.</span>writer<span style="color:#f92672">.</span>add_scalar(key, results[key], self<span style="color:#f92672">.</span>total_steps)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">close</span>(self):
+        self<span style="color:#f92672">.</span>writer<span style="color:#f92672">.</span>close()
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train</span>(args):
+
+    model <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>DataParallel(RAFT(args), device_ids<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>gpus)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Parameter Count: </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> count_parameters(model))
+
+    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>restore_ckpt <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
+        model<span style="color:#f92672">.</span>load_state_dict(torch<span style="color:#f92672">.</span>load(args<span style="color:#f92672">.</span>restore_ckpt), strict<span style="color:#f92672">=</span>False)
+
+    model<span style="color:#f92672">.</span>cuda()
+    model<span style="color:#f92672">.</span>train()
+
+    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>stage <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;chairs&#39;</span>:
+        model<span style="color:#f92672">.</span>module<span style="color:#f92672">.</span>freeze_bn()
+
+    train_loader <span style="color:#f92672">=</span> heart_dataset<span style="color:#f92672">.</span>fetch_dataloader(args)
+    optimizer, scheduler <span style="color:#f92672">=</span> fetch_optimizer(args, model)
+
+    total_steps <span style="color:#f92672">=</span> <span style="color:#ae81ff">95000</span>
+    scaler <span style="color:#f92672">=</span> GradScaler(enabled<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>mixed_precision)
+    logger <span style="color:#f92672">=</span> Logger(model, scheduler)
+
+    VAL_FREQ <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span>
+    add_noise <span style="color:#f92672">=</span> True
+
+    should_keep_training <span style="color:#f92672">=</span> True
+    <span style="color:#66d9ef">while</span> should_keep_training:
+
+        <span style="color:#66d9ef">for</span> i_batch, data_blob <span style="color:#f92672">in</span> tqdm(enumerate(train_loader),
+                                       total<span style="color:#f92672">=</span>len(train_loader)):
+            optimizer<span style="color:#f92672">.</span>zero_grad()
+            image1 <span style="color:#f92672">=</span> data_blob[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>cuda()
+            image2 <span style="color:#f92672">=</span> data_blob[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>cuda()
+            id <span style="color:#f92672">=</span> data_blob[<span style="color:#ae81ff">2</span>]
+            <span style="color:#75715e"># image1, image2 = [</span>
+            <span style="color:#75715e">#     x for x in data_blob</span>
+            <span style="color:#75715e"># ]</span>
+
+            <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>add_noise:
+                stdv <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>uniform(<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">5.0</span>)
+                image1 <span style="color:#f92672">=</span> (image1 <span style="color:#f92672">+</span>
+                          stdv <span style="color:#f92672">*</span> torch<span style="color:#f92672">.</span>randn(<span style="color:#f92672">*</span>image1<span style="color:#f92672">.</span>shape)<span style="color:#f92672">.</span>cuda())<span style="color:#f92672">.</span>clamp(
+                              <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">255.0</span>)
+                image2 <span style="color:#f92672">=</span> (image2 <span style="color:#f92672">+</span>
+                          stdv <span style="color:#f92672">*</span> torch<span style="color:#f92672">.</span>randn(<span style="color:#f92672">*</span>image2<span style="color:#f92672">.</span>shape)<span style="color:#f92672">.</span>cuda())<span style="color:#f92672">.</span>clamp(
+                              <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">255.0</span>)
+    <span style="color:#75715e">#             def forward(self, image1, image2, flow_gt=None, frame1=None, frame2=None, \</span>
+    <span style="color:#75715e">#  iters=12, flow_init=None, upsample=True, test_mode=False):</span>
+            flow_predictions, warped_images <span style="color:#f92672">=</span> model(image1, image2, iters<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>iters)
+
+            loss, metrics <span style="color:#f92672">=</span> sequence_loss(flow_predictions, \
+             warped_images,  image1, total_steps<span style="color:#f92672">=</span>total_steps, gamma<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>gamma)
+
+            scaler<span style="color:#f92672">.</span>scale(loss)<span style="color:#f92672">.</span>backward()
+            scaler<span style="color:#f92672">.</span>unscale_(optimizer)
+            torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>clip_grad_norm_(model<span style="color:#f92672">.</span>parameters(), args<span style="color:#f92672">.</span>clip)
+
+            scaler<span style="color:#f92672">.</span>step(optimizer)
+            scheduler<span style="color:#f92672">.</span>step()
+            scaler<span style="color:#f92672">.</span>update()
+
+            logger<span style="color:#f92672">.</span>push(metrics)
+            <span style="color:#75715e"># print(total_steps, total_steps % VAL_FREQ)</span>
+            <span style="color:#66d9ef">if</span> total_steps <span style="color:#f92672">%</span> VAL_FREQ <span style="color:#f92672">==</span> VAL_FREQ <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>:
+                PATH <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;checkpoints/heart/</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">_</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.pth&#39;</span> <span style="color:#f92672">%</span> (total_steps <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>,
+                                                         args<span style="color:#f92672">.</span>name)
+                torch<span style="color:#f92672">.</span>save(model<span style="color:#f92672">.</span>state_dict(), PATH)
+
+                <span style="color:#75715e"># results = {}</span>
+                <span style="color:#75715e"># for val_dataset in args.validation:</span>
+                <span style="color:#75715e">#     if val_dataset == &#39;chairs&#39;:</span>
+                <span style="color:#75715e">#         results.update(evaluate.validate_chairs(model.module))</span>
+                <span style="color:#75715e">#     elif val_dataset == &#39;sintel&#39;:</span>
+                <span style="color:#75715e">#         results.update(evaluate.validate_sintel(model.module))</span>
+                <span style="color:#75715e">#     elif val_dataset == &#39;kitti&#39;:</span>
+                <span style="color:#75715e">#         results.update(evaluate.validate_kitti(model.module))</span>
+
+                <span style="color:#75715e"># logger.write_dict(results)</span>
+
+                model<span style="color:#f92672">.</span>train()
+                <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>stage <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;chairs&#39;</span>:
+                    model<span style="color:#f92672">.</span>module<span style="color:#f92672">.</span>freeze_bn()
+
+            total_steps <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+            <span style="color:#66d9ef">if</span> total_steps <span style="color:#f92672">&gt;</span> args<span style="color:#f92672">.</span>num_steps:
+                should_keep_training <span style="color:#f92672">=</span> False
+                <span style="color:#66d9ef">break</span>
+
+    logger<span style="color:#f92672">.</span>close()
+    PATH <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;checkpoints/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.pth&#39;</span> <span style="color:#f92672">%</span> args<span style="color:#f92672">.</span>name
+    torch<span style="color:#f92672">.</span>save(model<span style="color:#f92672">.</span>state_dict(), PATH)
+
+    <span style="color:#66d9ef">return</span> PATH
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    parser <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser()
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--name&#39;</span>, default<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;raft&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;name your experiment&#34;</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--stage&#39;</span>,
+                        default<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;heart&#39;</span>,
+                        help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;determines which dataset to use for training&#34;</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--restore_ckpt&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;restore checkpoint&#34;</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--small&#39;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;store_true&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;use small model&#39;</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--validation&#39;</span>, type<span style="color:#f92672">=</span>str, nargs<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;+&#39;</span>)
+
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--lr&#39;</span>, type<span style="color:#f92672">=</span>float, default<span style="color:#f92672">=</span><span style="color:#ae81ff">0.00002</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--num_steps&#39;</span>, type<span style="color:#f92672">=</span>int, default<span style="color:#f92672">=</span><span style="color:#ae81ff">100000</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--batch_size&#39;</span>, type<span style="color:#f92672">=</span>int, default<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--image_size&#39;</span>,
+                        type<span style="color:#f92672">=</span>int,
+                        nargs<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;+&#39;</span>,
+                        default<span style="color:#f92672">=</span>[<span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">512</span>])
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--gpus&#39;</span>, type<span style="color:#f92672">=</span>int, nargs<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;+&#39;</span>, default<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span>])
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--mixed_precision&#39;</span>,
+                        action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;store_true&#39;</span>,
+                        help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;use mixed precision&#39;</span>)
+
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--iters&#39;</span>, type<span style="color:#f92672">=</span>int, default<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--wdecay&#39;</span>, type<span style="color:#f92672">=</span>float, default<span style="color:#f92672">=.</span><span style="color:#ae81ff">00005</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--epsilon&#39;</span>, type<span style="color:#f92672">=</span>float, default<span style="color:#f92672">=</span><span style="color:#ae81ff">1e-8</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--clip&#39;</span>, type<span style="color:#f92672">=</span>float, default<span style="color:#f92672">=</span><span style="color:#ae81ff">1.0</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--dropout&#39;</span>, type<span style="color:#f92672">=</span>float, default<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--gamma&#39;</span>,
+                        type<span style="color:#f92672">=</span>float,
+                        default<span style="color:#f92672">=</span><span style="color:#ae81ff">0.8</span>,
+                        help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;exponential weighting&#39;</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--add_noise&#39;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;store_true&#39;</span>)
+    args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
+
+    torch<span style="color:#f92672">.</span>manual_seed(<span style="color:#ae81ff">1234</span>)
+    np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>seed(<span style="color:#ae81ff">1234</span>)
+
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(<span style="color:#e6db74">&#39;checkpoints&#39;</span>):
+        os<span style="color:#f92672">.</span>mkdir(<span style="color:#e6db74">&#39;checkpoints&#39;</span>)
+
+    train(args)
+</code></pre></div><p>修改raft.py</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, image1, image2, flow_gt, frame1, frame2, \
+	 	iters<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>, flow_init<span style="color:#f92672">=</span>None, upsample<span style="color:#f92672">=</span>True, test_mode<span style="color:#f92672">=</span>False):
+
+<span style="color:#75715e">#修改为</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, image1, image2, flow_gt<span style="color:#f92672">=</span>None, frame1<span style="color:#f92672">=</span>None, frame2<span style="color:#f92672">=</span>None, \
+     iters<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>, flow_init<span style="color:#f92672">=</span>None, upsample<span style="color:#f92672">=</span>True, test_mode<span style="color:#f92672">=</span>False):
+</code></pre></div><p>#预测代码修改evaluate.py</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> sys
+sys<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;core&#39;</span>)
+
+<span style="color:#f92672">from</span> PIL <span style="color:#f92672">import</span> Image
+<span style="color:#f92672">import</span> argparse
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> torch
+<span style="color:#f92672">import</span> torch.nn.functional <span style="color:#f92672">as</span> F
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+
+<span style="color:#f92672">from</span> core <span style="color:#f92672">import</span> datasets
+<span style="color:#f92672">from</span> utils <span style="color:#f92672">import</span> flow_viz
+<span style="color:#f92672">from</span> utils <span style="color:#f92672">import</span> frame_utils
+
+<span style="color:#f92672">from</span> raft <span style="color:#f92672">import</span> RAFT
+<span style="color:#f92672">from</span> utils.utils <span style="color:#f92672">import</span> InputPadder, forward_interpolate
+<span style="color:#f92672">from</span> tqdm <span style="color:#f92672">import</span> tqdm
+<span style="color:#f92672">from</span> scipy.special <span style="color:#f92672">import</span> softmax
+<span style="color:#f92672">import</span> cv2
+<span style="color:#f92672">import</span> pickle
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">viz</span>(img, flows, val_id):
+    img <span style="color:#f92672">=</span> img[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>permute(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>cpu()<span style="color:#f92672">.</span>numpy()
+    new_flows <span style="color:#f92672">=</span> []
+
+    <span style="color:#66d9ef">for</span> flo <span style="color:#f92672">in</span> flows:
+        <span style="color:#66d9ef">try</span>:
+            flo <span style="color:#f92672">=</span> flo[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>permute(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>cpu()<span style="color:#f92672">.</span>numpy()
+        <span style="color:#66d9ef">except</span>:
+            flo <span style="color:#f92672">=</span> flo<span style="color:#f92672">.</span>permute(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>cpu()<span style="color:#f92672">.</span>numpy()
+        flo <span style="color:#f92672">=</span> flow_viz<span style="color:#f92672">.</span>flow_to_image(flo)
+        new_flows<span style="color:#f92672">.</span>append(flo)
+
+    img_flo <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>concatenate([img, <span style="color:#f92672">*</span>new_flows], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+
+    img <span style="color:#f92672">=</span> img_flo[:, :, [<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>]]<span style="color:#75715e">#/255.0</span>
+    cv2<span style="color:#f92672">.</span>imwrite(f<span style="color:#e6db74">&#39;outputs/{val_id}.png&#39;</span>, img)
+
+    img <span style="color:#f92672">/=</span> <span style="color:#ae81ff">255.0</span>
+    <span style="color:#75715e"># cv2.imshow(&#39;image&#39;, img)</span>
+    <span style="color:#75715e"># cv2.waitKey()</span>
+    <span style="color:#75715e"># cv2.destroyAllWindows()</span>
+
+
+<span style="color:#a6e22e">@torch.no_grad</span>()
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_sintel_submission</span>(model, iters<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span>, warm_start<span style="color:#f92672">=</span>False, output_path<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;sintel_submission&#39;</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34; Create submission for the Sintel leaderboard &#34;&#34;&#34;</span>
+    model<span style="color:#f92672">.</span>eval()
+    <span style="color:#66d9ef">for</span> dstype <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;clean&#39;</span>, <span style="color:#e6db74">&#39;final&#39;</span>]:
+        test_dataset <span style="color:#f92672">=</span> datasets<span style="color:#f92672">.</span>MpiSintel(split<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;test&#39;</span>, aug_params<span style="color:#f92672">=</span>None, dstype<span style="color:#f92672">=</span>dstype)
+
+        flow_prev, sequence_prev <span style="color:#f92672">=</span> None, None
+        <span style="color:#66d9ef">for</span> test_id <span style="color:#f92672">in</span> tqdm(range(len(test_dataset))):
+            image1, image2, (sequence, frame) <span style="color:#f92672">=</span> test_dataset[test_id]
+            <span style="color:#66d9ef">if</span> sequence <span style="color:#f92672">!=</span> sequence_prev:
+                flow_prev <span style="color:#f92672">=</span> None
+
+            padder <span style="color:#f92672">=</span> InputPadder(image1<span style="color:#f92672">.</span>shape)
+            image1, image2 <span style="color:#f92672">=</span> padder<span style="color:#f92672">.</span>pad(image1[None]<span style="color:#f92672">.</span>cuda(), image2[None]<span style="color:#f92672">.</span>cuda())
+
+            flow_low, flow_pr <span style="color:#f92672">=</span> model(image1, image2, \
+             frame1<span style="color:#f92672">=</span>None, frame2<span style="color:#f92672">=</span>None, flow_gt<span style="color:#f92672">=</span>None, \
+             iters<span style="color:#f92672">=</span>iters, flow_init<span style="color:#f92672">=</span>flow_prev, test_mode<span style="color:#f92672">=</span>True)
+            flow <span style="color:#f92672">=</span> padder<span style="color:#f92672">.</span>unpad(flow_pr[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">.</span>permute(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>cpu()<span style="color:#f92672">.</span>numpy()
+
+            <span style="color:#66d9ef">if</span> warm_start:
+                flow_prev <span style="color:#f92672">=</span> forward_interpolate(flow_low[<span style="color:#ae81ff">0</span>])[None]<span style="color:#f92672">.</span>cuda()
+
+            output_dir <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(output_path, dstype, sequence)
+            output_file <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(output_dir, <span style="color:#e6db74">&#39;frame</span><span style="color:#e6db74">%04d</span><span style="color:#e6db74">.flo&#39;</span> <span style="color:#f92672">%</span> (frame<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>))
+
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(output_dir):
+                os<span style="color:#f92672">.</span>makedirs(output_dir)
+
+            frame_utils<span style="color:#f92672">.</span>writeFlow(output_file, flow)
+            sequence_prev <span style="color:#f92672">=</span> sequence
+
+
+<span style="color:#a6e22e">@torch.no_grad</span>()
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_kitti_submission</span>(model, iters<span style="color:#f92672">=</span><span style="color:#ae81ff">24</span>, output_path<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;kitti_submission&#39;</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34; Create submission for the Sintel leaderboard &#34;&#34;&#34;</span>
+    model<span style="color:#f92672">.</span>eval()
+    test_dataset <span style="color:#f92672">=</span> datasets<span style="color:#f92672">.</span>KITTI(split<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;testing&#39;</span>, aug_params<span style="color:#f92672">=</span>None)
+
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(output_path):
+        os<span style="color:#f92672">.</span>makedirs(output_path)
+
+    <span style="color:#66d9ef">for</span> test_id <span style="color:#f92672">in</span> range(len(test_dataset)):
+        image1, image2, (frame_id, ) <span style="color:#f92672">=</span> test_dataset[test_id]
+        padder <span style="color:#f92672">=</span> InputPadder(image1<span style="color:#f92672">.</span>shape, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;kitti&#39;</span>)
+        image1, image2 <span style="color:#f92672">=</span> padder<span style="color:#f92672">.</span>pad(image1[None]<span style="color:#f92672">.</span>cuda(), image2[None]<span style="color:#f92672">.</span>cuda())
+
+        _, flow_pr <span style="color:#f92672">=</span> model(image1, image2, iters<span style="color:#f92672">=</span>iters, test_mode<span style="color:#f92672">=</span>True)
+        flow <span style="color:#f92672">=</span> padder<span style="color:#f92672">.</span>unpad(flow_pr[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">.</span>permute(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>cpu()<span style="color:#f92672">.</span>numpy()
+
+        output_filename <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(output_path, frame_id)
+        frame_utils<span style="color:#f92672">.</span>writeFlowKITTI(output_filename, flow)
+
+
+<span style="color:#a6e22e">@torch.no_grad</span>()
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">validate_chairs</span>(model, iters<span style="color:#f92672">=</span><span style="color:#ae81ff">24</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34; Perform evaluation on the FlyingChairs (test) split &#34;&#34;&#34;</span>
+    model<span style="color:#f92672">.</span>eval()
+    epe_list <span style="color:#f92672">=</span> []
+
+    val_dataset <span style="color:#f92672">=</span> datasets<span style="color:#f92672">.</span>FlyingChairs(split<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;validation&#39;</span>)
+    <span style="color:#75715e"># val_dataset = datasets.FlyingChairs(split=&#39;validation&#39;)</span>
+    <span style="color:#66d9ef">for</span> val_id <span style="color:#f92672">in</span> tqdm(range(len(val_dataset))):
+        image1, image2, flow_gt, _, frame1, frame2 <span style="color:#f92672">=</span> val_dataset[val_id]
+
+        image1 <span style="color:#f92672">=</span> image1[None]<span style="color:#f92672">.</span>cuda()
+        image2 <span style="color:#f92672">=</span> image2[None]<span style="color:#f92672">.</span>cuda()
+
+        _, flow_pr <span style="color:#f92672">=</span> model(image1, image2, flow_gt, \
+         frame1<span style="color:#f92672">=</span>frame1, frame2<span style="color:#f92672">=</span>frame2, \
+         iters<span style="color:#f92672">=</span>iters, test_mode<span style="color:#f92672">=</span>True)
+
+        <span style="color:#75715e"># viz(image1, [flow_pr, flow_gt], val_id)</span>
+
+        epe <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>sum((flow_pr[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>cpu() <span style="color:#f92672">-</span> flow_gt)<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>, dim<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sqrt()
+        epe_list<span style="color:#f92672">.</span>append(epe<span style="color:#f92672">.</span>view(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>numpy())
+
+    epe <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(np<span style="color:#f92672">.</span>concatenate(epe_list))
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Validation Chairs EPE: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> epe)
+    <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#39;chairs&#39;</span>: epe}
+
+
+<span style="color:#a6e22e">@torch.no_grad</span>()
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">validate_sintel</span>(model, iters<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34; Peform validation using the Sintel (train) split &#34;&#34;&#34;</span>
+    model<span style="color:#f92672">.</span>eval()
+    results <span style="color:#f92672">=</span> {}
+    <span style="color:#75715e"># for dstype in [&#39;clean&#39;, &#39;final&#39;]:</span>
+    feature_maps <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> dstype <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;clean&#39;</span>]:
+        val_dataset <span style="color:#f92672">=</span> datasets<span style="color:#f92672">.</span>MpiSintel(split<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;training&#39;</span>, dstype<span style="color:#f92672">=</span>dstype)
+        <span style="color:#75715e"># val_dataset = datasets.MpiSintel(split=&#39;test&#39;, dstype=dstype)</span>
+        epe_list <span style="color:#f92672">=</span> []
+
+        <span style="color:#66d9ef">for</span> val_id <span style="color:#f92672">in</span> tqdm(range(len(val_dataset))):
+            frame1, frame2 <span style="color:#f92672">=</span> None, None
+
+            image1, image2, flow_gt, _, frame1, frame2 <span style="color:#f92672">=</span> val_dataset[val_id]
+            image1 <span style="color:#f92672">=</span> image1[None]<span style="color:#f92672">.</span>cuda()
+            image2 <span style="color:#f92672">=</span> image2[None]<span style="color:#f92672">.</span>cuda()
+
+            padder <span style="color:#f92672">=</span> InputPadder(image1<span style="color:#f92672">.</span>shape)
+            image1, image2 <span style="color:#f92672">=</span> padder<span style="color:#f92672">.</span>pad(image1, image2)
+
+            _, flow_pr, fmap1 <span style="color:#f92672">=</span> model(image1, image2, flow_gt, \
+             frame1<span style="color:#f92672">=</span>frame1, frame2<span style="color:#f92672">=</span>frame2, \
+             iters<span style="color:#f92672">=</span>iters, test_mode<span style="color:#f92672">=</span>True)
+
+            feature_maps<span style="color:#f92672">.</span>append(fmap1<span style="color:#f92672">.</span>cpu()<span style="color:#f92672">.</span>numpy())
+
+            flow <span style="color:#f92672">=</span> padder<span style="color:#f92672">.</span>unpad(flow_pr[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">.</span>cpu()
+
+            epe <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>sum((flow <span style="color:#f92672">-</span> flow_gt)<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>, dim<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sqrt()
+            epe_list<span style="color:#f92672">.</span>append(epe<span style="color:#f92672">.</span>view(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>numpy())
+            <span style="color:#66d9ef">if</span> val_id <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">900</span>:
+                <span style="color:#66d9ef">break</span>
+
+        pickle<span style="color:#f92672">.</span>dump(feature_maps, open( <span style="color:#e6db74">&#34;umap_pickles/save_900.p&#34;</span>, <span style="color:#e6db74">&#34;wb&#34;</span> ))
+        exit()
+
+        epe_all <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>concatenate(epe_list)
+        epe <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(epe_all)
+        px1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(epe_all<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span>)
+        px3 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(epe_all<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">3</span>)
+        px5 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(epe_all<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">5</span>)
+
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Validation (</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">) EPE: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">, 1px: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">, 3px: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">, 5px: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (dstype, epe, px1, px3, px5))
+        results[dstype] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(epe_list)
+
+    <span style="color:#66d9ef">return</span> results
+
+
+<span style="color:#a6e22e">@torch.no_grad</span>()
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">validate_kitti</span>(model, iters<span style="color:#f92672">=</span><span style="color:#ae81ff">24</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34; Peform validation using the KITTI-2015 (train) split &#34;&#34;&#34;</span>
+    output_path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;kitti_submission&#39;</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(output_path):
+        os<span style="color:#f92672">.</span>makedirs(output_path)
+
+    model<span style="color:#f92672">.</span>eval()
+    val_dataset <span style="color:#f92672">=</span> datasets<span style="color:#f92672">.</span>KITTI(split<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;training&#39;</span>)
+
+    out_list, epe_list <span style="color:#f92672">=</span> [], []
+    <span style="color:#66d9ef">for</span> val_id <span style="color:#f92672">in</span> range(len(val_dataset)):
+        <span style="color:#75715e"># image1, image2, flow_gt, valid_gt = val_dataset[val_id]</span>
+        image1, image2, flow_gt, valid_gt, frame1, frame2 <span style="color:#f92672">=</span> val_dataset[val_id]
+        image1 <span style="color:#f92672">=</span> image1[None]<span style="color:#f92672">.</span>cuda()
+        image2 <span style="color:#f92672">=</span> image2[None]<span style="color:#f92672">.</span>cuda()
+
+        padder <span style="color:#f92672">=</span> InputPadder(image1<span style="color:#f92672">.</span>shape, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;kitti&#39;</span>)
+        image1, image2 <span style="color:#f92672">=</span> padder<span style="color:#f92672">.</span>pad(image1, image2)
+
+        flow_low, flow_pr <span style="color:#f92672">=</span> model(image1, image2, flow_gt, \
+          frame1<span style="color:#f92672">=</span>frame1, frame2<span style="color:#f92672">=</span>frame2, \
+          iters<span style="color:#f92672">=</span>iters, test_mode<span style="color:#f92672">=</span>True)
+
+        flow <span style="color:#f92672">=</span> padder<span style="color:#f92672">.</span>unpad(flow_pr[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">.</span>cpu()
+        viz(image1[:, :, :<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, :<span style="color:#f92672">-</span><span style="color:#ae81ff">6</span>], [flow], val_id)
+        <span style="color:#75715e"># output_filename = os.path.join(output_path, str(val_id)+&#39;.flo&#39;)</span>
+        <span style="color:#75715e"># frame_utils.writeFlow(output_filename, flow)</span>
+        epe <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>sum((flow <span style="color:#f92672">-</span> flow_gt)<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>, dim<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sqrt()
+        mag <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>sum(flow_gt<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>, dim<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sqrt()
+
+        epe <span style="color:#f92672">=</span> epe<span style="color:#f92672">.</span>view(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+        mag <span style="color:#f92672">=</span> mag<span style="color:#f92672">.</span>view(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+        val <span style="color:#f92672">=</span> valid_gt<span style="color:#f92672">.</span>view(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0.5</span>
+
+        out <span style="color:#f92672">=</span> ((epe <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">3.0</span>) <span style="color:#f92672">&amp;</span> ((epe<span style="color:#f92672">/</span>mag) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.05</span>))<span style="color:#f92672">.</span>float()
+        epe_list<span style="color:#f92672">.</span>append(epe[val]<span style="color:#f92672">.</span>mean()<span style="color:#f92672">.</span>item())
+        out_list<span style="color:#f92672">.</span>append(out[val]<span style="color:#f92672">.</span>cpu()<span style="color:#f92672">.</span>numpy())
+
+    epe_list <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(epe_list)
+    out_list <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>concatenate(out_list)
+
+    epe <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(epe_list)
+    f1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>mean(out_list)
+
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Validation KITTI: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">, </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (epe, f1))
+    <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#39;kitti-epe&#39;</span>: epe, <span style="color:#e6db74">&#39;kitti-f1&#39;</span>: f1}
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    parser <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser()
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--model&#39;</span>,default<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/workspace/UnSupRAFT/models/raft-kitti.pth&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;restore checkpoint&#34;</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--dataset&#39;</span>, default<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;kitti&#39;</span> ,help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dataset for evaluation&#34;</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--small&#39;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;store_true&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;use small model&#39;</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--mixed_precision&#39;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;store_true&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;use mixed precision&#39;</span>)
+    parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--alternate_corr&#39;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;store_true&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;use efficent correlation implementation&#39;</span>)
+    args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
+
+    model <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>DataParallel(RAFT(args))
+    model<span style="color:#f92672">.</span>load_state_dict(torch<span style="color:#f92672">.</span>load(args<span style="color:#f92672">.</span>model))
+
+    model<span style="color:#f92672">.</span>cuda()
+    model<span style="color:#f92672">.</span>eval()
+
+    <span style="color:#75715e"># create_sintel_submission(model.module, warm_start=True)</span>
+    <span style="color:#75715e"># create_kitti_submission(model.module)</span>
+
+    <span style="color:#66d9ef">with</span> torch<span style="color:#f92672">.</span>no_grad():
+        <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>dataset <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;chairs&#39;</span>:
+            validate_chairs(model<span style="color:#f92672">.</span>module)
+
+        <span style="color:#66d9ef">elif</span> args<span style="color:#f92672">.</span>dataset <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;sintel&#39;</span>:
+            validate_sintel(model<span style="color:#f92672">.</span>module)
+
+        <span style="color:#66d9ef">elif</span> args<span style="color:#f92672">.</span>dataset <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;kitti&#39;</span>:
+            validate_kitti(model<span style="color:#f92672">.</span>module)
+</code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://wuyangzz.github.io/">wuyangzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

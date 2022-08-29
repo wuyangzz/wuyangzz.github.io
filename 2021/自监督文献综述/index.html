@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>自监督文献综述 | wuyangzz</title>
+<meta name="keywords" content="">
+<meta name="description" content="综合对比：    paper code Method KITTI 2012 KITTI 2015 Sintel Clean Sintel Final        train test train test(F1-all)   Jason J Y, Harley A W, Derpanis K G. Back to basics: Unsupervised learning of optical flow via brightness constancy and motion smoothness[C]//European Conference on Computer Vision. Springer, Cham, 2016: 3-10. https://github.com/ryersonvisionlab/unsupFlownet BackToBasic 11.3 9.9 – –   Ren Z, Yan J, Ni B, et al.">
+<meta name="author" content="wuyangzz">
+<link rel="canonical" href="https://wuyangzz.github.io/2021/%E8%87%AA%E7%9B%91%E7%9D%A3%E6%96%87%E7%8C%AE%E7%BB%BC%E8%BF%B0/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abc7c82c3d415a6df50430738d1cbcc4c76fea558bc5a0c830d3babf78167a35.css" integrity="sha256-q8fILD1BWm31BDBzjRy8xMdv6lWLxaDIMNO6v3gWejU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://wuyangzz.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://wuyangzz.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://wuyangzz.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://wuyangzz.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://wuyangzz.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="自监督文献综述" />
+<meta property="og:description" content="综合对比：    paper code Method KITTI 2012 KITTI 2015 Sintel Clean Sintel Final        train test train test(F1-all)   Jason J Y, Harley A W, Derpanis K G. Back to basics: Unsupervised learning of optical flow via brightness constancy and motion smoothness[C]//European Conference on Computer Vision. Springer, Cham, 2016: 3-10. https://github.com/ryersonvisionlab/unsupFlownet BackToBasic 11.3 9.9 – –   Ren Z, Yan J, Ni B, et al." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wuyangzz.github.io/2021/%E8%87%AA%E7%9B%91%E7%9D%A3%E6%96%87%E7%8C%AE%E7%BB%BC%E8%BF%B0/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-07-28T15:09:37&#43;08:00" />
+<meta property="article:modified_time" content="2021-07-28T15:09:37&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="自监督文献综述"/>
+<meta name="twitter:description" content="综合对比：    paper code Method KITTI 2012 KITTI 2015 Sintel Clean Sintel Final        train test train test(F1-all)   Jason J Y, Harley A W, Derpanis K G. Back to basics: Unsupervised learning of optical flow via brightness constancy and motion smoothness[C]//European Conference on Computer Vision. Springer, Cham, 2016: 3-10. https://github.com/ryersonvisionlab/unsupFlownet BackToBasic 11.3 9.9 – –   Ren Z, Yan J, Ni B, et al."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://wuyangzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "自监督文献综述",
+      "item": "https://wuyangzz.github.io/2021/%E8%87%AA%E7%9B%91%E7%9D%A3%E6%96%87%E7%8C%AE%E7%BB%BC%E8%BF%B0/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "自监督文献综述",
+  "name": "自监督文献综述",
+  "description": "综合对比：    paper code Method KITTI 2012 KITTI 2015 Sintel Clean Sintel Final        train test train test(F1-all)   Jason J Y, Harley A W, Derpanis K G. Back to basics: Unsupervised learning of optical flow via brightness constancy and motion smoothness[C]//European Conference on Computer Vision. Springer, Cham, 2016: 3-10. https://github.com/ryersonvisionlab/unsupFlownet BackToBasic 11.3 9.9 – –   Ren Z, Yan J, Ni B, et al.",
+  "keywords": [
+    ""
+  ],
+  "articleBody": "综合对比：    paper code Method KITTI 2012 KITTI 2015 Sintel Clean Sintel Final        train test train test(F1-all)   Jason J Y, Harley A W, Derpanis K G. Back to basics: Unsupervised learning of optical flow via brightness constancy and motion smoothness[C]//European Conference on Computer Vision. Springer, Cham, 2016: 3-10. https://github.com/ryersonvisionlab/unsupFlownet BackToBasic 11.3 9.9 – –   Ren Z, Yan J, Ni B, et al. Unsupervised deep learning for optical flow estimation[C]//Thirty-First AAAI Conference on Artificial Intelligence. 2017. https://github.com/sunshinezhe/Dense-Spatial-Transform-Flow DSTFlow 10.43 12.4 16.79 39%   Meister S, Hur J, Roth S. Unflow: Unsupervised learning of optical flow with a bidirectional census loss[C]//Thirty-Second AAAI Conference on Artificial Intelligence. 2018. https://github.com/simonmeister/UnFlow UnFlow 3.29 – 8.1 23.30%   Wang Y, Yang Y, Yang Z, et al. Occlusion aware unsupervised learning of optical flow[C]//Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2018: 4884-4893. – OAFlow 3.55 4.2 8.88 31.20%   Janai J, Guney F, Ranjan A, et al. Unsupervised learning of multi-frame optical flow with occlusions[C]//Proceedings of the European Conference on Computer Vision (ECCV). 2018: 690-706. https://github.com/JJanai/back2future Back2Future – – 6.59 22.94%   Tian L, Tu Z, Zhang D, et al. Unsupervised learning of optical flow with cnn-based non-local filtering[J]. IEEE Transactions on Image Processing, 2020, 29: 8429-8442. – NLFlow 3.02 4.5 6.05 22.75%   Liu P, King I, Lyu M R, et al. Ddflow: Learning optical flow with unlabeled data distillation[C]//Proceedings of the AAAI Conference on Artificial Intelligence. 2019, 33(01): 8770-8777. https://github.com/ppliuboy/DDFlow DDFlow 2.35 3 5.72 14.29%   Zhong Y, Ji P, Wang J, et al. Unsupervised deep epipolar flow for stationary or dynamic scenes[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2019: 12095-12104. https://github.com/yiranzhong/EPIflow （loss functions地址） EpiFlow 2.51 3.4 5.55 16.95%   Liu P, Lyu M, King I, et al. Selflow: Self-supervised learning of optical flow[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2019: 4571-4580. https://github.com/ppliuboy/SelFlow SelFlow 1.69 2.2 4.84 14.19%   Tian L, Tu Z, Zhang D, et al. Unsupervised learning of optical flow with cnn-based non-local filtering[J]. IEEE Transactions on Image Processing, 2020, 29: 8429-8442. – STFlow 1.64 1.9 3.56 13.83%   Liu L, Zhang J, He R, et al. Learning by analogy: Reliable supervision from transformations for unsupervised optical flow estimation[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2020: 6489-6498. https://github.com/lliuz/ARFlow ARFlow 1.44 1.8 2.85 11.80%   Im W, Kim T K, Yoon S E. Unsupervised learning of optical flow with deep feature similarity[C]//European Conference on Computer Vision. Springer, Cham, 2020: 172-188. https://github.com/iwbn/unsupsimflow SimFlow – – 5.19 13.38%   Jonschkowski R, Stone A, Barron J T, et al. What matters in unsupervised optical flow[C]//Computer Vision–ECCV 2020: 16th European Conference, Glasgow, UK, August 23–28, 2020, Proceedings, Part II 16. Springer International Publishing, 2020: 557-572. https://github.com/google-research/google-research/tree/master/uflow UFlow 1.68 1.9 2.71 11.13%   Luo K, Wang C, Liu S, et al. Upflow: Upsampling pyramid for unsupervised optical flow learning[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 1045-1054. https://github.com/coolbeam/UPFlow_pytorch UPFlow 1.27 1.4 2.45 9.38%   Luo K, Luo A, Wang C, et al. ASFlow: Unsupervised Optical Flow Learning with Adaptive Pyramid Sampling[J]. arXiv preprint arXiv:2104.03560, 2021. – ASFlow 1.26 1.5 2.47 9.67%   Li J, Zhao J, Song S, et al. Occlusion aware unsupervised learning of optical flow from video[C]//Thirteenth International Conference on Machine Vision. International Society for Optics and Photonics, 2021, 11605: 116050T. https://github.com/CV-IP/UnOpticalFlow UnOpticalFlow 2.67 7.1 22% –   Luo K, Wang C, Ye N, et al. Occinpflow: Occlusion-inpainting optical flow estimation by unsupervised learning[J]. arXiv preprint arXiv:2006.16637, 2020. https://github.com/coolbeam/OccInpFlow#occinpflow-occlusion-inpainting-optical-flow-estimation-by-unsupervised-learning OccInpFlow 1.78 2.1 4.57 15.20%      研究建议一 ：可以与《Neural-network-based Motion Tracking for Breast Ultrasound Strain Elastography: An Initial Assessment of erformance and Feasibility》文章类似思路。研究并比较上述自监督模型在超声B模式图像上在心动图上的一个数据情况。同时可以使用8个模拟心脏的模型和有限元和超声模拟数据进行验证。训练数据可以直接采用超声B模式的图像。\n  *研究建议二：如果上述具有可行性的话，因为里面如ARFlow模型借鉴了PWC-Net模型的金字塔网络的输入部分。那么就同理可以借鉴RFPWC-Net模型的输入部分。然后改损失函数。实现利用RF数据来作为训练模型的输入，原来使用RF数据训练模型最大的问题就是label不好确定。但是如果采用自监督模型的话就解决了最大的问题。然后两个结合起来应该是效果不错的，但是工作量比较大。后续可以挖掘的空间还很大。是一个很不错的点。\n  ",
+  "wordCount" : "588",
+  "inLanguage": "en",
+  "datePublished": "2021-07-28T15:09:37+08:00",
+  "dateModified": "2021-07-28T15:09:37+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "wuyangzz"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://wuyangzz.github.io/2021/%E8%87%AA%E7%9B%91%E7%9D%A3%E6%96%87%E7%8C%AE%E7%BB%BC%E8%BF%B0/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "wuyangzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://wuyangzz.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://wuyangzz.github.io/" accesskey="h" title="wuyangzz (Alt + H)">wuyangzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://wuyangzz.github.io/posts/" title="博客">
+                    <span>博客</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/about/" title="关于我">
+                    <span>关于我</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      自监督文献综述
+    </h1>
+    <div class="post-meta"><span title='2021-07-28 15:09:37 +0800 CST'>July 28, 2021</span>&nbsp;·&nbsp;wuyangzz
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="综合对比">综合对比：<a hidden class="anchor" aria-hidden="true" href="#综合对比">#</a></h1>
+<table>
+<thead>
+<tr>
+<th>paper</th>
+<th>code</th>
+<th>Method</th>
+<th>KITTI 2012</th>
+<th>KITTI 2015</th>
+<th>Sintel Clean</th>
+<th>Sintel Final</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>train</td>
+<td>test</td>
+<td>train</td>
+<td>test(F1-all)</td>
+</tr>
+<tr>
+<td>Jason J Y, Harley A W, Derpanis K G. Back to basics: Unsupervised learning of optical flow via brightness constancy and motion smoothness[C]//European Conference on Computer Vision. Springer, Cham, 2016: 3-10.</td>
+<td><a href="https://github.com/ryersonvisionlab/unsupFlownet">https://github.com/ryersonvisionlab/unsupFlownet</a></td>
+<td>BackToBasic</td>
+<td>11.3</td>
+<td>9.9</td>
+<td>–</td>
+<td>–</td>
+</tr>
+<tr>
+<td>Ren Z, Yan J, Ni B, et al. Unsupervised deep learning for optical flow estimation[C]//Thirty-First AAAI Conference on Artificial Intelligence. 2017.</td>
+<td><a href="https://github.com/sunshinezhe/Dense-Spatial-Transform-Flow">https://github.com/sunshinezhe/Dense-Spatial-Transform-Flow</a></td>
+<td>DSTFlow</td>
+<td>10.43</td>
+<td>12.4</td>
+<td>16.79</td>
+<td>39%</td>
+</tr>
+<tr>
+<td>Meister S, Hur J, Roth S. Unflow: Unsupervised learning of optical flow with a bidirectional census loss[C]//Thirty-Second AAAI Conference on Artificial Intelligence. 2018.</td>
+<td><a href="https://github.com/simonmeister/UnFlow">https://github.com/simonmeister/UnFlow</a></td>
+<td>UnFlow</td>
+<td>3.29</td>
+<td>–</td>
+<td>8.1</td>
+<td>23.30%</td>
+</tr>
+<tr>
+<td>Wang Y, Yang Y, Yang Z, et al. Occlusion aware unsupervised learning of optical flow[C]//Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2018: 4884-4893.</td>
+<td>–</td>
+<td>OAFlow</td>
+<td>3.55</td>
+<td>4.2</td>
+<td>8.88</td>
+<td>31.20%</td>
+</tr>
+<tr>
+<td>Janai J, Guney F, Ranjan A, et al. Unsupervised learning of multi-frame optical flow with occlusions[C]//Proceedings of the European Conference on Computer Vision (ECCV). 2018: 690-706.</td>
+<td><a href="https://github.com/JJanai/back2future">https://github.com/JJanai/back2future</a></td>
+<td>Back2Future</td>
+<td>–</td>
+<td>–</td>
+<td>6.59</td>
+<td>22.94%</td>
+</tr>
+<tr>
+<td>Tian L, Tu Z, Zhang D, et al. Unsupervised learning of optical flow with cnn-based non-local filtering[J]. IEEE Transactions on Image Processing, 2020, 29: 8429-8442.</td>
+<td>–</td>
+<td>NLFlow</td>
+<td>3.02</td>
+<td>4.5</td>
+<td>6.05</td>
+<td>22.75%</td>
+</tr>
+<tr>
+<td>Liu P, King I, Lyu M R, et al. Ddflow: Learning optical flow with unlabeled data distillation[C]//Proceedings of the AAAI Conference on Artificial Intelligence. 2019, 33(01): 8770-8777.</td>
+<td><a href="https://github.com/ppliuboy/DDFlow">https://github.com/ppliuboy/DDFlow</a></td>
+<td>DDFlow</td>
+<td>2.35</td>
+<td>3</td>
+<td>5.72</td>
+<td>14.29%</td>
+</tr>
+<tr>
+<td>Zhong Y, Ji P, Wang J, et al. Unsupervised deep epipolar flow for stationary or dynamic scenes[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2019: 12095-12104.</td>
+<td><a href="https://github.com/yiranzhong/EPIflow">https://github.com/yiranzhong/EPIflow</a> （loss functions地址）</td>
+<td>EpiFlow</td>
+<td>2.51</td>
+<td>3.4</td>
+<td>5.55</td>
+<td>16.95%</td>
+</tr>
+<tr>
+<td>Liu P, Lyu M, King I, et al. Selflow: Self-supervised learning of optical flow[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2019: 4571-4580.</td>
+<td><a href="https://github.com/ppliuboy/SelFlow">https://github.com/ppliuboy/SelFlow</a></td>
+<td>SelFlow</td>
+<td>1.69</td>
+<td>2.2</td>
+<td>4.84</td>
+<td>14.19%</td>
+</tr>
+<tr>
+<td>Tian L, Tu Z, Zhang D, et al. Unsupervised learning of optical flow with cnn-based non-local filtering[J]. IEEE Transactions on Image Processing, 2020, 29: 8429-8442.</td>
+<td>–</td>
+<td>STFlow</td>
+<td>1.64</td>
+<td>1.9</td>
+<td>3.56</td>
+<td>13.83%</td>
+</tr>
+<tr>
+<td>Liu L, Zhang J, He R, et al. Learning by analogy: Reliable supervision from transformations for unsupervised optical flow estimation[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2020: 6489-6498.</td>
+<td><a href="https://github.com/lliuz/ARFlow">https://github.com/lliuz/ARFlow</a></td>
+<td>ARFlow</td>
+<td>1.44</td>
+<td>1.8</td>
+<td>2.85</td>
+<td>11.80%</td>
+</tr>
+<tr>
+<td>Im W, Kim T K, Yoon S E. Unsupervised learning of optical flow with deep feature similarity[C]//European Conference on Computer Vision. Springer, Cham, 2020: 172-188.</td>
+<td><a href="https://github.com/iwbn/unsupsimflow">https://github.com/iwbn/unsupsimflow</a></td>
+<td>SimFlow</td>
+<td>–</td>
+<td>–</td>
+<td>5.19</td>
+<td>13.38%</td>
+</tr>
+<tr>
+<td>Jonschkowski R, Stone A, Barron J T, et al. What matters in unsupervised optical flow[C]//Computer Vision–ECCV 2020: 16th European Conference, Glasgow, UK, August 23–28, 2020, Proceedings, Part II 16. Springer International Publishing, 2020: 557-572.</td>
+<td><a href="https://github.com/google-research/google-research/tree/master/uflow">https://github.com/google-research/google-research/tree/master/uflow</a></td>
+<td>UFlow</td>
+<td>1.68</td>
+<td>1.9</td>
+<td>2.71</td>
+<td>11.13%</td>
+</tr>
+<tr>
+<td>Luo K, Wang C, Liu S, et al. Upflow: Upsampling pyramid for unsupervised optical flow learning[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 1045-1054.</td>
+<td><a href="https://github.com/coolbeam/UPFlow">https://github.com/coolbeam/UPFlow</a>_pytorch</td>
+<td>UPFlow</td>
+<td>1.27</td>
+<td>1.4</td>
+<td>2.45</td>
+<td>9.38%</td>
+</tr>
+<tr>
+<td>Luo K, Luo A, Wang C, et al. ASFlow: Unsupervised Optical Flow Learning with Adaptive Pyramid Sampling[J]. arXiv preprint arXiv:2104.03560, 2021.</td>
+<td>–</td>
+<td>ASFlow</td>
+<td>1.26</td>
+<td>1.5</td>
+<td>2.47</td>
+<td>9.67%</td>
+</tr>
+<tr>
+<td>Li J, Zhao J, Song S, et al. Occlusion aware unsupervised learning of optical flow from video[C]//Thirteenth International Conference on Machine Vision. International Society for Optics and Photonics, 2021, 11605: 116050T.</td>
+<td><a href="https://github.com/CV-IP/UnOpticalFlow">https://github.com/CV-IP/UnOpticalFlow</a></td>
+<td>UnOpticalFlow</td>
+<td>2.67</td>
+<td>7.1</td>
+<td>22%</td>
+<td>–</td>
+</tr>
+<tr>
+<td>Luo K, Wang C, Ye N, et al. Occinpflow: Occlusion-inpainting optical flow estimation by unsupervised learning[J]. arXiv preprint arXiv:2006.16637, 2020.</td>
+<td><a href="https://github.com/coolbeam/OccInpFlow#occinpflow-occlusion-inpainting-optical-flow-estimation-by-unsupervised-learning">https://github.com/coolbeam/OccInpFlow#occinpflow-occlusion-inpainting-optical-flow-estimation-by-unsupervised-learning</a></td>
+<td>OccInpFlow</td>
+<td>1.78</td>
+<td>2.1</td>
+<td>4.57</td>
+<td>15.20%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p><strong>研究建议一</strong> ：可以与《Neural-network-based Motion Tracking for Breast Ultrasound Strain Elastography: An Initial Assessment of  erformance and Feasibility》文章类似思路。研究并比较上述自监督模型在超声B模式图像上在心动图上的一个数据情况。同时可以使用8个模拟心脏的模型和有限元和超声模拟数据进行验证。训练数据可以直接采用超声B模式的图像。</p>
+</li>
+<li>
+<p>*<strong>研究建议二</strong>：如果上述具有可行性的话，因为里面如ARFlow模型借鉴了PWC-Net模型的金字塔网络的输入部分。那么就同理可以借鉴RFPWC-Net模型的输入部分。然后改损失函数。实现利用RF数据来作为训练模型的输入，原来使用RF数据训练模型最大的问题就是label不好确定。但是如果采用自监督模型的话就解决了最大的问题。然后两个结合起来应该是效果不错的，但是工作量比较大。后续可以挖掘的空间还很大。是一个很不错的点。</p>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://wuyangzz.github.io/">wuyangzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

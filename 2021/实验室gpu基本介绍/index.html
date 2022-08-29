@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>实验室GPU基本介绍 | wuyangzz</title>
+<meta name="keywords" content="GPU">
+<meta name="description" content="背景 ​	实验室利用ESC 4000G2 服务器 32G内存 3T机械硬盘 4张3090显卡搭建GPU服务器。每一张3090峰值功耗为350w，服务器电源为1650w 在四张显卡不同时最高功率的情况下满足基本你的使用条件。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境的话肯定会发生冲突。所有最后经过实际考虑Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。
+解决方案  一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境 主机采用ubuntu或者centos作为宿主主机上的系统。 虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。nvidia-docker 的使用规则和 Docker 是一致的，只需要把命令里的“docker”替换为“nvidia-docker”就可以了。 如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。 可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。 可以使用web界面如Shipyard等来对docker进行GUI管理 NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。 NGC镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。  优势  用户可以方便地登录 用户可以自由安装软件 普通用户无法操作宿主主机 用户可以使用 GPU 资源 用户可以调动任意数量的GPU来共同计算。多人操作的时候也可以每个人指定一个GPU使用。 用户之间互不干扰  ">
+<meta name="author" content="wuyangzz">
+<link rel="canonical" href="https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abc7c82c3d415a6df50430738d1cbcc4c76fea558bc5a0c830d3babf78167a35.css" integrity="sha256-q8fILD1BWm31BDBzjRy8xMdv6lWLxaDIMNO6v3gWejU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://wuyangzz.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://wuyangzz.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://wuyangzz.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://wuyangzz.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://wuyangzz.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="实验室GPU基本介绍" />
+<meta property="og:description" content="背景 ​	实验室利用ESC 4000G2 服务器 32G内存 3T机械硬盘 4张3090显卡搭建GPU服务器。每一张3090峰值功耗为350w，服务器电源为1650w 在四张显卡不同时最高功率的情况下满足基本你的使用条件。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境的话肯定会发生冲突。所有最后经过实际考虑Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。
+解决方案  一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境 主机采用ubuntu或者centos作为宿主主机上的系统。 虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。nvidia-docker 的使用规则和 Docker 是一致的，只需要把命令里的“docker”替换为“nvidia-docker”就可以了。 如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。 可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。 可以使用web界面如Shipyard等来对docker进行GUI管理 NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。 NGC镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。  优势  用户可以方便地登录 用户可以自由安装软件 普通用户无法操作宿主主机 用户可以使用 GPU 资源 用户可以调动任意数量的GPU来共同计算。多人操作的时候也可以每个人指定一个GPU使用。 用户之间互不干扰  " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-01-10T10:40:56&#43;08:00" />
+<meta property="article:modified_time" content="2021-01-10T10:40:56&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="实验室GPU基本介绍"/>
+<meta name="twitter:description" content="背景 ​	实验室利用ESC 4000G2 服务器 32G内存 3T机械硬盘 4张3090显卡搭建GPU服务器。每一张3090峰值功耗为350w，服务器电源为1650w 在四张显卡不同时最高功率的情况下满足基本你的使用条件。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境的话肯定会发生冲突。所有最后经过实际考虑Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。
+解决方案  一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境 主机采用ubuntu或者centos作为宿主主机上的系统。 虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。nvidia-docker 的使用规则和 Docker 是一致的，只需要把命令里的“docker”替换为“nvidia-docker”就可以了。 如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。 可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。 可以使用web界面如Shipyard等来对docker进行GUI管理 NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。 NGC镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。  优势  用户可以方便地登录 用户可以自由安装软件 普通用户无法操作宿主主机 用户可以使用 GPU 资源 用户可以调动任意数量的GPU来共同计算。多人操作的时候也可以每个人指定一个GPU使用。 用户之间互不干扰  "/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://wuyangzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "实验室GPU基本介绍",
+      "item": "https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "实验室GPU基本介绍",
+  "name": "实验室GPU基本介绍",
+  "description": "背景 ​\t实验室利用ESC 4000G2 服务器 32G内存 3T机械硬盘 4张3090显卡搭建GPU服务器。每一张3090峰值功耗为350w，服务器电源为1650w 在四张显卡不同时最高功率的情况下满足基本你的使用条件。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境的话肯定会发生冲突。所有最后经过实际考虑Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。\n解决方案  一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境 主机采用ubuntu或者centos作为宿主主机上的系统。 虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。nvidia-docker 的使用规则和 Docker 是一致的，只需要把命令里的“docker”替换为“nvidia-docker”就可以了。 如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。 可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。 可以使用web界面如Shipyard等来对docker进行GUI管理 NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。 NGC镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。  优势  用户可以方便地登录 用户可以自由安装软件 普通用户无法操作宿主主机 用户可以使用 GPU 资源 用户可以调动任意数量的GPU来共同计算。多人操作的时候也可以每个人指定一个GPU使用。 用户之间互不干扰  ",
+  "keywords": [
+    "GPU"
+  ],
+  "articleBody": "背景 ​\t实验室利用ESC 4000G2 服务器 32G内存 3T机械硬盘 4张3090显卡搭建GPU服务器。每一张3090峰值功耗为350w，服务器电源为1650w 在四张显卡不同时最高功率的情况下满足基本你的使用条件。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境的话肯定会发生冲突。所有最后经过实际考虑Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。\n解决方案  一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境 主机采用ubuntu或者centos作为宿主主机上的系统。 虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。nvidia-docker 的使用规则和 Docker 是一致的，只需要把命令里的“docker”替换为“nvidia-docker”就可以了。 如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。 可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。 可以使用web界面如Shipyard等来对docker进行GUI管理 NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。 NGC镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。  优势  用户可以方便地登录 用户可以自由安装软件 普通用户无法操作宿主主机 用户可以使用 GPU 资源 用户可以调动任意数量的GPU来共同计算。多人操作的时候也可以每个人指定一个GPU使用。 用户之间互不干扰  ",
+  "wordCount" : "41",
+  "inLanguage": "en",
+  "datePublished": "2021-01-10T10:40:56+08:00",
+  "dateModified": "2021-01-10T10:40:56+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "wuyangzz"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "wuyangzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://wuyangzz.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://wuyangzz.github.io/" accesskey="h" title="wuyangzz (Alt + H)">wuyangzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://wuyangzz.github.io/posts/" title="博客">
+                    <span>博客</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/about/" title="关于我">
+                    <span>关于我</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      实验室GPU基本介绍
+    </h1>
+    <div class="post-meta"><span title='2021-01-10 10:40:56 +0800 CST'>January 10, 2021</span>&nbsp;·&nbsp;wuyangzz
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="背景">背景<a hidden class="anchor" aria-hidden="true" href="#背景">#</a></h1>
+<p>​	实验室利用ESC 4000G2 服务器 32G内存 3T机械硬盘 4张3090显卡搭建GPU服务器。每一张3090峰值功耗为350w，服务器电源为1650w 在四张显卡不同时最高功率的情况下满足基本你的使用条件。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境的话肯定会发生冲突。所有最后经过实际考虑Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。</p>
+<h1 id="解决方案">解决方案<a hidden class="anchor" aria-hidden="true" href="#解决方案">#</a></h1>
+<ul>
+<li>一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境</li>
+<li>主机采用ubuntu或者centos作为宿主主机上的系统。</li>
+<li>虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。nvidia-docker 的使用规则和 Docker 是一致的，只需要把命令里的“docker”替换为“nvidia-docker”就可以了。</li>
+<li>如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。</li>
+<li>可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。</li>
+<li>可以使用web界面如Shipyard等来对docker进行GUI管理</li>
+<li>NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。</li>
+<li>NGC镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。</li>
+</ul>
+<h1 id="优势">优势<a hidden class="anchor" aria-hidden="true" href="#优势">#</a></h1>
+<ul>
+<li>用户可以方便地登录</li>
+<li>用户可以自由安装软件</li>
+<li>普通用户无法操作宿主主机</li>
+<li>用户可以使用 GPU 资源</li>
+<li>用户可以调动任意数量的GPU来共同计算。多人操作的时候也可以每个人指定一个GPU使用。</li>
+<li>用户之间互不干扰</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://wuyangzz.github.io/tags/gpu/">GPU</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://wuyangzz.github.io/">wuyangzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

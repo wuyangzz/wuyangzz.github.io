@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>稀疏表示和字典学习 | wuyangzz</title>
+<meta name="keywords" content="">
+<meta name="description" content="1、什么是稀疏表示 官方的说法：任意一个信号都可以在一个过完备字典上稀疏线性表出。这样，一个信号被分解为有限个信号的线形组合的形式我们称之为稀疏表示。 $$y = Dα s.t.||α||0 &lt; σ$$ 其中y就表示任意信号，D表示过完备字典，α表示系数矩阵，Dα就是二者的点乘，s.t.表示subject to的缩写，我们所说的稀疏就是α中非零系数的数量很少，即绝大部分α中的系数都为0，如何用数学公式约束呢？就是||α||0 &lt; σ，其中小于符号前一部分是α的第0范数，所谓范数就是距离的一种，现实中的A到B的距离就是第二范数，α的第0范数指的是α中非零元数的数量，整体来说就是α中非零元素的数量之和小于一个约定好的数σ。
+1.1、稀疏 首先我们说到中国古典四大名著之一的《红楼梦》，全篇120回，一共用了731,017个汉字。新华字典是我们每个人小学都人手必备的工具书，共收录了11,200个汉字，虽然二者字数相差了将近70倍，但我们每个人都知道，《红楼梦》中出现的每一个汉字都能从《新华字典》里找到，并且如果大家仔细想想的话，《红楼梦》一定没有用完一本《新华字典》中收录的每一个汉字，综上我们可以说：一套《红楼梦》中所有的汉字都能在《新华字典》中找到，并且《新华字典》中一定有《红楼梦》没用到的汉字。
+基于这个例子我们把“能找到”翻译成线性表示，把“一定有没用过的字”翻译成稀疏，这样的话是不是对我们文章开始所提到的定义有一点理解。
+你怎么能从人群中认出你最好的朋友，你怎么能在很多年不见之后一眼就认出你的年轻时候的朋友？这时候有的朋友可能会说啦，“因为他下巴这有颗痣”，“因为他鼻子特别大”，“因为他秃啦”，等等。这些都对，我们可总结一下，我们只需要记住特定的几个专属于朋友的特征就能认出你的朋友，因为一张脸上有无数的东西可以记住，用掉书袋的话说，脸是连续的，有无数个特征，但你只需要记住很少的特征你就能认出你的朋友。那么这样的问题我们同样用上面的话总结一下：只需要从脸上找到有限个标志特征就能识别出一个人。同样的我们将“识别出人”看作是线形表出，“有限个”说成稀疏，这也是我们一开始提到的那句话一种理解。
+这一次我们加深一步，我们将上一句话换个说法：人脸在面部特征识别的空间中是稀疏的。说白了也是同一个意思，面部特征识别空间就是我要认出一个人，也就是说我想认出一个人只需要有限个特征，而这有限个特征相较于拥有无限特征的脸来说，是稀疏的。这样将第一个例子扩张，也就变成了：任意一本中文书在《新华字典》的收录汉字空间中是稀疏的。然后我们自然推广（高中数学知识），假设存在这样一个信号的字典，它也像《新华字典》一样收录了各种基本信号，那么我们也能说：任意一个信号都是这个信号字典中基本信号组合而成，并且任意一个信号不会用到其中的每一个基信号。抑或是：信号在信号字典的特征空间内是稀疏的。这就是本文一开始提到的定义的通俗理解。
+1.2、过完备 过完备的意思就是字典中信号的个数要远远大于信号的长度。其实过完备和稀疏是相辅相成的，只有m足够大，才能实现只用极少的原子表示一个信号。">
+<meta name="author" content="wuyangzz">
+<link rel="canonical" href="https://wuyangzz.github.io/2021/%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%AD%97%E5%85%B8%E5%AD%A6%E4%B9%A0/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abc7c82c3d415a6df50430738d1cbcc4c76fea558bc5a0c830d3babf78167a35.css" integrity="sha256-q8fILD1BWm31BDBzjRy8xMdv6lWLxaDIMNO6v3gWejU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://wuyangzz.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://wuyangzz.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://wuyangzz.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://wuyangzz.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://wuyangzz.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="稀疏表示和字典学习" />
+<meta property="og:description" content="1、什么是稀疏表示 官方的说法：任意一个信号都可以在一个过完备字典上稀疏线性表出。这样，一个信号被分解为有限个信号的线形组合的形式我们称之为稀疏表示。 $$y = Dα s.t.||α||0 &lt; σ$$ 其中y就表示任意信号，D表示过完备字典，α表示系数矩阵，Dα就是二者的点乘，s.t.表示subject to的缩写，我们所说的稀疏就是α中非零系数的数量很少，即绝大部分α中的系数都为0，如何用数学公式约束呢？就是||α||0 &lt; σ，其中小于符号前一部分是α的第0范数，所谓范数就是距离的一种，现实中的A到B的距离就是第二范数，α的第0范数指的是α中非零元数的数量，整体来说就是α中非零元素的数量之和小于一个约定好的数σ。
+1.1、稀疏 首先我们说到中国古典四大名著之一的《红楼梦》，全篇120回，一共用了731,017个汉字。新华字典是我们每个人小学都人手必备的工具书，共收录了11,200个汉字，虽然二者字数相差了将近70倍，但我们每个人都知道，《红楼梦》中出现的每一个汉字都能从《新华字典》里找到，并且如果大家仔细想想的话，《红楼梦》一定没有用完一本《新华字典》中收录的每一个汉字，综上我们可以说：一套《红楼梦》中所有的汉字都能在《新华字典》中找到，并且《新华字典》中一定有《红楼梦》没用到的汉字。
+基于这个例子我们把“能找到”翻译成线性表示，把“一定有没用过的字”翻译成稀疏，这样的话是不是对我们文章开始所提到的定义有一点理解。
+你怎么能从人群中认出你最好的朋友，你怎么能在很多年不见之后一眼就认出你的年轻时候的朋友？这时候有的朋友可能会说啦，“因为他下巴这有颗痣”，“因为他鼻子特别大”，“因为他秃啦”，等等。这些都对，我们可总结一下，我们只需要记住特定的几个专属于朋友的特征就能认出你的朋友，因为一张脸上有无数的东西可以记住，用掉书袋的话说，脸是连续的，有无数个特征，但你只需要记住很少的特征你就能认出你的朋友。那么这样的问题我们同样用上面的话总结一下：只需要从脸上找到有限个标志特征就能识别出一个人。同样的我们将“识别出人”看作是线形表出，“有限个”说成稀疏，这也是我们一开始提到的那句话一种理解。
+这一次我们加深一步，我们将上一句话换个说法：人脸在面部特征识别的空间中是稀疏的。说白了也是同一个意思，面部特征识别空间就是我要认出一个人，也就是说我想认出一个人只需要有限个特征，而这有限个特征相较于拥有无限特征的脸来说，是稀疏的。这样将第一个例子扩张，也就变成了：任意一本中文书在《新华字典》的收录汉字空间中是稀疏的。然后我们自然推广（高中数学知识），假设存在这样一个信号的字典，它也像《新华字典》一样收录了各种基本信号，那么我们也能说：任意一个信号都是这个信号字典中基本信号组合而成，并且任意一个信号不会用到其中的每一个基信号。抑或是：信号在信号字典的特征空间内是稀疏的。这就是本文一开始提到的定义的通俗理解。
+1.2、过完备 过完备的意思就是字典中信号的个数要远远大于信号的长度。其实过完备和稀疏是相辅相成的，只有m足够大，才能实现只用极少的原子表示一个信号。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wuyangzz.github.io/2021/%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%AD%97%E5%85%B8%E5%AD%A6%E4%B9%A0/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-19T17:31:43&#43;08:00" />
+<meta property="article:modified_time" content="2021-03-19T17:31:43&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="稀疏表示和字典学习"/>
+<meta name="twitter:description" content="1、什么是稀疏表示 官方的说法：任意一个信号都可以在一个过完备字典上稀疏线性表出。这样，一个信号被分解为有限个信号的线形组合的形式我们称之为稀疏表示。 $$y = Dα s.t.||α||0 &lt; σ$$ 其中y就表示任意信号，D表示过完备字典，α表示系数矩阵，Dα就是二者的点乘，s.t.表示subject to的缩写，我们所说的稀疏就是α中非零系数的数量很少，即绝大部分α中的系数都为0，如何用数学公式约束呢？就是||α||0 &lt; σ，其中小于符号前一部分是α的第0范数，所谓范数就是距离的一种，现实中的A到B的距离就是第二范数，α的第0范数指的是α中非零元数的数量，整体来说就是α中非零元素的数量之和小于一个约定好的数σ。
+1.1、稀疏 首先我们说到中国古典四大名著之一的《红楼梦》，全篇120回，一共用了731,017个汉字。新华字典是我们每个人小学都人手必备的工具书，共收录了11,200个汉字，虽然二者字数相差了将近70倍，但我们每个人都知道，《红楼梦》中出现的每一个汉字都能从《新华字典》里找到，并且如果大家仔细想想的话，《红楼梦》一定没有用完一本《新华字典》中收录的每一个汉字，综上我们可以说：一套《红楼梦》中所有的汉字都能在《新华字典》中找到，并且《新华字典》中一定有《红楼梦》没用到的汉字。
+基于这个例子我们把“能找到”翻译成线性表示，把“一定有没用过的字”翻译成稀疏，这样的话是不是对我们文章开始所提到的定义有一点理解。
+你怎么能从人群中认出你最好的朋友，你怎么能在很多年不见之后一眼就认出你的年轻时候的朋友？这时候有的朋友可能会说啦，“因为他下巴这有颗痣”，“因为他鼻子特别大”，“因为他秃啦”，等等。这些都对，我们可总结一下，我们只需要记住特定的几个专属于朋友的特征就能认出你的朋友，因为一张脸上有无数的东西可以记住，用掉书袋的话说，脸是连续的，有无数个特征，但你只需要记住很少的特征你就能认出你的朋友。那么这样的问题我们同样用上面的话总结一下：只需要从脸上找到有限个标志特征就能识别出一个人。同样的我们将“识别出人”看作是线形表出，“有限个”说成稀疏，这也是我们一开始提到的那句话一种理解。
+这一次我们加深一步，我们将上一句话换个说法：人脸在面部特征识别的空间中是稀疏的。说白了也是同一个意思，面部特征识别空间就是我要认出一个人，也就是说我想认出一个人只需要有限个特征，而这有限个特征相较于拥有无限特征的脸来说，是稀疏的。这样将第一个例子扩张，也就变成了：任意一本中文书在《新华字典》的收录汉字空间中是稀疏的。然后我们自然推广（高中数学知识），假设存在这样一个信号的字典，它也像《新华字典》一样收录了各种基本信号，那么我们也能说：任意一个信号都是这个信号字典中基本信号组合而成，并且任意一个信号不会用到其中的每一个基信号。抑或是：信号在信号字典的特征空间内是稀疏的。这就是本文一开始提到的定义的通俗理解。
+1.2、过完备 过完备的意思就是字典中信号的个数要远远大于信号的长度。其实过完备和稀疏是相辅相成的，只有m足够大，才能实现只用极少的原子表示一个信号。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://wuyangzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "稀疏表示和字典学习",
+      "item": "https://wuyangzz.github.io/2021/%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%AD%97%E5%85%B8%E5%AD%A6%E4%B9%A0/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "稀疏表示和字典学习",
+  "name": "稀疏表示和字典学习",
+  "description": "1、什么是稀疏表示 官方的说法：任意一个信号都可以在一个过完备字典上稀疏线性表出。这样，一个信号被分解为有限个信号的线形组合的形式我们称之为稀疏表示。 $$y = Dα s.t.||α||0 \u0026lt; σ$$ 其中y就表示任意信号，D表示过完备字典，α表示系数矩阵，Dα就是二者的点乘，s.t.表示subject to的缩写，我们所说的稀疏就是α中非零系数的数量很少，即绝大部分α中的系数都为0，如何用数学公式约束呢？就是||α||0 \u0026lt; σ，其中小于符号前一部分是α的第0范数，所谓范数就是距离的一种，现实中的A到B的距离就是第二范数，α的第0范数指的是α中非零元数的数量，整体来说就是α中非零元素的数量之和小于一个约定好的数σ。\n1.1、稀疏 首先我们说到中国古典四大名著之一的《红楼梦》，全篇120回，一共用了731,017个汉字。新华字典是我们每个人小学都人手必备的工具书，共收录了11,200个汉字，虽然二者字数相差了将近70倍，但我们每个人都知道，《红楼梦》中出现的每一个汉字都能从《新华字典》里找到，并且如果大家仔细想想的话，《红楼梦》一定没有用完一本《新华字典》中收录的每一个汉字，综上我们可以说：一套《红楼梦》中所有的汉字都能在《新华字典》中找到，并且《新华字典》中一定有《红楼梦》没用到的汉字。\n基于这个例子我们把“能找到”翻译成线性表示，把“一定有没用过的字”翻译成稀疏，这样的话是不是对我们文章开始所提到的定义有一点理解。\n你怎么能从人群中认出你最好的朋友，你怎么能在很多年不见之后一眼就认出你的年轻时候的朋友？这时候有的朋友可能会说啦，“因为他下巴这有颗痣”，“因为他鼻子特别大”，“因为他秃啦”，等等。这些都对，我们可总结一下，我们只需要记住特定的几个专属于朋友的特征就能认出你的朋友，因为一张脸上有无数的东西可以记住，用掉书袋的话说，脸是连续的，有无数个特征，但你只需要记住很少的特征你就能认出你的朋友。那么这样的问题我们同样用上面的话总结一下：只需要从脸上找到有限个标志特征就能识别出一个人。同样的我们将“识别出人”看作是线形表出，“有限个”说成稀疏，这也是我们一开始提到的那句话一种理解。\n这一次我们加深一步，我们将上一句话换个说法：人脸在面部特征识别的空间中是稀疏的。说白了也是同一个意思，面部特征识别空间就是我要认出一个人，也就是说我想认出一个人只需要有限个特征，而这有限个特征相较于拥有无限特征的脸来说，是稀疏的。这样将第一个例子扩张，也就变成了：任意一本中文书在《新华字典》的收录汉字空间中是稀疏的。然后我们自然推广（高中数学知识），假设存在这样一个信号的字典，它也像《新华字典》一样收录了各种基本信号，那么我们也能说：任意一个信号都是这个信号字典中基本信号组合而成，并且任意一个信号不会用到其中的每一个基信号。抑或是：信号在信号字典的特征空间内是稀疏的。这就是本文一开始提到的定义的通俗理解。\n1.2、过完备 过完备的意思就是字典中信号的个数要远远大于信号的长度。其实过完备和稀疏是相辅相成的，只有m足够大，才能实现只用极少的原子表示一个信号。",
+  "keywords": [
+    ""
+  ],
+  "articleBody": "1、什么是稀疏表示 官方的说法：任意一个信号都可以在一个过完备字典上稀疏线性表出。这样，一个信号被分解为有限个信号的线形组合的形式我们称之为稀疏表示。 $$y = Dα s.t.||α||0 1.1、稀疏 首先我们说到中国古典四大名著之一的《红楼梦》，全篇120回，一共用了731,017个汉字。新华字典是我们每个人小学都人手必备的工具书，共收录了11,200个汉字，虽然二者字数相差了将近70倍，但我们每个人都知道，《红楼梦》中出现的每一个汉字都能从《新华字典》里找到，并且如果大家仔细想想的话，《红楼梦》一定没有用完一本《新华字典》中收录的每一个汉字，综上我们可以说：一套《红楼梦》中所有的汉字都能在《新华字典》中找到，并且《新华字典》中一定有《红楼梦》没用到的汉字。\n基于这个例子我们把“能找到”翻译成线性表示，把“一定有没用过的字”翻译成稀疏，这样的话是不是对我们文章开始所提到的定义有一点理解。\n你怎么能从人群中认出你最好的朋友，你怎么能在很多年不见之后一眼就认出你的年轻时候的朋友？这时候有的朋友可能会说啦，“因为他下巴这有颗痣”，“因为他鼻子特别大”，“因为他秃啦”，等等。这些都对，我们可总结一下，我们只需要记住特定的几个专属于朋友的特征就能认出你的朋友，因为一张脸上有无数的东西可以记住，用掉书袋的话说，脸是连续的，有无数个特征，但你只需要记住很少的特征你就能认出你的朋友。那么这样的问题我们同样用上面的话总结一下：只需要从脸上找到有限个标志特征就能识别出一个人。同样的我们将“识别出人”看作是线形表出，“有限个”说成稀疏，这也是我们一开始提到的那句话一种理解。\n这一次我们加深一步，我们将上一句话换个说法：人脸在面部特征识别的空间中是稀疏的。说白了也是同一个意思，面部特征识别空间就是我要认出一个人，也就是说我想认出一个人只需要有限个特征，而这有限个特征相较于拥有无限特征的脸来说，是稀疏的。这样将第一个例子扩张，也就变成了：任意一本中文书在《新华字典》的收录汉字空间中是稀疏的。然后我们自然推广（高中数学知识），假设存在这样一个信号的字典，它也像《新华字典》一样收录了各种基本信号，那么我们也能说：任意一个信号都是这个信号字典中基本信号组合而成，并且任意一个信号不会用到其中的每一个基信号。抑或是：信号在信号字典的特征空间内是稀疏的。这就是本文一开始提到的定义的通俗理解。\n1.2、过完备 过完备的意思就是字典中信号的个数要远远大于信号的长度。其实过完备和稀疏是相辅相成的，只有m足够大，才能实现只用极少的原子表示一个信号。\n",
+  "wordCount" : "19",
+  "inLanguage": "en",
+  "datePublished": "2021-03-19T17:31:43+08:00",
+  "dateModified": "2021-03-19T17:31:43+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "wuyangzz"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://wuyangzz.github.io/2021/%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%AD%97%E5%85%B8%E5%AD%A6%E4%B9%A0/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "wuyangzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://wuyangzz.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://wuyangzz.github.io/" accesskey="h" title="wuyangzz (Alt + H)">wuyangzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://wuyangzz.github.io/posts/" title="博客">
+                    <span>博客</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/about/" title="关于我">
+                    <span>关于我</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      稀疏表示和字典学习
+    </h1>
+    <div class="post-meta"><span title='2021-03-19 17:31:43 +0800 CST'>March 19, 2021</span>&nbsp;·&nbsp;wuyangzz
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="1什么是稀疏表示">1、什么是稀疏表示<a hidden class="anchor" aria-hidden="true" href="#1什么是稀疏表示">#</a></h1>
+<p>官方的说法：任意一个信号都可以在一个过完备字典上稀疏线性表出。这样，一个信号被分解为有限个信号的线形组合的形式我们称之为稀疏表示。
+$$y = Dα s.t.||α||0 &lt; σ$$
+其中y就表示任意信号，D表示过完备字典，α表示系数矩阵，Dα就是二者的点乘，s.t.表示subject to的缩写，我们所说的稀疏就是α中非零系数的数量很少，即绝大部分α中的系数都为0，如何用数学公式约束呢？就是||α||0 &lt; σ，其中小于符号前一部分是α的第0范数，所谓范数就是距离的一种，现实中的A到B的距离就是第二范数，α的第0范数指的是α中非零元数的数量，整体来说就是α中非零元素的数量之和小于一个约定好的数σ。</p>
+<h2 id="11稀疏">1.1、稀疏<a hidden class="anchor" aria-hidden="true" href="#11稀疏">#</a></h2>
+<p>首先我们说到中国古典四大名著之一的《红楼梦》，全篇120回，一共用了731,017个汉字。新华字典是我们每个人小学都人手必备的工具书，共收录了11,200个汉字，虽然二者字数相差了将近70倍，但我们每个人都知道，《红楼梦》中出现的每一个汉字都能从《新华字典》里找到，并且如果大家仔细想想的话，《红楼梦》一定没有用完一本《新华字典》中收录的每一个汉字，综上我们可以说：一套《红楼梦》中所有的汉字都能在《新华字典》中找到，并且《新华字典》中一定有《红楼梦》没用到的汉字。</p>
+<p>基于这个例子我们把“能找到”翻译成线性表示，把“一定有没用过的字”翻译成<strong>稀疏</strong>，这样的话是不是对我们文章开始所提到的定义有一点理解。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/wuyangzz/blog_image/main/svd.jpg" alt="svd"  />
+
+你怎么能从人群中认出你最好的朋友，你怎么能在很多年不见之后一眼就认出你的年轻时候的朋友？这时候有的朋友可能会说啦，“因为他下巴这有颗痣”，“因为他鼻子特别大”，“因为他秃啦”，等等。这些都对，我们可总结一下，我们只需要记住特定的几个专属于朋友的特征就能认出你的朋友，因为一张脸上有无数的东西可以记住，用掉书袋的话说，脸是连续的，有无数个特征，但你只需要记住很少的特征你就能认出你的朋友。那么这样的问题我们同样用上面的话总结一下：只需要从脸上找到有限个标志特征就能识别出一个人。同样的我们将“识别出人”看作是线形表出，“有限个”说成<strong>稀疏</strong>，这也是我们一开始提到的那句话一种理解。</p>
+<p>这一次我们加深一步，我们将上一句话换个说法：人脸在面部特征识别的空间中是<strong>稀疏</strong>的。说白了也是同一个意思，面部特征识别空间就是我要认出一个人，也就是说我想认出一个人只需要有限个特征，而这有限个特征相较于拥有无限特征的脸来说，是<strong>稀疏</strong>的。这样将第一个例子扩张，也就变成了：任意一本中文书在《新华字典》的收录汉字空间中是<strong>稀疏</strong>的。然后我们自然推广（高中数学知识），假设存在这样一个信号的字典，它也像《新华字典》一样收录了各种基本信号，那么我们也能说：任意一个信号都是这个信号字典中基本信号组合而成，并且任意一个信号不会用到其中的每一个基信号。抑或是：信号在信号字典的特征空间内是<strong>稀疏</strong>的。这就是本文一开始提到的定义的通俗理解。</p>
+<h2 id="12过完备">1.2、过完备<a hidden class="anchor" aria-hidden="true" href="#12过完备">#</a></h2>
+<p>过完备的意思就是字典中信号的个数要远远大于信号的长度。其实过完备和稀疏是相辅相成的，只有m足够大，才能实现只用极少的原子表示一个信号。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://wuyangzz.github.io/">wuyangzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

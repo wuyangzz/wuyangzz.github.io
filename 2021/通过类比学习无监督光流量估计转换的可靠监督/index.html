@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>通过类比学习：无监督光流量估计转换的可靠监督 | wuyangzz</title>
+<meta name="keywords" content="">
+<meta name="description" content="CVPR文章  Occlusion Aware Unsupervised Learning of Optical Flow  @misc{wang2018occlusion, title={Occlusion Aware Unsupervised Learning of Optical Flow}, author={Yang Wang and Yi Yang and Zhenheng Yang and Liang Zhao and Peng Wang and Wei Xu}, year={2018}, eprint={1711.05890}, archivePrefix={arXiv}, primaryClass={cs.CV} } 分别求出前向光流和后向光流，通过前向光流进行重建后向光流 $\widetilde{I}_1$ 向后流用于通过前向翘曲产生遮挡贴图$（O）$ photometric loss 光度损失：相当于求两个图片中所有点的相似性。 smoothness loss 正则化平滑：仅基于光度损失的无监督学习对于无纹理的地方是模糊的。减少模糊度最常用的方法就是平滑正则化smoothness loss函数。 文章提高了一种端到端的无监督学习框架，可以训练为标记视频的光流信息。主要参考了FlowNets模型，做出了一定的改进。
+可用思路:将FlowNets模型用于我们实验室的PWC-Net模型。其他地方基本可以不用做改变。可以看看后面其他论文改进的部分。
+ Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation  @inproceedings{liu2020learning, title = {Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation}, author = {Liu, Liang and Zhang, Jiangning and He, Ruifei and Liu, Yong and Wang, Yabiao and Tai, Ying and Luo, Donghao and Wang, Chengjie and Li, Jilin and Huang, Feiyue}, booktitle = {IEEE Conference on Computer Vision and Pattern Recognition(CVPR)}, year = {2020} } 和上一个网络有一定的差别 以PWC-Net 网络图： 成功在自己笔记本上实现部署模型并且测试代码： 模型部署比较麻烦。需要在cuda9.">
+<meta name="author" content="wuyangzz">
+<link rel="canonical" href="https://wuyangzz.github.io/2021/%E9%80%9A%E8%BF%87%E7%B1%BB%E6%AF%94%E5%AD%A6%E4%B9%A0%E6%97%A0%E7%9B%91%E7%9D%A3%E5%85%89%E6%B5%81%E9%87%8F%E4%BC%B0%E8%AE%A1%E8%BD%AC%E6%8D%A2%E7%9A%84%E5%8F%AF%E9%9D%A0%E7%9B%91%E7%9D%A3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abc7c82c3d415a6df50430738d1cbcc4c76fea558bc5a0c830d3babf78167a35.css" integrity="sha256-q8fILD1BWm31BDBzjRy8xMdv6lWLxaDIMNO6v3gWejU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://wuyangzz.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://wuyangzz.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://wuyangzz.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://wuyangzz.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://wuyangzz.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="通过类比学习：无监督光流量估计转换的可靠监督" />
+<meta property="og:description" content="CVPR文章  Occlusion Aware Unsupervised Learning of Optical Flow  @misc{wang2018occlusion, title={Occlusion Aware Unsupervised Learning of Optical Flow}, author={Yang Wang and Yi Yang and Zhenheng Yang and Liang Zhao and Peng Wang and Wei Xu}, year={2018}, eprint={1711.05890}, archivePrefix={arXiv}, primaryClass={cs.CV} } 分别求出前向光流和后向光流，通过前向光流进行重建后向光流 $\widetilde{I}_1$ 向后流用于通过前向翘曲产生遮挡贴图$（O）$ photometric loss 光度损失：相当于求两个图片中所有点的相似性。 smoothness loss 正则化平滑：仅基于光度损失的无监督学习对于无纹理的地方是模糊的。减少模糊度最常用的方法就是平滑正则化smoothness loss函数。 文章提高了一种端到端的无监督学习框架，可以训练为标记视频的光流信息。主要参考了FlowNets模型，做出了一定的改进。
+可用思路:将FlowNets模型用于我们实验室的PWC-Net模型。其他地方基本可以不用做改变。可以看看后面其他论文改进的部分。
+ Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation  @inproceedings{liu2020learning, title = {Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation}, author = {Liu, Liang and Zhang, Jiangning and He, Ruifei and Liu, Yong and Wang, Yabiao and Tai, Ying and Luo, Donghao and Wang, Chengjie and Li, Jilin and Huang, Feiyue}, booktitle = {IEEE Conference on Computer Vision and Pattern Recognition(CVPR)}, year = {2020} } 和上一个网络有一定的差别 以PWC-Net 网络图： 成功在自己笔记本上实现部署模型并且测试代码： 模型部署比较麻烦。需要在cuda9." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wuyangzz.github.io/2021/%E9%80%9A%E8%BF%87%E7%B1%BB%E6%AF%94%E5%AD%A6%E4%B9%A0%E6%97%A0%E7%9B%91%E7%9D%A3%E5%85%89%E6%B5%81%E9%87%8F%E4%BC%B0%E8%AE%A1%E8%BD%AC%E6%8D%A2%E7%9A%84%E5%8F%AF%E9%9D%A0%E7%9B%91%E7%9D%A3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-07-13T16:19:40&#43;08:00" />
+<meta property="article:modified_time" content="2021-07-13T16:19:40&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="通过类比学习：无监督光流量估计转换的可靠监督"/>
+<meta name="twitter:description" content="CVPR文章  Occlusion Aware Unsupervised Learning of Optical Flow  @misc{wang2018occlusion, title={Occlusion Aware Unsupervised Learning of Optical Flow}, author={Yang Wang and Yi Yang and Zhenheng Yang and Liang Zhao and Peng Wang and Wei Xu}, year={2018}, eprint={1711.05890}, archivePrefix={arXiv}, primaryClass={cs.CV} } 分别求出前向光流和后向光流，通过前向光流进行重建后向光流 $\widetilde{I}_1$ 向后流用于通过前向翘曲产生遮挡贴图$（O）$ photometric loss 光度损失：相当于求两个图片中所有点的相似性。 smoothness loss 正则化平滑：仅基于光度损失的无监督学习对于无纹理的地方是模糊的。减少模糊度最常用的方法就是平滑正则化smoothness loss函数。 文章提高了一种端到端的无监督学习框架，可以训练为标记视频的光流信息。主要参考了FlowNets模型，做出了一定的改进。
+可用思路:将FlowNets模型用于我们实验室的PWC-Net模型。其他地方基本可以不用做改变。可以看看后面其他论文改进的部分。
+ Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation  @inproceedings{liu2020learning, title = {Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation}, author = {Liu, Liang and Zhang, Jiangning and He, Ruifei and Liu, Yong and Wang, Yabiao and Tai, Ying and Luo, Donghao and Wang, Chengjie and Li, Jilin and Huang, Feiyue}, booktitle = {IEEE Conference on Computer Vision and Pattern Recognition(CVPR)}, year = {2020} } 和上一个网络有一定的差别 以PWC-Net 网络图： 成功在自己笔记本上实现部署模型并且测试代码： 模型部署比较麻烦。需要在cuda9."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://wuyangzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "通过类比学习：无监督光流量估计转换的可靠监督",
+      "item": "https://wuyangzz.github.io/2021/%E9%80%9A%E8%BF%87%E7%B1%BB%E6%AF%94%E5%AD%A6%E4%B9%A0%E6%97%A0%E7%9B%91%E7%9D%A3%E5%85%89%E6%B5%81%E9%87%8F%E4%BC%B0%E8%AE%A1%E8%BD%AC%E6%8D%A2%E7%9A%84%E5%8F%AF%E9%9D%A0%E7%9B%91%E7%9D%A3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "通过类比学习：无监督光流量估计转换的可靠监督",
+  "name": "通过类比学习：无监督光流量估计转换的可靠监督",
+  "description": "CVPR文章  Occlusion Aware Unsupervised Learning of Optical Flow  @misc{wang2018occlusion, title={Occlusion Aware Unsupervised Learning of Optical Flow}, author={Yang Wang and Yi Yang and Zhenheng Yang and Liang Zhao and Peng Wang and Wei Xu}, year={2018}, eprint={1711.05890}, archivePrefix={arXiv}, primaryClass={cs.CV} } 分别求出前向光流和后向光流，通过前向光流进行重建后向光流 $\\widetilde{I}_1$ 向后流用于通过前向翘曲产生遮挡贴图$（O）$ photometric loss 光度损失：相当于求两个图片中所有点的相似性。 smoothness loss 正则化平滑：仅基于光度损失的无监督学习对于无纹理的地方是模糊的。减少模糊度最常用的方法就是平滑正则化smoothness loss函数。 文章提高了一种端到端的无监督学习框架，可以训练为标记视频的光流信息。主要参考了FlowNets模型，做出了一定的改进。\n可用思路:将FlowNets模型用于我们实验室的PWC-Net模型。其他地方基本可以不用做改变。可以看看后面其他论文改进的部分。\n Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation  @inproceedings{liu2020learning, title = {Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation}, author = {Liu, Liang and Zhang, Jiangning and He, Ruifei and Liu, Yong and Wang, Yabiao and Tai, Ying and Luo, Donghao and Wang, Chengjie and Li, Jilin and Huang, Feiyue}, booktitle = {IEEE Conference on Computer Vision and Pattern Recognition(CVPR)}, year = {2020} } 和上一个网络有一定的差别 以PWC-Net 网络图： 成功在自己笔记本上实现部署模型并且测试代码： 模型部署比较麻烦。需要在cuda9.",
+  "keywords": [
+    ""
+  ],
+  "articleBody": "CVPR文章  Occlusion Aware Unsupervised Learning of Optical Flow  @misc{wang2018occlusion, title={Occlusion Aware Unsupervised Learning of Optical Flow}, author={Yang Wang and Yi Yang and Zhenheng Yang and Liang Zhao and Peng Wang and Wei Xu}, year={2018}, eprint={1711.05890}, archivePrefix={arXiv}, primaryClass={cs.CV} } 分别求出前向光流和后向光流，通过前向光流进行重建后向光流 $\\widetilde{I}_1$ 向后流用于通过前向翘曲产生遮挡贴图$（O）$ photometric loss 光度损失：相当于求两个图片中所有点的相似性。 smoothness loss 正则化平滑：仅基于光度损失的无监督学习对于无纹理的地方是模糊的。减少模糊度最常用的方法就是平滑正则化smoothness loss函数。 文章提高了一种端到端的无监督学习框架，可以训练为标记视频的光流信息。主要参考了FlowNets模型，做出了一定的改进。\n可用思路:将FlowNets模型用于我们实验室的PWC-Net模型。其他地方基本可以不用做改变。可以看看后面其他论文改进的部分。\n Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation  @inproceedings{liu2020learning, title = {Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation}, author = {Liu, Liang and Zhang, Jiangning and He, Ruifei and Liu, Yong and Wang, Yabiao and Tai, Ying and Luo, Donghao and Wang, Chengjie and Li, Jilin and Huang, Feiyue}, booktitle = {IEEE Conference on Computer Vision and Pattern Recognition(CVPR)}, year = {2020} } 和上一个网络有一定的差别 以PWC-Net 网络图： 成功在自己笔记本上实现部署模型并且测试代码： \" / 模型部署比较麻烦。需要在cuda9.0上运行。 思路同样可以借鉴。并且可以直接将超声B模式的图像整理以后直接拿去训练。\n** What Matters in Unsupervised Optical Flow**\n@article{DBLP:journals/corr/abs-2006-04902, author = {Rico Jonschkowski and Austin Stone and Jonathan T. Barron and Ariel Gordon and Kurt Konolige and Anelia Angelova}, title = {What Matters in Unsupervised Optical Flow}, journal = {CoRR}, volume = {abs/2006.04902}, year = {2020}, url = {https://arxiv.org/abs/2006.04902}, archivePrefix = {arXiv}, eprint = {2006.04902}, timestamp = {Fri, 12 Jun 2020 14:02:57 +0200}, biburl = {https://dblp.org/rec/journals/corr/abs-2006-04902.bib}, bibsource = {dblp computer science bibliography, https://dblp.org} } 这篇论文主要对Unsupervised Optical Flow涉及到的一些常见模块进行实验分析，有很好的指导意义。\n",
+  "wordCount" : "204",
+  "inLanguage": "en",
+  "datePublished": "2021-07-13T16:19:40+08:00",
+  "dateModified": "2021-07-13T16:19:40+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "wuyangzz"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://wuyangzz.github.io/2021/%E9%80%9A%E8%BF%87%E7%B1%BB%E6%AF%94%E5%AD%A6%E4%B9%A0%E6%97%A0%E7%9B%91%E7%9D%A3%E5%85%89%E6%B5%81%E9%87%8F%E4%BC%B0%E8%AE%A1%E8%BD%AC%E6%8D%A2%E7%9A%84%E5%8F%AF%E9%9D%A0%E7%9B%91%E7%9D%A3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "wuyangzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://wuyangzz.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://wuyangzz.github.io/" accesskey="h" title="wuyangzz (Alt + H)">wuyangzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://wuyangzz.github.io/posts/" title="博客">
+                    <span>博客</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/about/" title="关于我">
+                    <span>关于我</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      通过类比学习：无监督光流量估计转换的可靠监督
+    </h1>
+    <div class="post-meta"><span title='2021-07-13 16:19:40 +0800 CST'>July 13, 2021</span>&nbsp;·&nbsp;wuyangzz
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="cvpr文章">CVPR文章<a hidden class="anchor" aria-hidden="true" href="#cvpr文章">#</a></h1>
+<ul>
+<li><a href="https://arxiv.org/abs/1711.05890">Occlusion Aware Unsupervised Learning of Optical Flow</a></li>
+</ul>
+<pre><code>@misc{wang2018occlusion,
+      title={Occlusion Aware Unsupervised Learning of Optical Flow}, 
+      author={Yang Wang and Yi Yang and Zhenheng Yang and Liang Zhao and Peng Wang and Wei Xu},
+      year={2018},
+      eprint={1711.05890},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+</code></pre><p>分别求出前向光流和后向光流，通过前向光流进行重建后向光流  $\widetilde{I}_1$
+向后流用于通过前向翘曲产生遮挡贴图$（O）$
+photometric loss 光度损失：相当于求两个图片中所有点的相似性。
+smoothness loss 正则化平滑：仅基于光度损失的无监督学习对于无纹理的地方是模糊的。减少模糊度最常用的方法就是平滑正则化smoothness loss函数。
+<img loading="lazy" src="https://raw.githubusercontent.com/wuyangzz/blog_image/main/20210713210221.png" alt="20210713210221"  />
+</p>
+<p>文章提高了一种端到端的无监督学习框架，可以训练为标记视频的光流信息。主要参考了FlowNets模型，做出了一定的改进。</p>
+<p>可用思路:将FlowNets模型用于我们实验室的PWC-Net模型。其他地方基本可以不用做改变。可以看看后面其他论文改进的部分。</p>
+<ul>
+<li><strong><a href="https://arxiv.org/abs/2003.13045">Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation</a></strong></li>
+</ul>
+<pre><code>@inproceedings{liu2020learning,
+   title = {Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation},
+   author = {Liu, Liang and Zhang, Jiangning and He, Ruifei and Liu, Yong and Wang, Yabiao and Tai, Ying and Luo, Donghao and Wang, Chengjie and Li, Jilin and Huang, Feiyue},
+   booktitle = {IEEE Conference on Computer Vision and Pattern Recognition(CVPR)},
+   year = {2020}
+}
+</code></pre><p>和上一个网络有一定的差别 以PWC-Net
+网络图：
+<img loading="lazy" src="https://raw.githubusercontent.com/wuyangzz/blog_image/main/20210715165443.png" alt="20210715165443"  />
+
+成功在自己笔记本上实现部署模型并且测试代码：
+<img loading="lazy" src="https://raw.githubusercontent.com/wuyangzz/blog_image/main/!%5B20210715165345%5D%28httpsraw.githubusercontent.comwuyangzzblog_imagemain20210715165345.png%29.png" alt="&lt;img loading=&#34;lazy&#34; src=&#34;httpsraw.githubusercontent.comwuyangzzblog_imagemain20210715165345.png&#34; alt=&#34;20210715165345&#34;  /&gt;
+"  />
+
+模型部署比较麻烦。需要在cuda9.0上运行。
+思路同样可以借鉴。并且可以直接将超声B模式的图像整理以后直接拿去训练。</p>
+<p>** <a href="https://arxiv.org/pdf/2006.04902.pdf">What Matters in Unsupervised Optical Flow</a>**</p>
+<pre><code>@article{DBLP:journals/corr/abs-2006-04902,
+  author    = {Rico Jonschkowski and
+               Austin Stone and
+               Jonathan T. Barron and
+               Ariel Gordon and
+               Kurt Konolige and
+               Anelia Angelova},
+  title     = {What Matters in Unsupervised Optical Flow},
+  journal   = {CoRR},
+  volume    = {abs/2006.04902},
+  year      = {2020},
+  url       = {https://arxiv.org/abs/2006.04902},
+  archivePrefix = {arXiv},
+  eprint    = {2006.04902},
+  timestamp = {Fri, 12 Jun 2020 14:02:57 +0200},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-2006-04902.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+</code></pre><p>这篇论文主要对Unsupervised Optical Flow涉及到的一些常见模块进行实验分析，有很好的指导意义。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://wuyangzz.github.io/">wuyangzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

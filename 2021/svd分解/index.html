@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>SVD分解 | wuyangzz</title>
+<meta name="keywords" content="">
+<meta name="description" content="1、特征值分解（EVD) $ a \ne 0 $ 实对称矩阵 在理角奇异值分解之前，需要先回顾一下特征值分解，如果矩阵A是一个 $ m\times m $的实对称矩阵$ A = A^T $ 那么它可以被分解成如下的形式 $$A = Q\Sigma Q^T= Q\left[ \begin{matrix} \lambda_1 &amp; \cdots &amp; \cdots &amp; \cdots\\
+\cdots &amp; \lambda_2 &amp; \cdots &amp; \cdots\\
+\cdots &amp; \cdots &amp; \ddots &amp; \cdots\\
+\cdots &amp; \cdots &amp; \cdots &amp; \lambda_m\\
+\end{matrix} \right]Q^T $$
+2、奇异值分解（SVD） 2.1 奇异值分解定义 有一个m×n的实数矩阵A，我们想要把它分解成如下的形式: $$ A = U\Sigma V^T $$ 其中U和V均为单位正交阵，即有 $ A = A^T$ 和$VV^T=I$，U称为左奇异矩阵，V称为右奇异矩阵，Σ仅在主对角线上有值，我们称它为奇异值，其它元素均为0。上面矩阵的维度分别为 $$ U \in R^{m\times m},\ \Sigma \in R^{m\times n},\ V \in R^{n\times n} $$">
+<meta name="author" content="wuyangzz">
+<link rel="canonical" href="https://wuyangzz.github.io/2021/svd%E5%88%86%E8%A7%A3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abc7c82c3d415a6df50430738d1cbcc4c76fea558bc5a0c830d3babf78167a35.css" integrity="sha256-q8fILD1BWm31BDBzjRy8xMdv6lWLxaDIMNO6v3gWejU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://wuyangzz.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://wuyangzz.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://wuyangzz.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://wuyangzz.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://wuyangzz.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="SVD分解" />
+<meta property="og:description" content="1、特征值分解（EVD) $ a \ne 0 $ 实对称矩阵 在理角奇异值分解之前，需要先回顾一下特征值分解，如果矩阵A是一个 $ m\times m $的实对称矩阵$ A = A^T $ 那么它可以被分解成如下的形式 $$A = Q\Sigma Q^T= Q\left[ \begin{matrix} \lambda_1 &amp; \cdots &amp; \cdots &amp; \cdots\\
+\cdots &amp; \lambda_2 &amp; \cdots &amp; \cdots\\
+\cdots &amp; \cdots &amp; \ddots &amp; \cdots\\
+\cdots &amp; \cdots &amp; \cdots &amp; \lambda_m\\
+\end{matrix} \right]Q^T $$
+2、奇异值分解（SVD） 2.1 奇异值分解定义 有一个m×n的实数矩阵A，我们想要把它分解成如下的形式: $$ A = U\Sigma V^T $$ 其中U和V均为单位正交阵，即有 $ A = A^T$ 和$VV^T=I$，U称为左奇异矩阵，V称为右奇异矩阵，Σ仅在主对角线上有值，我们称它为奇异值，其它元素均为0。上面矩阵的维度分别为 $$ U \in R^{m\times m},\ \Sigma \in R^{m\times n},\ V \in R^{n\times n} $$" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wuyangzz.github.io/2021/svd%E5%88%86%E8%A7%A3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-19T16:23:19&#43;08:00" />
+<meta property="article:modified_time" content="2021-03-19T16:23:19&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SVD分解"/>
+<meta name="twitter:description" content="1、特征值分解（EVD) $ a \ne 0 $ 实对称矩阵 在理角奇异值分解之前，需要先回顾一下特征值分解，如果矩阵A是一个 $ m\times m $的实对称矩阵$ A = A^T $ 那么它可以被分解成如下的形式 $$A = Q\Sigma Q^T= Q\left[ \begin{matrix} \lambda_1 &amp; \cdots &amp; \cdots &amp; \cdots\\
+\cdots &amp; \lambda_2 &amp; \cdots &amp; \cdots\\
+\cdots &amp; \cdots &amp; \ddots &amp; \cdots\\
+\cdots &amp; \cdots &amp; \cdots &amp; \lambda_m\\
+\end{matrix} \right]Q^T $$
+2、奇异值分解（SVD） 2.1 奇异值分解定义 有一个m×n的实数矩阵A，我们想要把它分解成如下的形式: $$ A = U\Sigma V^T $$ 其中U和V均为单位正交阵，即有 $ A = A^T$ 和$VV^T=I$，U称为左奇异矩阵，V称为右奇异矩阵，Σ仅在主对角线上有值，我们称它为奇异值，其它元素均为0。上面矩阵的维度分别为 $$ U \in R^{m\times m},\ \Sigma \in R^{m\times n},\ V \in R^{n\times n} $$"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://wuyangzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "SVD分解",
+      "item": "https://wuyangzz.github.io/2021/svd%E5%88%86%E8%A7%A3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "SVD分解",
+  "name": "SVD分解",
+  "description": "1、特征值分解（EVD) $ a \\ne 0 $ 实对称矩阵 在理角奇异值分解之前，需要先回顾一下特征值分解，如果矩阵A是一个 $ m\\times m $的实对称矩阵$ A = A^T $ 那么它可以被分解成如下的形式 $$A = Q\\Sigma Q^T= Q\\left[ \\begin{matrix} \\lambda_1 \u0026amp; \\cdots \u0026amp; \\cdots \u0026amp; \\cdots\\\\\n\\cdots \u0026amp; \\lambda_2 \u0026amp; \\cdots \u0026amp; \\cdots\\\\\n\\cdots \u0026amp; \\cdots \u0026amp; \\ddots \u0026amp; \\cdots\\\\\n\\cdots \u0026amp; \\cdots \u0026amp; \\cdots \u0026amp; \\lambda_m\\\\\n\\end{matrix} \\right]Q^T $$\n2、奇异值分解（SVD） 2.1 奇异值分解定义 有一个m×n的实数矩阵A，我们想要把它分解成如下的形式: $$ A = U\\Sigma V^T $$ 其中U和V均为单位正交阵，即有 $ A = A^T$ 和$VV^T=I$，U称为左奇异矩阵，V称为右奇异矩阵，Σ仅在主对角线上有值，我们称它为奇异值，其它元素均为0。上面矩阵的维度分别为 $$ U \\in R^{m\\times m},\\ \\Sigma \\in R^{m\\times n},\\ V \\in R^{n\\times n} $$",
+  "keywords": [
+    ""
+  ],
+  "articleBody": "1、特征值分解（EVD) $ a \\ne 0 $ 实对称矩阵 在理角奇异值分解之前，需要先回顾一下特征值分解，如果矩阵A是一个 $ m\\times m $的实对称矩阵$ A = A^T $ 那么它可以被分解成如下的形式 $$A = Q\\Sigma Q^T= Q\\left[ \\begin{matrix} \\lambda_1 \u0026 \\cdots \u0026 \\cdots \u0026 \\cdots\\\\\n\\cdots \u0026 \\lambda_2 \u0026 \\cdots \u0026 \\cdots\\\\\n\\cdots \u0026 \\cdots \u0026 \\ddots \u0026 \\cdots\\\\\n\\cdots \u0026 \\cdots \u0026 \\cdots \u0026 \\lambda_m\\\\\n\\end{matrix} \\right]Q^T $$\n2、奇异值分解（SVD） 2.1 奇异值分解定义 有一个m×n的实数矩阵A，我们想要把它分解成如下的形式: $$ A = U\\Sigma V^T $$ 其中U和V均为单位正交阵，即有 $ A = A^T$ 和$VV^T=I$，U称为左奇异矩阵，V称为右奇异矩阵，Σ仅在主对角线上有值，我们称它为奇异值，其它元素均为0。上面矩阵的维度分别为 $$ U \\in R^{m\\times m},\\ \\Sigma \\in R^{m\\times n},\\ V \\in R^{n\\times n} $$\n一般地Σ有如下形式 $$ \\Sigma = \\left[ \\begin{matrix} \\sigma_1 \u0026 0 \u0026 0 \u0026 0 \u0026 0\\\\\n0 \u0026 \\sigma_2 \u0026 0 \u0026 0 \u0026 0\\\\\n0 \u0026 0 \u0026 \\ddots \u0026 0 \u0026 0\\\\\n0 \u0026 0 \u0026 0 \u0026 \\ddots \u0026 0\\\\\n\\end{matrix} \\right]_{m\\times n} $$ 对于奇异值分解，我们可以利用上面的图形象表示，图中方块的颜色表示值的大小，颜色越浅，值越大。对于奇异值矩阵Σ，只有其主对角线有奇异值，其余均为0。\n2.2奇异值求解 利用一下性质进行求解 $$ AA^T=U\\Sigma V^TV\\Sigma^TU^T=U\\Sigma \\Sigma^TU^T $$ $$ A^TA=V\\Sigma^TU^TU\\Sigma V^T=V\\Sigma^T\\Sigma V^T $$ 利用特征值分解，得到的特征矩阵即为UV；对$ΣΣ^T或Σ^TΣ$中的特征值开方，可以得到所有的奇异值。\n2.3 奇异值求解Python应用 读取图片 %matplotlib inline import matplotlib.pyplot as plt import matplotlib.image as mpimg import numpy as np img_eg = mpimg.imread(\"svd.jpg\") x=img_eg.shape[0] y=img_eg.shape[1] print(img_eg.shape) (1200, 800, 3)  奇异值分解 img_temp = img_eg.reshape(x, y * 3) U,Sigma,VT = np.linalg.svd(img_temp) print(Sigma.astype(np.int32)) [247846 43859 31072 ... 2 2 2]  取前部分奇异值重构图片 # 取前10个奇异值 sval_nums = 10 img_restruct0 = (U[:,0:sval_nums]).dot(np.diag(Sigma[0:sval_nums])).dot(VT[0:sval_nums,:]) img_restruct0 = img_restruct0.reshape(x,y,3) # 取前60个奇异值 sval_nums = 60 img_restruct1 = (U[:,0:sval_nums]).dot(np.diag(Sigma[0:sval_nums])).dot(VT[0:sval_nums,:]) img_restruct1 = img_restruct1.reshape(x,y,3) # 取前120个奇异值 sval_nums = 120 img_restruct2 = (U[:,0:sval_nums]).dot(np.diag(Sigma[0:sval_nums])).dot(VT[0:sval_nums,:]) img_restruct2 = img_restruct2.reshape(x,y,3) # 取前200个奇异值 sval_nums = 200 img_restruct3 = (U[:,0:sval_nums]).dot(np.diag(Sigma[0:sval_nums])).dot(VT[0:sval_nums,:]) img_restruct3 = img_restruct3.reshape(x,y,3) # 取前400个奇异值 sval_nums = 400 img_restruct4 = (U[:,0:sval_nums]).dot(np.diag(Sigma[0:sval_nums])).dot(VT[0:sval_nums,:]) img_restruct4 = img_restruct4.reshape(x,y,3) fig, ax = plt.subplots(2,3,figsize = (40,30)) plt.xticks(fontsize=20) plt.yticks(fontsize=20) ax[0][0].imshow(img_eg) ax[0][0].set(title = \"src\") ax[0][1].imshow(img_restruct0.astype(np.uint8)) ax[0][1].set(title = \"nums of sigma = 20\") ax[0][2].imshow(img_restruct1.astype(np.uint8)) ax[0][2].set(title = \"nums of sigma = 60\") ax[1][0].imshow(img_restruct2.astype(np.uint8)) ax[1][0].set(title = \"nums of2 sigma = 120\") ax[1][1].imshow(img_restruct3.astype(np.uint8)) ax[1][1].set(title = \"nums of sigma = 200\") ax[1][2].imshow(img_restruct4.astype(np.uint8)) ax[1][2].set(title = \"nums of sigma = 400\") fig.savefig('./svd_return.jpg') \" / 奇异值数据 # 奇异值分布图 x=plt.figure(figsize=(40, 20)) plt.xticks(fontsize=40) plt.yticks(fontsize=40) plt.plot(Sigma.astype(np.int64)) # 3）显示图像 plt.title(\"Sigma\",fontsize=100) plt.show() x.savefig('./Sigma.jpg') ",
+  "wordCount" : "310",
+  "inLanguage": "en",
+  "datePublished": "2021-03-19T16:23:19+08:00",
+  "dateModified": "2021-03-19T16:23:19+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "wuyangzz"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://wuyangzz.github.io/2021/svd%E5%88%86%E8%A7%A3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "wuyangzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://wuyangzz.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://wuyangzz.github.io/" accesskey="h" title="wuyangzz (Alt + H)">wuyangzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://wuyangzz.github.io/posts/" title="博客">
+                    <span>博客</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wuyangzz.github.io/about/" title="关于我">
+                    <span>关于我</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      SVD分解
+    </h1>
+    <div class="post-meta"><span title='2021-03-19 16:23:19 +0800 CST'>March 19, 2021</span>&nbsp;·&nbsp;wuyangzz
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="1特征值分解evd--a-ne-0-">1、特征值分解（EVD) $ a \ne 0 $<a hidden class="anchor" aria-hidden="true" href="#1特征值分解evd--a-ne-0-">#</a></h1>
+<h2 id="实对称矩阵">实对称矩阵<a hidden class="anchor" aria-hidden="true" href="#实对称矩阵">#</a></h2>
+<p>在理角奇异值分解之前，需要先回顾一下特征值分解，如果矩阵A是一个 $  m\times m $的实对称矩阵$ A = A^T $
+那么它可以被分解成如下的形式
+$$A = Q\Sigma Q^T=
+Q\left[
+\begin{matrix}
+\lambda_1 &amp; \cdots &amp; \cdots &amp; \cdots\\<br>
+\cdots &amp; \lambda_2 &amp; \cdots &amp; \cdots\\<br>
+\cdots &amp; \cdots &amp; \ddots &amp; \cdots\\<br>
+\cdots &amp; \cdots &amp; \cdots &amp; \lambda_m\\<br>
+\end{matrix}
+\right]Q^T
+$$</p>
+<h1 id="2奇异值分解svd">2、奇异值分解（SVD）<a hidden class="anchor" aria-hidden="true" href="#2奇异值分解svd">#</a></h1>
+<h2 id="21-奇异值分解定义">2.1 奇异值分解定义<a hidden class="anchor" aria-hidden="true" href="#21-奇异值分解定义">#</a></h2>
+<p>有一个m×n的实数矩阵A，我们想要把它分解成如下的形式:
+$$
+A  = U\Sigma V^T
+$$
+其中U和V均为单位正交阵，即有 $ A = A^T$ 和$VV^T=I$，U称为左奇异矩阵，V称为右奇异矩阵，Σ仅在主对角线上有值，我们称它为奇异值，其它元素均为0。上面矩阵的维度分别为
+$$ U \in R^{m\times m},\ \Sigma \in R^{m\times n},\ V \in R^{n\times n} $$</p>
+<p>一般地Σ有如下形式
+$$
+\Sigma =
+\left[
+\begin{matrix}
+\sigma_1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\<br>
+0 &amp; \sigma_2 &amp; 0 &amp; 0 &amp; 0\\<br>
+0 &amp; 0 &amp; \ddots &amp; 0 &amp; 0\\<br>
+0 &amp; 0 &amp; 0 &amp; \ddots &amp; 0\\<br>
+\end{matrix}
+\right]_{m\times n}
+$$
+<img loading="lazy" src="https://raw.githubusercontent.com/wuyangzz/blog_image/main/20210319163719.png" alt="20210319163719"  />
+
+对于奇异值分解，我们可以利用上面的图形象表示，图中方块的颜色表示值的大小，颜色越浅，值越大。对于奇异值矩阵Σ，只有其主对角线有奇异值，其余均为0。</p>
+<h2 id="22奇异值求解">2.2奇异值求解<a hidden class="anchor" aria-hidden="true" href="#22奇异值求解">#</a></h2>
+<p>利用一下性质进行求解
+$$
+AA^T=U\Sigma V^TV\Sigma^TU^T=U\Sigma \Sigma^TU^T
+$$
+$$
+A^TA=V\Sigma^TU^TU\Sigma V^T=V\Sigma^T\Sigma V^T
+$$
+利用特征值分解，得到的特征矩阵即为UV；对$ΣΣ^T或Σ^TΣ$中的特征值开方，可以得到所有的奇异值。</p>
+<h2 id="23-奇异值求解python应用">2.3 奇异值求解Python应用<a hidden class="anchor" aria-hidden="true" href="#23-奇异值求解python应用">#</a></h2>
+<h3 id="读取图片">读取图片<a hidden class="anchor" aria-hidden="true" href="#读取图片">#</a></h3>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/wuyangzz/blog_image/main/svd.jpg" alt="svd"  />
+</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">%</span>matplotlib inline
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">import</span> matplotlib.image <span style="color:#f92672">as</span> mpimg
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+ 
+img_eg <span style="color:#f92672">=</span> mpimg<span style="color:#f92672">.</span>imread(<span style="color:#e6db74">&#34;svd.jpg&#34;</span>)
+x<span style="color:#f92672">=</span>img_eg<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]
+y<span style="color:#f92672">=</span>img_eg<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]
+<span style="color:#66d9ef">print</span>(img_eg<span style="color:#f92672">.</span>shape)
+</code></pre></div><pre><code>(1200, 800, 3)
+</code></pre>
+<h3 id="奇异值分解">奇异值分解<a hidden class="anchor" aria-hidden="true" href="#奇异值分解">#</a></h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">img_temp <span style="color:#f92672">=</span> img_eg<span style="color:#f92672">.</span>reshape(x, y <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span>)
+U,Sigma,VT <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>svd(img_temp)
+<span style="color:#66d9ef">print</span>(Sigma<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>int32))
+</code></pre></div><pre><code>[247846  43859  31072 ...      2      2      2]
+</code></pre>
+<h3 id="取前部分奇异值重构图片">取前部分奇异值重构图片<a hidden class="anchor" aria-hidden="true" href="#取前部分奇异值重构图片">#</a></h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 取前10个奇异值</span>
+sval_nums <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+img_restruct0 <span style="color:#f92672">=</span> (U[:,<span style="color:#ae81ff">0</span>:sval_nums])<span style="color:#f92672">.</span>dot(np<span style="color:#f92672">.</span>diag(Sigma[<span style="color:#ae81ff">0</span>:sval_nums]))<span style="color:#f92672">.</span>dot(VT[<span style="color:#ae81ff">0</span>:sval_nums,:])
+img_restruct0 <span style="color:#f92672">=</span> img_restruct0<span style="color:#f92672">.</span>reshape(x,y,<span style="color:#ae81ff">3</span>)
+
+<span style="color:#75715e"># 取前60个奇异值</span>
+sval_nums <span style="color:#f92672">=</span> <span style="color:#ae81ff">60</span>
+img_restruct1 <span style="color:#f92672">=</span> (U[:,<span style="color:#ae81ff">0</span>:sval_nums])<span style="color:#f92672">.</span>dot(np<span style="color:#f92672">.</span>diag(Sigma[<span style="color:#ae81ff">0</span>:sval_nums]))<span style="color:#f92672">.</span>dot(VT[<span style="color:#ae81ff">0</span>:sval_nums,:])
+img_restruct1 <span style="color:#f92672">=</span> img_restruct1<span style="color:#f92672">.</span>reshape(x,y,<span style="color:#ae81ff">3</span>)
+ 
+<span style="color:#75715e"># 取前120个奇异值</span>
+sval_nums <span style="color:#f92672">=</span> <span style="color:#ae81ff">120</span>
+img_restruct2 <span style="color:#f92672">=</span> (U[:,<span style="color:#ae81ff">0</span>:sval_nums])<span style="color:#f92672">.</span>dot(np<span style="color:#f92672">.</span>diag(Sigma[<span style="color:#ae81ff">0</span>:sval_nums]))<span style="color:#f92672">.</span>dot(VT[<span style="color:#ae81ff">0</span>:sval_nums,:])
+img_restruct2 <span style="color:#f92672">=</span> img_restruct2<span style="color:#f92672">.</span>reshape(x,y,<span style="color:#ae81ff">3</span>)
+
+<span style="color:#75715e"># 取前200个奇异值</span>
+sval_nums <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
+img_restruct3 <span style="color:#f92672">=</span> (U[:,<span style="color:#ae81ff">0</span>:sval_nums])<span style="color:#f92672">.</span>dot(np<span style="color:#f92672">.</span>diag(Sigma[<span style="color:#ae81ff">0</span>:sval_nums]))<span style="color:#f92672">.</span>dot(VT[<span style="color:#ae81ff">0</span>:sval_nums,:])
+img_restruct3 <span style="color:#f92672">=</span> img_restruct3<span style="color:#f92672">.</span>reshape(x,y,<span style="color:#ae81ff">3</span>)
+
+<span style="color:#75715e"># 取前400个奇异值</span>
+sval_nums <span style="color:#f92672">=</span> <span style="color:#ae81ff">400</span>
+img_restruct4 <span style="color:#f92672">=</span> (U[:,<span style="color:#ae81ff">0</span>:sval_nums])<span style="color:#f92672">.</span>dot(np<span style="color:#f92672">.</span>diag(Sigma[<span style="color:#ae81ff">0</span>:sval_nums]))<span style="color:#f92672">.</span>dot(VT[<span style="color:#ae81ff">0</span>:sval_nums,:])
+img_restruct4 <span style="color:#f92672">=</span> img_restruct4<span style="color:#f92672">.</span>reshape(x,y,<span style="color:#ae81ff">3</span>)
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,figsize <span style="color:#f92672">=</span> (<span style="color:#ae81ff">40</span>,<span style="color:#ae81ff">30</span>))
+plt<span style="color:#f92672">.</span>xticks(fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+plt<span style="color:#f92672">.</span>yticks(fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>imshow(img_eg)
+ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>set(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;src&#34;</span>)
+ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>imshow(img_restruct0<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>uint8))
+ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>set(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;nums of sigma = 20&#34;</span>)
+ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>imshow(img_restruct1<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>uint8))
+ax[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>set(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;nums of sigma = 60&#34;</span>)
+ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>imshow(img_restruct2<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>uint8))
+ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>set(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;nums of2 sigma = 120&#34;</span>)
+ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>imshow(img_restruct3<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>uint8))
+ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>set(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;nums of sigma = 200&#34;</span>)
+ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>imshow(img_restruct4<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>uint8))
+ax[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>set(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;nums of sigma = 400&#34;</span>)
+fig<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#39;./svd_return.jpg&#39;</span>)
+</code></pre></div><p><img loading="lazy" src="https://raw.githubusercontent.com/wuyangzz/blog_image/main/!%5Bpng%5D%28output_6_0.png%29.png" alt="&lt;img loading=&#34;lazy&#34; src=&#34;output_6_0.png&#34; alt=&#34;png&#34;  /&gt;
+"  />
+</p>
+<h3 id="奇异值数据">奇异值数据<a hidden class="anchor" aria-hidden="true" href="#奇异值数据">#</a></h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 奇异值分布图</span>
+x<span style="color:#f92672">=</span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">40</span>, <span style="color:#ae81ff">20</span>))
+plt<span style="color:#f92672">.</span>xticks(fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">40</span>)
+plt<span style="color:#f92672">.</span>yticks(fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">40</span>)
+plt<span style="color:#f92672">.</span>plot(Sigma<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>int64))
+<span style="color:#75715e"># 3）显示图像</span>
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;Sigma&#34;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
+plt<span style="color:#f92672">.</span>show()
+x<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#39;./Sigma.jpg&#39;</span>)
+
+</code></pre></div><p><img loading="lazy" src="https://raw.githubusercontent.com/wuyangzz/blog_image/main/output_8_0.png" alt="output_8_0"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://wuyangzz.github.io/">wuyangzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
