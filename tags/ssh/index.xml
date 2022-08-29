@@ -1,21 +1,2 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>ssh on wuyangzz</title>
-    <link>https://wuyangzz.github.io/tags/ssh/</link>
-    <description>Recent content in ssh on wuyangzz</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Fri, 12 Mar 2021 17:03:57 +0800</lastBuildDate><atom:link href="https://wuyangzz.github.io/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Ubuntu新增用户和一键ssh免密登录脚本</title>
-      <link>https://wuyangzz.github.io/2021/ubuntu%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%92%8C%E4%B8%80%E9%94%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</link>
-      <pubDate>Fri, 12 Mar 2021 17:03:57 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/ubuntu%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%92%8C%E4%B8%80%E9%94%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</guid>
-      <description>一键创建用户脚本 此脚本用户一键创建具有sudo权限的账户 并且可以免密使用sudo
-id openpai &amp;amp;&amp;gt;/dev/null #验证用户是否存在 if [ $? -eq 0 ];then echo &amp;#34;用户已经创建了&amp;#34; else echo &amp;#34;用户即将开始创建&amp;#34; useradd -m -s /bin/bash openpai echo &amp;#34;用户创建成功&amp;#34; echo &amp;#34;正在设置密码&amp;#34; echo &amp;#34;openpai:openpai&amp;#34; | sudo chpasswd #给用户设置密码 echo &amp;#34;密码设置成功&amp;#34; echo &amp;#34;openpai&amp;#34; fi echo &amp;#34;正在设置sudo权限&amp;#34; mkdir /etc/sudoers.d/ echo openpai | sudo -S sh -c &amp;#34;echo &amp;#39;openpai ALL=(ALL) NOPASSWD: ALL&amp;#39; &amp;gt;&amp;gt; /etc/sudoers.d/user-openpai&amp;#34; sudo chmod 440 /etc/sudoers.d/user-openpai 批量ssh免密登录脚本 #!/usr/bin/bash  shell_dir=$(dirname &amp;#34;$0&amp;#34;) SHELL_DIR_ABSOLUTE=$(cd &amp;#34;$shell_dir&amp;#34;; pwd) EXIST_DOWN_HOST=&amp;#34;NO&amp;#34; SSH_HOME_DIR=&amp;#34;/root&amp;#34; if !</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ssh on wuyangzz</title><link>https://wuyangzz.github.io/tags/ssh/</link><description>Recent content in ssh on wuyangzz</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 12 Mar 2021 17:03:57 +0800</lastBuildDate><atom:link href="https://wuyangzz.github.io/tags/ssh/index.xml" rel="self" type="application/rss+xml"/><item><title>Ubuntu新增用户和一键ssh免密登录脚本</title><link>https://wuyangzz.github.io/2021/ubuntu%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%92%8C%E4%B8%80%E9%94%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</link><pubDate>Fri, 12 Mar 2021 17:03:57 +0800</pubDate><guid>https://wuyangzz.github.io/2021/ubuntu%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%92%8C%E4%B8%80%E9%94%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</guid><description>一键创建用户脚本 此脚本用户一键创建具有sudo权限的账户 并且可以免密使用sudo
+id openpai &amp;amp;&amp;gt;/dev/null #验证用户是否存在 if [ $? -eq 0 ];then echo &amp;#34;用户已经创建了&amp;#34; else echo &amp;#34;用户即将开始创建&amp;#34; useradd -m -s /bin/bash openpai echo &amp;#34;用户创建成功&amp;#34; echo &amp;#34;正在设置密码&amp;#34; echo &amp;#34;openpai:openpai&amp;#34; | sudo chpasswd #给用户设置密码 echo &amp;#34;密码设置成功&amp;#34; echo &amp;#34;openpai&amp;#34; fi echo &amp;#34;正在设置sudo权限&amp;#34; mkdir /etc/sudoers.d/ echo openpai | sudo -S sh -c &amp;#34;echo &amp;#39;openpai ALL=(ALL) NOPASSWD: ALL&amp;#39; &amp;gt;&amp;gt; /etc/sudoers.d/user-openpai&amp;#34; sudo chmod 440 /etc/sudoers.d/user-openpai 批量ssh免密登录脚本 #!/usr/bin/bash shell_dir=$(dirname &amp;#34;$0&amp;#34;) SHELL_DIR_ABSOLUTE=$(cd &amp;#34;$shell_dir&amp;#34;; pwd) EXIST_DOWN_HOST=&amp;#34;NO&amp;#34; SSH_HOME_DIR=&amp;#34;/root&amp;#34; if !</description></item></channel></rss>

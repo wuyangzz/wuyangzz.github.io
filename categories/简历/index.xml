@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>简历 on wuyangzz</title><link>https://wuyangzz.github.io/categories/%E7%AE%80%E5%8E%86/</link><description>Recent content in 简历 on wuyangzz</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 21 Aug 2022 13:20:39 +0800</lastBuildDate><atom:link href="https://wuyangzz.github.io/categories/%E7%AE%80%E5%8E%86/index.xml" rel="self" type="application/rss+xml"/><item><title>Resume</title><link>https://wuyangzz.github.io/2022/resume/</link><pubDate>Sun, 21 Aug 2022 13:20:39 +0800</pubDate><guid>https://wuyangzz.github.io/2022/resume/</guid><description>吴洋 · 03/1999 · 13540430898 · wylmq911@gmail.com · WuYangzz · My Blog
+项目与研究经历 成都试金石软件开发有限责任公司，Java 开发实习 崇州市人民医院预约展示系统，2022.07~至今
+主要使用技术：Spring Boot、SQL Server、MyBatis、Redis、WebSocket 实现门诊、医技的诊室小屏、签到机、科室大屏的展示及其后台管理系统。负责医院、科室、药品、医生坐班四个模块后端开发，并使用 WebSocket 实现对多终端页面的展示控制，加入 Redis 缓存提高系统性能。
+成都主导科技有限责任公司，算法实习 图像增强算法研究，2022.05~2022.07
+提出一种仅利用三个单通道卷积便能实现灰度图低光增强模型，具有极高推理性能；整合低光增强、高光削弱、去轮轴镜面反射三个功能，实现对三种单独场景或者任意组合场景进行综合曝光处理。
+超声心脏电生理学与生物力学四川省重点实验室，研究生 超声图像处理算法研究，2020.10~至今
+超声心动图视图分类系统 2022.03~2022.06 利用EfficientNet B7作为骨干网络，配合弱监督的 FGVC-PIM插件进行特征融合与过滤，实现对 6 个超声视图的自动化类别划分，并已在四川省人民医院心血管超声及心功能科进行部署。
+超声心动图质量智能评价系统，2021.12~2022.04 针对在超声心动图扫描过程中存在扫描不规范的问题，利用图像质量评价网络，对图像进行智能打分。
+基于光流循环全对场变换的无监督超声心肌运动追踪，2021.07~至今 搭建用于左心室心肌的*U-Net 3+*网络；并使用无监督的 RAFT 光流网络实现对左心室心肌的运动追踪。
+联合深度学习的通用血流向量成像方法研究，2020.10~2021.03 搭建基于YOLO与U-Net网络的左心室区域检测与室壁分割网络； 实现彩色多普勒超声心动图的血流向量成像方法。
+发表论文
+《Ultrasound Vector Flow Mapping in Left Ventricle: A Do It Yourself Study》(EI 收录，第一作者）
+《超声心动图质量智能评价的研究: 心尖四腔心切面智能评分》(CSCD-C、北大核心收录，第一作者)
+西南石油大学计算机科学学院，研究生 GPU 服务器管理，2020.10~至今
+主要使用技术：Docker、K8s、Rancher、Prometheus、Grafana、DCGM-Exporter 管理学院 6 台 GPU 服务器，利用Docker、K8s、Rancher搭建用于 GPU 共享的容器平台，实现可视化容器分配实时监控平台，已累计服务 300 余人次。</description></item></channel></rss>

@@ -1,103 +1,46 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Posts on wuyangzz</title>
-    <link>https://wuyangzz.github.io/posts/</link>
-    <description>Recent content in Posts on wuyangzz</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Fri, 09 Apr 2021 13:23:43 +0800</lastBuildDate><atom:link href="https://wuyangzz.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Pytorch入门手写数字</title>
-      <link>https://wuyangzz.github.io/2021/pytorch%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97/</link>
-      <pubDate>Fri, 09 Apr 2021 13:23:43 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/pytorch%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97/</guid>
-      <description>#导入需要的包 import numpy as np import torch from torch import nn from PIL import Image import torchvision import matplotlib.pyplot as plt import os from torchvision import datasets, transforms,utils Step1：准备数据。 transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean=[0.5],std=[0.5])]) train_data = datasets.MNIST(root = &amp;#34;./data/&amp;#34;, transform=transform, train = True, download = True) test_data = datasets.MNIST(root=&amp;#34;./data/&amp;#34;, transform = transform, train = False) print(len(train_data)) print(len(test_data)) 60000 10000  train_data 的个数：60000个训练样本
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on wuyangzz</title><link>https://wuyangzz.github.io/posts/</link><description>Recent content in Posts on wuyangzz</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 29 Aug 2022 10:40:49 +0800</lastBuildDate><atom:link href="https://wuyangzz.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>常用工具推荐</title><link>https://wuyangzz.github.io/2022/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/</link><pubDate>Mon, 29 Aug 2022 10:40:49 +0800</pubDate><guid>https://wuyangzz.github.io/2022/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/</guid><description>提高效率的工具 1.Github Colopit\Tabnine(阿里) 强烈推荐！！！！！ Github Copilot是一个VS Code扩展，它可以自动完成你的代码，也可以通过看到你的注释和函数名来合成代码。这是用相同的模型构建的，并在数十亿的公共代码上进行了训练。
+官网：https://github.com/features/copilot 介绍: GitHub Copilot 是一个 AI 对编程工具，可在您编写代码时提供自动完成样式的建议。 您可以通过开始编写要使用的代码，或编写描述您希望代码执行的操作的自然语言注释，以接收来自 GitHub Copilot 的建议。 GitHub Copilot 分析您正在编辑的文件中的上下文以及相关文件，并从文本编辑器中提供建议。 GitHub Copilot 经过优化，可帮助您编写 Python、JavaScript、TypeScript、Ruby、Go、C# 或 C++。 您还可以使用 GitHub Copilot 以其他语言和各种框架生成建议。 GitHub Copilot 由 OpenAI Codex 提供支持，OpenAI Codex 是由 OpenAI 创建的新 AI 系统。 GitHub Copilot 可作为 IDE 的 Visual Studio Code、Visual Studio、Neovim 和 JetBrains 套件的扩展。
+Visual Studio Code插件： https://docs.github.com/cn/copilot/getting-started-with-github-copilot/getting-started-with-github-copilot-in-visual-studio-code
+在Visual Studio Code Marketplace中，转到GitHub Copilot扩展页面，然后单击“安装”。 如果以前没有在GitHub帐户中授权Visual Studio代码，则会提示在Visual Studio Code中登录GitHub。如果以前在GitHub上为您的帐户授权了Visual Studio代码，则将自动授权GitHub Copilot。 JetBrains IDE插件： https://docs.</description></item><item><title>Resume</title><link>https://wuyangzz.github.io/2022/resume/</link><pubDate>Sun, 21 Aug 2022 13:20:39 +0800</pubDate><guid>https://wuyangzz.github.io/2022/resume/</guid><description>吴洋 · 03/1999 · 13540430898 · wylmq911@gmail.com · WuYangzz · My Blog
+项目与研究经历 成都试金石软件开发有限责任公司，Java 开发实习 崇州市人民医院预约展示系统，2022.07~至今
+主要使用技术：Spring Boot、SQL Server、MyBatis、Redis、WebSocket 实现门诊、医技的诊室小屏、签到机、科室大屏的展示及其后台管理系统。负责医院、科室、药品、医生坐班四个模块后端开发，并使用 WebSocket 实现对多终端页面的展示控制，加入 Redis 缓存提高系统性能。
+成都主导科技有限责任公司，算法实习 图像增强算法研究，2022.05~2022.07
+提出一种仅利用三个单通道卷积便能实现灰度图低光增强模型，具有极高推理性能；整合低光增强、高光削弱、去轮轴镜面反射三个功能，实现对三种单独场景或者任意组合场景进行综合曝光处理。
+超声心脏电生理学与生物力学四川省重点实验室，研究生 超声图像处理算法研究，2020.10~至今
+超声心动图视图分类系统 2022.03~2022.06 利用EfficientNet B7作为骨干网络，配合弱监督的 FGVC-PIM插件进行特征融合与过滤，实现对 6 个超声视图的自动化类别划分，并已在四川省人民医院心血管超声及心功能科进行部署。
+超声心动图质量智能评价系统，2021.12~2022.04 针对在超声心动图扫描过程中存在扫描不规范的问题，利用图像质量评价网络，对图像进行智能打分。
+基于光流循环全对场变换的无监督超声心肌运动追踪，2021.07~至今 搭建用于左心室心肌的*U-Net 3+*网络；并使用无监督的 RAFT 光流网络实现对左心室心肌的运动追踪。
+联合深度学习的通用血流向量成像方法研究，2020.10~2021.03 搭建基于YOLO与U-Net网络的左心室区域检测与室壁分割网络； 实现彩色多普勒超声心动图的血流向量成像方法。
+发表论文
+《Ultrasound Vector Flow Mapping in Left Ventricle: A Do It Yourself Study》(EI 收录，第一作者）
+《超声心动图质量智能评价的研究: 心尖四腔心切面智能评分》(CSCD-C、北大核心收录，第一作者)
+西南石油大学计算机科学学院，研究生 GPU 服务器管理，2020.10~至今
+主要使用技术：Docker、K8s、Rancher、Prometheus、Grafana、DCGM-Exporter 管理学院 6 台 GPU 服务器，利用Docker、K8s、Rancher搭建用于 GPU 共享的容器平台，实现可视化容器分配实时监控平台，已累计服务 300 余人次。</description></item><item><title>Dicom文件处理</title><link>https://wuyangzz.github.io/2021/dicom%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/</link><pubDate>Sat, 09 Oct 2021 10:17:39 +0800</pubDate><guid>https://wuyangzz.github.io/2021/dicom%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/</guid><description>使用阈值去掉杂乱的信息 import cv2 import os import pydicom import numpy as np # dicom图像输入路径 inputdir = &amp;#39;/workspace/20210910/Bmodel/inputs&amp;#39; # dicom图像输出路径 outdir = &amp;#39;/workspace/20210910/Bmodel/max_contours_images/&amp;#39; # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 def findMaxcontours(data): _, binaryzation = cv2.threshold(data, 2, 255, cv2.THRESH_BINARY_INV) binaryzation = np.uint8(binaryzation) # 找到所有的轮廓 contours, _ = cv2.findContours( binaryzation, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE) area = [] # 找到最大的轮廓 实际应该为第二大轮廓 for k in range(len(contours)): area.append(cv2.contourArea(contours[k])) # max_idx = np.argmax(np.array(area)) max_idx = np.argsort(np.array(area))[-2] # cv2.fillContexPoly(mask[i], contours[max_idx], 0) # 填充最大的轮廓 mask = cv2.</description></item><item><title>UnSupRAFT运行</title><link>https://wuyangzz.github.io/2021/unsupraft%E8%BF%90%E8%A1%8C/</link><pubDate>Wed, 29 Sep 2021 10:44:43 +0800</pubDate><guid>https://wuyangzz.github.io/2021/unsupraft%E8%BF%90%E8%A1%8C/</guid><description>数据准备 dicom_to_image.py：
+import cv2 import os import pydicom # dicom图像输入路径 inputdir = &amp;#39;/workspace/20210910/Bmodel/inputs&amp;#39; # dicom图像输出路径 outdir = &amp;#39;/workspace/UnSupRAFT/datasets/heart/&amp;#39; # 获取文件夹下文件列表 files_name_list=os.listdir(inputdir) count=0 # 遍历所有文件 for file_name in files_name_list: path=os.path.join(inputdir,file_name) ds=pydicom.read_file(path) # 获取该文件的帧数 num_frame=ds.pixel_array.shape[0] # 逐帧保存为PNG无损图像 for i in range(num_frame): # if not os.path.exists(os.path.join(outdir,file_name)): # os.makedirs(os.path.join(outdir,file_name)) if i==0: image1 =ds.pixel_array[i, 70:550, 47:751] else: image2 = ds.pixel_array[i, 70:550, 47:751] cv2.imwrite(os.path.join(outdir, str( count)+&amp;#34;_1.png&amp;#34;), image1, [cv2.IMWRITE_PNG_COMPRESSION, 0]) cv2.imwrite(os.path.join(outdir, str( count)+&amp;#34;_2.png&amp;#34;), image2, [cv2.IMWRITE_PNG_COMPRESSION, 0]) image1=image2 count+=1 设置数据集heart_dataset.</description></item><item><title>ARflow运作步骤</title><link>https://wuyangzz.github.io/2021/arflow%E8%BF%90%E4%BD%9C%E6%AD%A5%E9%AA%A4/</link><pubDate>Mon, 27 Sep 2021 16:19:54 +0800</pubDate><guid>https://wuyangzz.github.io/2021/arflow%E8%BF%90%E4%BD%9C%E6%AD%A5%E9%AA%A4/</guid><description>1、安装对应的包 2、修改setup.py文件 c++ 版本 gencode cuda_path
+#!/usr/bin/env python3 import os import torch from setuptools import setup, find_packages from torch.utils.cpp_extension import BuildExtension, CUDAExtension cxx_args = [&amp;#39;-std=c++14&amp;#39;] nvcc_args = [ &amp;#39;-gencode&amp;#39;, &amp;#39;arch=compute_50,code=sm_50&amp;#39;, &amp;#39;-gencode&amp;#39;, &amp;#39;arch=compute_52,code=sm_52&amp;#39;, &amp;#39;-gencode&amp;#39;, &amp;#39;arch=compute_60,code=sm_60&amp;#39;, &amp;#39;-gencode&amp;#39;, &amp;#39;arch=compute_61,code=sm_61&amp;#39;, &amp;#39;-gencode&amp;#39;, &amp;#39;arch=compute_86,code=sm_86&amp;#39;, &amp;#39;-gencode&amp;#39;, &amp;#39;arch=compute_86,code=compute_86&amp;#39;, &amp;#39;-ccbin&amp;#39;, &amp;#39;/usr/bin/gcc&amp;#39; ] setup( name=&amp;#39;correlation_cuda&amp;#39;, ext_modules=[ CUDAExtension(&amp;#39;correlation_cuda&amp;#39;, [ &amp;#39;correlation_cuda.cc&amp;#39;, &amp;#39;correlation_cuda_kernel.cu&amp;#39; ], extra_compile_args={&amp;#39;cxx&amp;#39;: cxx_args, &amp;#39;nvcc&amp;#39;: nvcc_args, &amp;#39;cuda-path&amp;#39;: [&amp;#39;/usr/local/cuda&amp;#39;]}) ], cmdclass={ &amp;#39;build_ext&amp;#39;: BuildExtension })</description></item><item><title>基于无监督学习的光流法综述</title><link>https://wuyangzz.github.io/2021/%E5%9F%BA%E4%BA%8E%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%89%E6%B5%81%E6%B3%95%E7%BB%BC%E8%BF%B0/</link><pubDate>Sun, 26 Sep 2021 14:08:27 +0800</pubDate><guid>https://wuyangzz.github.io/2021/%E5%9F%BA%E4%BA%8E%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%89%E6%B5%81%E6%B3%95%E7%BB%BC%E8%BF%B0/</guid><description>基于U-NetPLusPLUSPLUs和自己监督学习的左心肌运动追踪 摘要 心血管疾病(Cardiovascular diseases ，CVDs)是一种严重威胁人类健康的高发性疾病，其高发病率和死亡率已经严重影响了人类的生存。如何尽早的诊断出心血管疾病尤为重要，在早期通过技术诊断出心肌的生理特性可以有效的获取心室的健康状况，进而尽早的进行干预可以有效的降低心血管疾病的发病率。本文针对左心肌运动的特点，提出一种快速诊断基于像提供的信息，结合Unet3+心室分割和无监督的心肌运动追踪方法获取心肌的运动情况的方法。主要研究的内容有：1、搭建全连接Unet3+网络精确分割左心肌；2、在精确分割左心肌后，根据无监督光流估计方法估计B模式超声心动图连续两帧图像心肌运动情况，得到左心肌位移场信息；3、使用心肌运动模式数据和真实B模式心脏超声数据对心肌运动信息进行量化对比和评估。
+心室壁运动追踪应用情况</description></item><item><title>Bi Directional Semi Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation</title><link>https://wuyangzz.github.io/2021/bi-directional-semi-supervised-training-of-convolutional-neural-networks-for-ultrasound-elastography-displacement-estimation/</link><pubDate>Wed, 22 Sep 2021 20:35:49 +0800</pubDate><guid>https://wuyangzz.github.io/2021/bi-directional-semi-supervised-training-of-convolutional-neural-networks-for-ultrasound-elastography-displacement-estimation/</guid><description>文章阅读 标题Title Bi-Directional Semi-Supervised Training of Convolutional Neural Networks for Ultrasound Elastography Displacement Estimation Ali K. Z. Tehrani, Mostafa Sharifzadeh, Emad Boctor and Hassan Rivaz 超声弹性成像位移估计的卷积神经网络双向半监督训练 审稿文章 发表于TUFFC
+摘要Abstract 超声弹性成像的性能在很大程度上取决于位移估计的准确性。最近，卷积神经网络(CNN)在光流估计中显示出良好的性能，并已被用于位移估计 自己实验室最先发表。由于在计算机视觉图像和高频射频超声数据之间存在很大的差距 RFPWC-Net该文章中明确表表明，所以在计算机视觉图像上训练的网络不能直接用于位移估计 (因为超声数据最主要的是有很多的高频数据和噪点) 。许多研究人员试图采用光流CNN，通过应用 迁移学习(自己的心脏模型能不能使用KITTI和fly以及sinetl数据集合上进行先训练，训练以后在进行迁移学习) 来提高CNN的使用性能。然而，实际超声数据中的地面真实位移是未知的，并且仿真数据与真实数据相比表现出域移，并且生成的计算量也很大。为了解决这个问题，已经提出了半监督方法，其中使用真实的超声数据来微调对计算机视觉图像进行预训练的网络。本文采用半监督方法，利用位移场的一阶和二阶导数进行正则化。我们还修改了网络结构以估计向前和向后位移，并提出使用向前和向后应变之间的一致性作为额外的正则化以进一步提高性能。我们用几个实验体模和活体数据验证了我们的方法。我们还表明，由我们提出的方法使用实验体模数据微调的网络在活体数据上表现良好，类似于在活体数据上微调的网络。我们的结果还表明，该方法的性能优于现有的深度学习方法，并且与计算量较大的基于优化的算法相当。
+介绍Introduction 超声成像与其他成像手段相比，价格便宜，携带方便，已被越来越多的研究者和临床医生用于诊断和图像引导介入治疗。超声弹性成像(USE)是一种检测组织粘弹性属性的成像技术，已被发现用于不同的应用，包括消融监测[1]、[2]和乳房病变定性[3]。使用方法跟踪组织的运动，大致可分为两组：准静态超声弹性成像和动态超声弹性成像。在动态弹性成像中，声辐射力或内力被用来在组织中产生快速运动[4]。相反，在准静态弹性成像中，组织中的运动是缓慢的，可以通过操作者简单地按下探头(徒手触诊)或使用机械臂来诱导[5]-[8]。
+本位主要估计的是使用手触摸组织得到的准静态弹性成像 实际上，弹性成像 (Elastography) 一词最早由 Ophir 等人提出 [a]，因此狭义的弹性成像仅指这种静态力激励下的成像技术 [b]。 其中准静态超声成像技术因具有高分辨率、实时性、不需要额外改进传统超声设备等优点而得到广泛应用。然而,准静态超声弹性成像算法仍然面临着挑战:不正确的匹配点导致弹性成像效果差、实时性要求较高、根据经验设置的窗口系数不能自适应组织等。 [a] Ophir J, Cespedes I, Ponnekanti H, et al. Elastography: a quantitative method for imaging the elasticity of biological tissues[J].Ultrasonic Imaging,1991,13(2):111-134. [b] 罗建文, 白净.</description></item><item><title>自监督文献综述</title><link>https://wuyangzz.github.io/2021/%E8%87%AA%E7%9B%91%E7%9D%A3%E6%96%87%E7%8C%AE%E7%BB%BC%E8%BF%B0/</link><pubDate>Wed, 28 Jul 2021 15:09:37 +0800</pubDate><guid>https://wuyangzz.github.io/2021/%E8%87%AA%E7%9B%91%E7%9D%A3%E6%96%87%E7%8C%AE%E7%BB%BC%E8%BF%B0/</guid><description>综合对比： paper code Method KITTI 2012 KITTI 2015 Sintel Clean Sintel Final train test train test(F1-all) Jason J Y, Harley A W, Derpanis K G. Back to basics: Unsupervised learning of optical flow via brightness constancy and motion smoothness[C]//European Conference on Computer Vision. Springer, Cham, 2016: 3-10. https://github.com/ryersonvisionlab/unsupFlownet BackToBasic 11.3 9.9 – – Ren Z, Yan J, Ni B, et al. Unsupervised deep learning for optical flow estimation[C]//Thirty-First AAAI Conference on Artificial Intelligence.</description></item><item><title>通过类比学习：无监督光流量估计转换的可靠监督</title><link>https://wuyangzz.github.io/2021/%E9%80%9A%E8%BF%87%E7%B1%BB%E6%AF%94%E5%AD%A6%E4%B9%A0%E6%97%A0%E7%9B%91%E7%9D%A3%E5%85%89%E6%B5%81%E9%87%8F%E4%BC%B0%E8%AE%A1%E8%BD%AC%E6%8D%A2%E7%9A%84%E5%8F%AF%E9%9D%A0%E7%9B%91%E7%9D%A3/</link><pubDate>Tue, 13 Jul 2021 16:19:40 +0800</pubDate><guid>https://wuyangzz.github.io/2021/%E9%80%9A%E8%BF%87%E7%B1%BB%E6%AF%94%E5%AD%A6%E4%B9%A0%E6%97%A0%E7%9B%91%E7%9D%A3%E5%85%89%E6%B5%81%E9%87%8F%E4%BC%B0%E8%AE%A1%E8%BD%AC%E6%8D%A2%E7%9A%84%E5%8F%AF%E9%9D%A0%E7%9B%91%E7%9D%A3/</guid><description>CVPR文章 Occlusion Aware Unsupervised Learning of Optical Flow @misc{wang2018occlusion, title={Occlusion Aware Unsupervised Learning of Optical Flow}, author={Yang Wang and Yi Yang and Zhenheng Yang and Liang Zhao and Peng Wang and Wei Xu}, year={2018}, eprint={1711.05890}, archivePrefix={arXiv}, primaryClass={cs.CV} } 分别求出前向光流和后向光流，通过前向光流进行重建后向光流 $\widetilde{I}_1$ 向后流用于通过前向翘曲产生遮挡贴图$（O）$ photometric loss 光度损失：相当于求两个图片中所有点的相似性。 smoothness loss 正则化平滑：仅基于光度损失的无监督学习对于无纹理的地方是模糊的。减少模糊度最常用的方法就是平滑正则化smoothness loss函数。 文章提高了一种端到端的无监督学习框架，可以训练为标记视频的光流信息。主要参考了FlowNets模型，做出了一定的改进。
+可用思路:将FlowNets模型用于我们实验室的PWC-Net模型。其他地方基本可以不用做改变。可以看看后面其他论文改进的部分。
+Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation @inproceedings{liu2020learning, title = {Learning by Analogy: Reliable Supervision from Transformations for Unsupervised Optical Flow Estimation}, author = {Liu, Liang and Zhang, Jiangning and He, Ruifei and Liu, Yong and Wang, Yabiao and Tai, Ying and Luo, Donghao and Wang, Chengjie and Li, Jilin and Huang, Feiyue}, booktitle = {IEEE Conference on Computer Vision and Pattern Recognition(CVPR)}, year = {2020} } 和上一个网络有一定的差别 以PWC-Net 网络图： 成功在自己笔记本上实现部署模型并且测试代码： 模型部署比较麻烦。需要在cuda9.</description></item><item><title>文章阅读</title><link>https://wuyangzz.github.io/2021/%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB/</link><pubDate>Wed, 28 Apr 2021 19:09:00 +0800</pubDate><guid>https://wuyangzz.github.io/2021/%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB/</guid><description>分类 超声模拟心动图 Detailed Evaluation of Five 3D Speckle Tracking Algorithms Using Synthetic Echocardiographic Recordings 作者：Alessandrini, M.; Heyde, B.; Queiros, S. (&amp;hellip;) 来源：IEEE Transactions on Medical Imaging, 2016, 35(8), 1915-1926 摘要：3D超声定量心脏畸形和应变需要大量的研究工作。 然而，由于缺乏可靠的验证过程来量化和比较性能，这些技术在临床实践中仍被广泛使用。 在这种情况下，使用全合成序列已成为用于初始计算机评估的既定工具。 然而，现有仿真技术的现实性仍然太局限，无法代表可靠的基准数据。 此外，不同的中心通常会利用内部开发的仿真管道这一事实使得比较存在一定难度。 在原始框架中利用真实的超声记录学习和模拟现实的斑点纹理。模拟的图像显示了典型的伪像，使得在超声挑战中进行运动跟踪。地面真相位移场可用垂直方向通过电子机械模型进行控制。通过对机械和超声参数进行渐进地修改机械和超声算法，以感性地改变3D路径 并可以评估图像属性。 拟议中的管道用于生成包括健康和病理案例在内的8个序列的初始库，可通过我们的项目网页将其免费提供给研究社区。 A Pipeline for the Generation of Realistic 3D Synthetic Echocardiographic Sequences: Methodology and Open-Access Database 作者：Alessandrini, M.; De Craene, M.; Bernard, O. (&amp;hellip;) 来源：IEEE Transactions on Medical Imaging, 2015, 34(7), 1436-1451 摘要：使用3D超声对心脏变形和应变进行量化需要大量的研究工作。然而，由于缺乏可靠的验证过程来量化和比较性能，这些技术在临床实践中的广泛使用仍然受到阻碍。在这种情况下，使用完全合成的序列已成为用于初始计算机评估的既定工具。然而，现有仿真技术的现实性仍然太局限，无法代表可靠的基准数据。此外，不同的中心通常利用内部开发的模拟管道这一事实使得进行公平的比较变得困难。在这种情况下，本文介绍了一种用于生成合成3D心脏超声图像序列的新颖流水线。机电建模和超声仿真领域中的最新解决方案在原始框架内进行了组合，该框架利用真实的超声记录来学习和模拟逼真的斑点纹理。模拟图像显示了典型的伪像，这些伪像使超声中的运动跟踪变得困难。地面真实位移场在体素方向可用，并且完全由机电模型控制。通过逐步修改机械和超声参数，可以评估3D应变算法对病理学和图像特性的敏感性。拟议中的管道用于生成包括健康和病理病例在内的8个序列的初始文库，该库可通过我们的项目网页免费提供给研究社区。地面真实位移场在体素方向可用，并且完全由机电模型控制。通过逐步修改机械和超声参数，可以评估3D应变算法对病理学和图像特性的敏感性。拟议中的管道用于生成包括健康和病理病例在内的8个序列的初始文库，该库可通过我们的项目网页免费提供给研究社区。地面实测位移场在体素方向可用，并且完全由机电模型控制。通过逐步修改机械和超声参数，可以评估3D应变算法对病理学和图像特性的敏感性。拟议中的管道用于生成包括健康和病理病例在内的8个序列的初始文库，该库可通过我们的项目网页免费提供给研究社区。 可用于VFM验证</description></item><item><title>Pytorch入门手写数字</title><link>https://wuyangzz.github.io/2021/pytorch%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97/</link><pubDate>Fri, 09 Apr 2021 13:23:43 +0800</pubDate><guid>https://wuyangzz.github.io/2021/pytorch%E5%85%A5%E9%97%A8%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97/</guid><description>#导入需要的包 import numpy as np import torch from torch import nn from PIL import Image import torchvision import matplotlib.pyplot as plt import os from torchvision import datasets, transforms,utils Step1：准备数据。 transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean=[0.5],std=[0.5])]) train_data = datasets.MNIST(root = &amp;#34;./data/&amp;#34;, transform=transform, train = True, download = True) test_data = datasets.MNIST(root=&amp;#34;./data/&amp;#34;, transform = transform, train = False) print(len(train_data)) print(len(test_data)) 60000 10000 train_data 的个数：60000个训练样本
 test_data 的个数：10000个训练样本
-train_loader = torch.utils.data.DataLoader(train_data,batch_size=128, shuffle=True,num_workers=2) test_loader = torch.utils.data.DataLoader(test_data,batch_size=128, shuffle=True,num_workers=2) print(len(train_loader)) print(len(test_loader)) 469 79  加载到dataloader中后，一个dataloader是一个batch的数据</description>
-    </item>
-    
-    <item>
-      <title>Jupyter中matplotlib中文乱码问题</title>
-      <link>https://wuyangzz.github.io/2021/jupyter%E4%B8%ADmatplotlib%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</link>
-      <pubDate>Fri, 26 Mar 2021 17:01:43 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/jupyter%E4%B8%ADmatplotlib%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</guid>
-      <description>下载字体 首先下载中文字体，链接如下。
+train_loader = torch.utils.data.DataLoader(train_data,batch_size=128, shuffle=True,num_workers=2) test_loader = torch.utils.data.DataLoader(test_data,batch_size=128, shuffle=True,num_workers=2) print(len(train_loader)) print(len(test_loader)) 469 79 加载到dataloader中后，一个dataloader是一个batch的数据</description></item><item><title>Jupyter中matplotlib中文乱码问题</title><link>https://wuyangzz.github.io/2021/jupyter%E4%B8%ADmatplotlib%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</link><pubDate>Fri, 26 Mar 2021 17:01:43 +0800</pubDate><guid>https://wuyangzz.github.io/2021/jupyter%E4%B8%ADmatplotlib%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</guid><description>下载字体 首先下载中文字体，链接如下。
 字体下载链接 win中下载号以后可以直接安装字体
 修改matplotlibrc文件 matplotlibrc文件的位置如下：
 D:\Anaconda3\Lib\site-packages\matplotlib\mpl-data （1）删掉 font.family前面的 # 并改为SimHei （2）删掉 font.sans-serif 前面的 #
-需要将刚才下载的SimHei添加到其中，如红色方框所示。  保存退出！
+需要将刚才下载的SimHei添加到其中，如红色方框所示。 保存退出！
 把这个路径下的文件都删除（tex.cache和fontlist-.v310josn） c://用户//用户名//.matplotlib
-重新启动jupyter </description>
-    </item>
-    
-    <item>
-      <title>图片加噪声</title>
-      <link>https://wuyangzz.github.io/2021/%E5%9B%BE%E7%89%87%E5%8A%A0%E5%99%AA%E5%A3%B0/</link>
-      <pubDate>Fri, 26 Mar 2021 16:55:05 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/%E5%9B%BE%E7%89%87%E5%8A%A0%E5%99%AA%E5%A3%B0/</guid>
-      <description>图片加噪声 图像噪声分类 1.加性噪声 f(x,y)=g(x,y)+n(x,y) 一般是图像传输信道噪声和CCD摄像机图像数字化过程中产生 2.乘性噪声 f(x,y)=g(x,y)*n(x,y) 一般由 胶片中颗粒 飞点扫描图像噪声 电视扫描光栅等原因造成 3.量化噪声 模拟到数字产生的差异 量化中的误差  图像噪声模型 1.高斯噪声 (Gaussian noise) 最广泛。传感器非正常环境下产生，电子电路中噪声。 高斯分布 2.脉冲噪声 (Impulsive noise) 双极脉冲：椒盐脉冲，尖峰噪声 散粒噪声 盐噪声：随机的白色像素点 胡椒噪声：随机黑色像素点 3.瑞利噪声 (Rayleigh noise) 4.伽马(爱尔兰)噪声 (Gamma noise) 5.指数噪声(Exponential noise) 6.均匀噪声(Uniform noise)  去噪效果评价算法 1.SNR [信噪比] 计算图像自身的信噪比 输入为一幅图片 2.PSNR [峰值信噪比] 计算两个图像之间的相似度 去噪后的图片和原图做比较 3.SSIM [结构相似性] 衡量两幅图像相似度  Code import numpy as np import copy import cv2 import random import skimage.metrics import matplotlib.pyplot as plt def GaussianNoise(srcImg,percent,sigma,means=0,greyscale=256): &amp;#34;&amp;#34;&amp;#34; 为灰度图像添加 高斯噪声 :param srcImg: 源图像 :param percent: 噪声百分比 :param sigma: 高斯的标准差 :param means=0: 高斯的均值 默认为0 :param greyscale=256: 灰度图像的度 默认为256 &amp;#34;&amp;#34;&amp;#34; (h,w)= srcImg.</description>
-    </item>
-    
-    <item>
-      <title>稀疏表示和字典学习</title>
-      <link>https://wuyangzz.github.io/2021/%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%AD%97%E5%85%B8%E5%AD%A6%E4%B9%A0/</link>
-      <pubDate>Fri, 19 Mar 2021 17:31:43 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%AD%97%E5%85%B8%E5%AD%A6%E4%B9%A0/</guid>
-      <description>1、什么是稀疏表示 官方的说法：任意一个信号都可以在一个过完备字典上稀疏线性表出。这样，一个信号被分解为有限个信号的线形组合的形式我们称之为稀疏表示。 $$y = Dα s.t.||α||0 &amp;lt; σ$$ 其中y就表示任意信号，D表示过完备字典，α表示系数矩阵，Dα就是二者的点乘，s.t.表示subject to的缩写，我们所说的稀疏就是α中非零系数的数量很少，即绝大部分α中的系数都为0，如何用数学公式约束呢？就是||α||0 &amp;lt; σ，其中小于符号前一部分是α的第0范数，所谓范数就是距离的一种，现实中的A到B的距离就是第二范数，α的第0范数指的是α中非零元数的数量，整体来说就是α中非零元素的数量之和小于一个约定好的数σ。
+重新启动jupyter</description></item><item><title>图片加噪声</title><link>https://wuyangzz.github.io/2021/%E5%9B%BE%E7%89%87%E5%8A%A0%E5%99%AA%E5%A3%B0/</link><pubDate>Fri, 26 Mar 2021 16:55:05 +0800</pubDate><guid>https://wuyangzz.github.io/2021/%E5%9B%BE%E7%89%87%E5%8A%A0%E5%99%AA%E5%A3%B0/</guid><description>图片加噪声 图像噪声分类 1.加性噪声 f(x,y)=g(x,y)+n(x,y) 一般是图像传输信道噪声和CCD摄像机图像数字化过程中产生 2.乘性噪声 f(x,y)=g(x,y)*n(x,y) 一般由 胶片中颗粒 飞点扫描图像噪声 电视扫描光栅等原因造成 3.量化噪声 模拟到数字产生的差异 量化中的误差 图像噪声模型 1.高斯噪声 (Gaussian noise) 最广泛。传感器非正常环境下产生，电子电路中噪声。 高斯分布 2.脉冲噪声 (Impulsive noise) 双极脉冲：椒盐脉冲，尖峰噪声 散粒噪声 盐噪声：随机的白色像素点 胡椒噪声：随机黑色像素点 3.瑞利噪声 (Rayleigh noise) 4.伽马(爱尔兰)噪声 (Gamma noise) 5.指数噪声(Exponential noise) 6.均匀噪声(Uniform noise) 去噪效果评价算法 1.SNR [信噪比] 计算图像自身的信噪比 输入为一幅图片 2.PSNR [峰值信噪比] 计算两个图像之间的相似度 去噪后的图片和原图做比较 3.SSIM [结构相似性] 衡量两幅图像相似度 Code import numpy as np import copy import cv2 import random import skimage.metrics import matplotlib.pyplot as plt def GaussianNoise(srcImg,percent,sigma,means=0,greyscale=256): &amp;#34;&amp;#34;&amp;#34; 为灰度图像添加 高斯噪声 :param srcImg: 源图像 :param percent: 噪声百分比 :param sigma: 高斯的标准差 :param means=0: 高斯的均值 默认为0 :param greyscale=256: 灰度图像的度 默认为256 &amp;#34;&amp;#34;&amp;#34; (h,w)= srcImg.</description></item><item><title>稀疏表示和字典学习</title><link>https://wuyangzz.github.io/2021/%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%AD%97%E5%85%B8%E5%AD%A6%E4%B9%A0/</link><pubDate>Fri, 19 Mar 2021 17:31:43 +0800</pubDate><guid>https://wuyangzz.github.io/2021/%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%AD%97%E5%85%B8%E5%AD%A6%E4%B9%A0/</guid><description>1、什么是稀疏表示 官方的说法：任意一个信号都可以在一个过完备字典上稀疏线性表出。这样，一个信号被分解为有限个信号的线形组合的形式我们称之为稀疏表示。 $$y = Dα s.t.||α||0 &amp;lt; σ$$ 其中y就表示任意信号，D表示过完备字典，α表示系数矩阵，Dα就是二者的点乘，s.t.表示subject to的缩写，我们所说的稀疏就是α中非零系数的数量很少，即绝大部分α中的系数都为0，如何用数学公式约束呢？就是||α||0 &amp;lt; σ，其中小于符号前一部分是α的第0范数，所谓范数就是距离的一种，现实中的A到B的距离就是第二范数，α的第0范数指的是α中非零元数的数量，整体来说就是α中非零元素的数量之和小于一个约定好的数σ。
 1.1、稀疏 首先我们说到中国古典四大名著之一的《红楼梦》，全篇120回，一共用了731,017个汉字。新华字典是我们每个人小学都人手必备的工具书，共收录了11,200个汉字，虽然二者字数相差了将近70倍，但我们每个人都知道，《红楼梦》中出现的每一个汉字都能从《新华字典》里找到，并且如果大家仔细想想的话，《红楼梦》一定没有用完一本《新华字典》中收录的每一个汉字，综上我们可以说：一套《红楼梦》中所有的汉字都能在《新华字典》中找到，并且《新华字典》中一定有《红楼梦》没用到的汉字。
 基于这个例子我们把“能找到”翻译成线性表示，把“一定有没用过的字”翻译成稀疏，这样的话是不是对我们文章开始所提到的定义有一点理解。
 你怎么能从人群中认出你最好的朋友，你怎么能在很多年不见之后一眼就认出你的年轻时候的朋友？这时候有的朋友可能会说啦，“因为他下巴这有颗痣”，“因为他鼻子特别大”，“因为他秃啦”，等等。这些都对，我们可总结一下，我们只需要记住特定的几个专属于朋友的特征就能认出你的朋友，因为一张脸上有无数的东西可以记住，用掉书袋的话说，脸是连续的，有无数个特征，但你只需要记住很少的特征你就能认出你的朋友。那么这样的问题我们同样用上面的话总结一下：只需要从脸上找到有限个标志特征就能识别出一个人。同样的我们将“识别出人”看作是线形表出，“有限个”说成稀疏，这也是我们一开始提到的那句话一种理解。
 这一次我们加深一步，我们将上一句话换个说法：人脸在面部特征识别的空间中是稀疏的。说白了也是同一个意思，面部特征识别空间就是我要认出一个人，也就是说我想认出一个人只需要有限个特征，而这有限个特征相较于拥有无限特征的脸来说，是稀疏的。这样将第一个例子扩张，也就变成了：任意一本中文书在《新华字典》的收录汉字空间中是稀疏的。然后我们自然推广（高中数学知识），假设存在这样一个信号的字典，它也像《新华字典》一样收录了各种基本信号，那么我们也能说：任意一个信号都是这个信号字典中基本信号组合而成，并且任意一个信号不会用到其中的每一个基信号。抑或是：信号在信号字典的特征空间内是稀疏的。这就是本文一开始提到的定义的通俗理解。
-1.2、过完备 过完备的意思就是字典中信号的个数要远远大于信号的长度。其实过完备和稀疏是相辅相成的，只有m足够大，才能实现只用极少的原子表示一个信号。</description>
-    </item>
-    
-    <item>
-      <title>SVD分解</title>
-      <link>https://wuyangzz.github.io/2021/svd%E5%88%86%E8%A7%A3/</link>
-      <pubDate>Fri, 19 Mar 2021 16:23:19 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/svd%E5%88%86%E8%A7%A3/</guid>
-      <description>1、特征值分解（EVD) $ a \ne 0 $ 实对称矩阵 在理角奇异值分解之前，需要先回顾一下特征值分解，如果矩阵A是一个 $ m\times m $的实对称矩阵$ A = A^T $ 那么它可以被分解成如下的形式 $$A = Q\Sigma Q^T= Q\left[ \begin{matrix} \lambda_1 &amp;amp; \cdots &amp;amp; \cdots &amp;amp; \cdots\\
-\cdots &amp;amp; \lambda_2 &amp;amp; \cdots &amp;amp; \cdots\\
-\cdots &amp;amp; \cdots &amp;amp; \ddots &amp;amp; \cdots\\
-\cdots &amp;amp; \cdots &amp;amp; \cdots &amp;amp; \lambda_m\\
-\end{matrix} \right]Q^T $$
-2、奇异值分解（SVD） 2.1 奇异值分解定义 有一个m×n的实数矩阵A，我们想要把它分解成如下的形式: $$ A = U\Sigma V^T $$ 其中U和V均为单位正交阵，即有 $ A = A^T$ 和$VV^T=I$，U称为左奇异矩阵，V称为右奇异矩阵，Σ仅在主对角线上有值，我们称它为奇异值，其它元素均为0。上面矩阵的维度分别为 $$ U \in R^{m\times m},\ \Sigma \in R^{m\times n},\ V \in R^{n\times n} $$</description>
-    </item>
-    
-    <item>
-      <title>Ubuntu新增用户和一键ssh免密登录脚本</title>
-      <link>https://wuyangzz.github.io/2021/ubuntu%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%92%8C%E4%B8%80%E9%94%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</link>
-      <pubDate>Fri, 12 Mar 2021 17:03:57 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/ubuntu%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%92%8C%E4%B8%80%E9%94%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</guid>
-      <description>一键创建用户脚本 此脚本用户一键创建具有sudo权限的账户 并且可以免密使用sudo
-id openpai &amp;amp;&amp;gt;/dev/null #验证用户是否存在 if [ $? -eq 0 ];then echo &amp;#34;用户已经创建了&amp;#34; else echo &amp;#34;用户即将开始创建&amp;#34; useradd -m -s /bin/bash openpai echo &amp;#34;用户创建成功&amp;#34; echo &amp;#34;正在设置密码&amp;#34; echo &amp;#34;openpai:openpai&amp;#34; | sudo chpasswd #给用户设置密码 echo &amp;#34;密码设置成功&amp;#34; echo &amp;#34;openpai&amp;#34; fi echo &amp;#34;正在设置sudo权限&amp;#34; mkdir /etc/sudoers.d/ echo openpai | sudo -S sh -c &amp;#34;echo &amp;#39;openpai ALL=(ALL) NOPASSWD: ALL&amp;#39; &amp;gt;&amp;gt; /etc/sudoers.d/user-openpai&amp;#34; sudo chmod 440 /etc/sudoers.d/user-openpai 批量ssh免密登录脚本 #!/usr/bin/bash  shell_dir=$(dirname &amp;#34;$0&amp;#34;) SHELL_DIR_ABSOLUTE=$(cd &amp;#34;$shell_dir&amp;#34;; pwd) EXIST_DOWN_HOST=&amp;#34;NO&amp;#34; SSH_HOME_DIR=&amp;#34;/root&amp;#34; if !</description>
-    </item>
-    
-    <item>
-      <title>Ubuntu装计算卡</title>
-      <link>https://wuyangzz.github.io/2021/ubuntu%E8%A3%85%E8%AE%A1%E7%AE%97%E5%8D%A1/</link>
-      <pubDate>Thu, 11 Mar 2021 11:29:01 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/ubuntu%E8%A3%85%E8%AE%A1%E7%AE%97%E5%8D%A1/</guid>
-      <description>背景 实验室台式机电脑本身有intel的集成显卡，但是在装ubuntu桌面版的时候，安装好专业卡K20C（无输出端口）的驱动后 无法进入桌面。 但是进入恢复模式卸载 NVIDIA显卡驱动后便可以正常进入系统。
-解决方案   强制重启时进入UBUNTU高级选项（advanced options)     选择root模式进入     设置默认显卡为intel   sudo prime-select query # 查看当前显卡 sudo prime-select intel # 设置Intel显卡 sudo prime-select nvidia # 设置NVIDIA显卡   重启   开启nvidia显卡   正常重启后可以进入系统，但是还是没有调用NVIDIA显卡 可以直接在终端输入命令(前提是你已经安装好了NVIDIA的驱动)：
-nvidia-settings </description>
-    </item>
-    
-    <item>
-      <title>Ubuntu设置vnc</title>
-      <link>https://wuyangzz.github.io/2021/ubuntu%E8%AE%BE%E7%BD%AEvnc/</link>
-      <pubDate>Tue, 09 Mar 2021 13:43:38 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/ubuntu%E8%AE%BE%E7%BD%AEvnc/</guid>
-      <description>安装配置软件   VNC的安装与配置   安装之前先输入（获取最新套件的信息）
+1.2、过完备 过完备的意思就是字典中信号的个数要远远大于信号的长度。其实过完备和稀疏是相辅相成的，只有m足够大，才能实现只用极少的原子表示一个信号。</description></item><item><title>SVD分解</title><link>https://wuyangzz.github.io/2021/svd%E5%88%86%E8%A7%A3/</link><pubDate>Fri, 19 Mar 2021 16:23:19 +0800</pubDate><guid>https://wuyangzz.github.io/2021/svd%E5%88%86%E8%A7%A3/</guid><description>1、特征值分解（EVD) $ a \ne 0 $ 实对称矩阵 在理角奇异值分解之前，需要先回顾一下特征值分解，如果矩阵A是一个 $ m\times m $的实对称矩阵$ A = A^T $ 那么它可以被分解成如下的形式 $$A = Q\Sigma Q^T= Q\left[ \begin{matrix} \lambda_1 &amp;amp; \cdots &amp;amp; \cdots &amp;amp; \cdots\\ \cdots &amp;amp; \lambda_2 &amp;amp; \cdots &amp;amp; \cdots\\ \cdots &amp;amp; \cdots &amp;amp; \ddots &amp;amp; \cdots\\ \cdots &amp;amp; \cdots &amp;amp; \cdots &amp;amp; \lambda_m\\ \end{matrix} \right]Q^T $$
+2、奇异值分解（SVD） 2.1 奇异值分解定义 有一个m×n的实数矩阵A，我们想要把它分解成如下的形式: $$ A = U\Sigma V^T $$ 其中U和V均为单位正交阵，即有 $ A = A^T$ 和$VV^T=I$，U称为左奇异矩阵，V称为右奇异矩阵，Σ仅在主对角线上有值，我们称它为奇异值，其它元素均为0。上面矩阵的维度分别为 $$ U \in R^{m\times m},\ \Sigma \in R^{m\times n},\ V \in R^{n\times n} $$</description></item><item><title>Ubuntu新增用户和一键ssh免密登录脚本</title><link>https://wuyangzz.github.io/2021/ubuntu%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%92%8C%E4%B8%80%E9%94%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</link><pubDate>Fri, 12 Mar 2021 17:03:57 +0800</pubDate><guid>https://wuyangzz.github.io/2021/ubuntu%E6%96%B0%E5%A2%9E%E7%94%A8%E6%88%B7%E5%92%8C%E4%B8%80%E9%94%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</guid><description>一键创建用户脚本 此脚本用户一键创建具有sudo权限的账户 并且可以免密使用sudo
+id openpai &amp;amp;&amp;gt;/dev/null #验证用户是否存在 if [ $? -eq 0 ];then echo &amp;#34;用户已经创建了&amp;#34; else echo &amp;#34;用户即将开始创建&amp;#34; useradd -m -s /bin/bash openpai echo &amp;#34;用户创建成功&amp;#34; echo &amp;#34;正在设置密码&amp;#34; echo &amp;#34;openpai:openpai&amp;#34; | sudo chpasswd #给用户设置密码 echo &amp;#34;密码设置成功&amp;#34; echo &amp;#34;openpai&amp;#34; fi echo &amp;#34;正在设置sudo权限&amp;#34; mkdir /etc/sudoers.d/ echo openpai | sudo -S sh -c &amp;#34;echo &amp;#39;openpai ALL=(ALL) NOPASSWD: ALL&amp;#39; &amp;gt;&amp;gt; /etc/sudoers.d/user-openpai&amp;#34; sudo chmod 440 /etc/sudoers.d/user-openpai 批量ssh免密登录脚本 #!/usr/bin/bash shell_dir=$(dirname &amp;#34;$0&amp;#34;) SHELL_DIR_ABSOLUTE=$(cd &amp;#34;$shell_dir&amp;#34;; pwd) EXIST_DOWN_HOST=&amp;#34;NO&amp;#34; SSH_HOME_DIR=&amp;#34;/root&amp;#34; if !</description></item><item><title>Ubuntu装计算卡</title><link>https://wuyangzz.github.io/2021/ubuntu%E8%A3%85%E8%AE%A1%E7%AE%97%E5%8D%A1/</link><pubDate>Thu, 11 Mar 2021 11:29:01 +0800</pubDate><guid>https://wuyangzz.github.io/2021/ubuntu%E8%A3%85%E8%AE%A1%E7%AE%97%E5%8D%A1/</guid><description>背景 实验室台式机电脑本身有intel的集成显卡，但是在装ubuntu桌面版的时候，安装好专业卡K20C（无输出端口）的驱动后 无法进入桌面。 但是进入恢复模式卸载 NVIDIA显卡驱动后便可以正常进入系统。
+解决方案 强制重启时进入UBUNTU高级选项（advanced options) 选择root模式进入 设置默认显卡为intel sudo prime-select query # 查看当前显卡 sudo prime-select intel # 设置Intel显卡 sudo prime-select nvidia # 设置NVIDIA显卡 重启 开启nvidia显卡 正常重启后可以进入系统，但是还是没有调用NVIDIA显卡 可以直接在终端输入命令(前提是你已经安装好了NVIDIA的驱动)：
+nvidia-settings</description></item><item><title>Ubuntu设置vnc</title><link>https://wuyangzz.github.io/2021/ubuntu%E8%AE%BE%E7%BD%AEvnc/</link><pubDate>Tue, 09 Mar 2021 13:43:38 +0800</pubDate><guid>https://wuyangzz.github.io/2021/ubuntu%E8%AE%BE%E7%BD%AEvnc/</guid><description>安装配置软件 VNC的安装与配置 安装之前先输入（获取最新套件的信息）
 apt-get update 输入以下命令安装VNC，安装过程中需要输入Y来确认
 apt-get install vnc4server 启动VNC（第一次启动需要设置密码）
 vncserver 设置vncservgnome 桌面环境安装与配置（可直接跳至第3步） 安装x－windows的基础
@@ -106,71 +49,24 @@ sudo apt-get install gdm 安装Ubuntu的桌面
 sudo apt-get install ubuntu-desktop 安装gnome配套软件
 sudo apt-get install gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal 修改VNC配置文件
 sudo vim ~/.vnc/xstartup 修改为：
-#!/bin/sh # Uncomment the following two lines for normal desktop: export XKL_XMODMAP_DISABLE=1 unset SESSION_MANAGER # exec /etc/X11/xinit/xinitrc unset DBUS_SESSION_BUS_ADDRESS gnome-panel &amp;amp; gnmoe-settings-daemon &amp;amp; metacity &amp;amp; nautilus &amp;amp; gnome-terminal &amp;amp; 杀掉原桌面进程，输入命令（其中的:1是桌面号）：</description>
-    </item>
-    
-    <item>
-      <title>GPU租用手册</title>
-      <link>https://wuyangzz.github.io/2021/gpu%E7%A7%9F%E7%94%A8%E6%89%8B%E5%86%8C/</link>
-      <pubDate>Mon, 22 Feb 2021 14:17:51 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/gpu%E7%A7%9F%E7%94%A8%E6%89%8B%E5%86%8C/</guid>
-      <description>一、服务器简介 概述 实验室利用两台ESC 4000G2 服务器 4张3090显卡搭建GPU服务器。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境将会发生不可避免的冲突。最后经过实际考虑，利用Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。
- 一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境。 虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。 如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。 可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。 可以使用web界面如Shipyard等来对docker进行GUI管理 NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。 NGC网站镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。   服务器基本配置    备注 HPC1 HPC2     CPU Intel(R) Xeon(R) CPU E5-2620 2.00GHz Intel(R) Xeon(R) CPU E5-2620 2.00GHz   内存 64 G （8*8G）   硬盘 3T 2T   显卡 技嘉RTX 3090 Turbo*2 技嘉RTX 3090 Turbo*2   IP 172.</description>
-    </item>
-    
-    <item>
-      <title>实验室GPU服务器操作细则</title>
-      <link>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%BB%86%E5%88%99/</link>
-      <pubDate>Sun, 10 Jan 2021 10:42:55 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%BB%86%E5%88%99/</guid>
-      <description>实验室GPU服务器操作细则 实验室GPU简介  系统 ubuntu18.04 IP:172.23.253.* 172.23.253.15* 双路3090显卡  docker docker 简介 ​	docker镜像可以看作是一个以及配置好了很多环境的操作系统，docker与虚拟机类似，但是两者在原理上有很大的不同。docker是讲操作系统的底层虚拟化，而虚拟机是将硬件虚拟化，因此docker具有更高的便携性和跟高效的利用服务器的性能。同时由于docker的标准化，它可以无视任何基础设施的标志，可以很简单的部署到任何的一个地方，另外docker重要的优点就是可以提供良好的隔离兼容。
-​	其主要概念中最重要的就是为images container
-  Images 是一个只读的模版，可以用来创建container，可以直接下载已经构建好的image，也可以自己通过Dockerfile来创建。   container 是image的可运行实例，其可以通过API和CLI(命令行)进行操作。   NGC ​	NGC是NVIDIA官方提供的容器，其主要的作用是为用户提供一个简单、高效、安全的镜像，方便用户可以最轻松的使用NVIDIA GPU。
+#!/bin/sh # Uncomment the following two lines for normal desktop: export XKL_XMODMAP_DISABLE=1 unset SESSION_MANAGER # exec /etc/X11/xinit/xinitrc unset DBUS_SESSION_BUS_ADDRESS gnome-panel &amp;amp; gnmoe-settings-daemon &amp;amp; metacity &amp;amp; nautilus &amp;amp; gnome-terminal &amp;amp; 杀掉原桌面进程，输入命令（其中的:1是桌面号）：</description></item><item><title>GPU租用手册</title><link>https://wuyangzz.github.io/2021/gpu%E7%A7%9F%E7%94%A8%E6%89%8B%E5%86%8C/</link><pubDate>Mon, 22 Feb 2021 14:17:51 +0800</pubDate><guid>https://wuyangzz.github.io/2021/gpu%E7%A7%9F%E7%94%A8%E6%89%8B%E5%86%8C/</guid><description>一、服务器简介 概述 实验室利用两台ESC 4000G2 服务器 4张3090显卡搭建GPU服务器。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境将会发生不可避免的冲突。最后经过实际考虑，利用Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。
+一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境。 虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。 如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。 可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。 可以使用web界面如Shipyard等来对docker进行GUI管理 NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。 NGC网站镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。 备注 HPC1 HPC2 CPU Intel(R) Xeon(R) CPU E5-2620 2.00GHz Intel(R) Xeon(R) CPU E5-2620 2.00GHz 内存 64 G （8*8G） 硬盘 3T 2T 显卡 技嘉RTX 3090 Turbo*2 技嘉RTX 3090 Turbo*2 IP 172.23.253.104 172.23.253.113 Driver Version 460.32.03 460.32.03 CUDA CUDA11.2 CUDA11.2 二、知识准备 2.1 下载Xshell、Xftp，并了解如何使用 2.2 了解什么是Docker、什么是容器 2.3 了解基本的ubuntu使用命令 2.4 了解Jupyter lab使用命令 三、基础环境 3.</description></item><item><title>实验室GPU服务器操作细则</title><link>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%BB%86%E5%88%99/</link><pubDate>Sun, 10 Jan 2021 10:42:55 +0800</pubDate><guid>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E7%BB%86%E5%88%99/</guid><description>实验室GPU服务器操作细则 实验室GPU简介 系统 ubuntu18.04 IP:172.23.253.* 172.23.253.15* 双路3090显卡 docker docker 简介 ​ docker镜像可以看作是一个以及配置好了很多环境的操作系统，docker与虚拟机类似，但是两者在原理上有很大的不同。docker是讲操作系统的底层虚拟化，而虚拟机是将硬件虚拟化，因此docker具有更高的便携性和跟高效的利用服务器的性能。同时由于docker的标准化，它可以无视任何基础设施的标志，可以很简单的部署到任何的一个地方，另外docker重要的优点就是可以提供良好的隔离兼容。
+​ 其主要概念中最重要的就是为images container
+Images 是一个只读的模版，可以用来创建container，可以直接下载已经构建好的image，也可以自己通过Dockerfile来创建。 container 是image的可运行实例，其可以通过API和CLI(命令行)进行操作。 NGC ​ NGC是NVIDIA官方提供的容器，其主要的作用是为用户提供一个简单、高效、安全的镜像，方便用户可以最轻松的使用NVIDIA GPU。
 使用Docker CLI从NGC容器注册表中提取容器
- 打开NGC网站，其中可以浏览自己所需要的容器  自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。并进入其中。里面有该容器的参考文档。只需要将其Pull记住。  我们一般会提供一个使用jupyter的8888端口一个使用xshell和xftp的22端口。并且将用户名和密码告知。  docker命令 dockers ps -a 查看容器
+打开NGC网站，其中可以浏览自己所需要的容器 自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。并进入其中。里面有该容器的参考文档。只需要将其Pull记住。 我们一般会提供一个使用jupyter的8888端口一个使用xshell和xftp的22端口。并且将用户名和密码告知。 docker命令 dockers ps -a 查看容器
 docker images 查看镜像
 docker start 容器id 启动容器
 docker attach 容器id 进入容器
 docker stop 容器id 停止容器
 docker rm 容器id 删除容器
- docker image rm 镜像id 删除镜像id</description>
-    </item>
-    
-    <item>
-      <title>实验室GPU基本介绍</title>
-      <link>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/</link>
-      <pubDate>Sun, 10 Jan 2021 10:40:56 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/</guid>
-      <description>背景 ​	实验室利用ESC 4000G2 服务器 32G内存 3T机械硬盘 4张3090显卡搭建GPU服务器。每一张3090峰值功耗为350w，服务器电源为1650w 在四张显卡不同时最高功率的情况下满足基本你的使用条件。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境的话肯定会发生冲突。所有最后经过实际考虑Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。
-解决方案  一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境 主机采用ubuntu或者centos作为宿主主机上的系统。 虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。nvidia-docker 的使用规则和 Docker 是一致的，只需要把命令里的“docker”替换为“nvidia-docker”就可以了。 如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。 可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。 可以使用web界面如Shipyard等来对docker进行GUI管理 NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。 NGC镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。  优势  用户可以方便地登录 用户可以自由安装软件 普通用户无法操作宿主主机 用户可以使用 GPU 资源 用户可以调动任意数量的GPU来共同计算。多人操作的时候也可以每个人指定一个GPU使用。 用户之间互不干扰  </description>
-    </item>
-    
-    <item>
-      <title>实验室GPU基本操作</title>
-      <link>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
-      <pubDate>Sun, 10 Jan 2021 10:28:19 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
-      <description>一、前期准备 1. 下载Xshell、Xftp，并了解如何使用 2. 了解什么是Docker、什么是容器 3. 了解基本的ubuntu使用命令 4. 了解Jupyter lab使用命令 二、寻找自己所需要的基础环境 1. 注册并登录NGC网站 2. 打开NGC网站，其中可以浏览自己所需要的容器 3. 自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。 并进入其中。里面有该容器的参考文档请仔细阅读（参考文档中有基本环境的配置）。只需要将其Pull记住并告诉我。  三、告知需要开放的端口和映射文件夹以及用途 我们一般会提供一个使用jupyter的8888端口和一个使用xshell和xftp的22端口。会将容器中的workspace目录映射到Host主机，以免文件丢失。如果有特殊需求，需要提前告知。
+docker image rm 镜像id 删除镜像id
+docker load 本地镜像 导入本地镜像
+ubuntu 基本命令 ps -ef |grep 程序名 查看正在运行的程序</description></item><item><title>实验室GPU基本介绍</title><link>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/</link><pubDate>Sun, 10 Jan 2021 10:40:56 +0800</pubDate><guid>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/</guid><description>背景 ​ 实验室利用ESC 4000G2 服务器 32G内存 3T机械硬盘 4张3090显卡搭建GPU服务器。每一张3090峰值功耗为350w，服务器电源为1650w 在四张显卡不同时最高功率的情况下满足基本你的使用条件。但是因为3090非专业显卡。不支持vGPU功能。如果大家都直接操作宿主主机，直接在宿主主机上配置自己的开发环境的话肯定会发生冲突。所有最后经过实际考虑Docker进行合理的系统资源的搭配。使用 Docker 把服务器容器化，每个人都直接登录自己的容器，所有开发都在自己的容器内完成，这样就避免了冲突。并且，Docker 容器的额外开销小得可以忽略不计，所以也不会影响服务器性能。
+解决方案 一个docker镜像就可以看作是一个操作系统。在docker上面进行的操作不会影响主机本生的环境 主机采用ubuntu或者centos作为宿主主机上的系统。 虚拟容器采用docker方式实现，为了能在docker中可以使用GPU。采用nvidia-docker进行gpu的加载。nvidia-docker 是专门为需要访问显卡资源的容器量身定制的，它对原始的 Docker 命令作了封装，只要使用 nvidia-docker run 命令运行容器，容器就可以访问主机显卡设备（只要主机安装了显卡驱动）。nvidia-docker 的使用规则和 Docker 是一致的，只需要把命令里的“docker”替换为“nvidia-docker”就可以了。 如果要在docker中使用显卡。现在NVIDIA给出的解决方案中必须使用linux系统。 可以在docker中加载基础的镜像，然后将22端口映射出来。就可以直接使用主机ip加映射的端口来访问和使用docker容器。 可以使用web界面如Shipyard等来对docker进行GUI管理 NVIDIA有官方的Docker目录网站NGC，NGC为AI，机器学习和HPC提供了GPU加速容器的综合中心，这些容器已优化，测试并可以在本地和云中受支持的NVIDIA GPU上运行。此外，它提供了可以轻松集成到现有工作流程中的预训练模型，模型脚本和行业解决方案。 NGC镜像中包含很多包，例如TensorFlow，PyTorch，MXNet，NVIDIA TensorRT™，RAPIDS等，并且有各个版本的组合可以下载。更新也非常快。 优势 用户可以方便地登录 用户可以自由安装软件 普通用户无法操作宿主主机 用户可以使用 GPU 资源 用户可以调动任意数量的GPU来共同计算。多人操作的时候也可以每个人指定一个GPU使用。 用户之间互不干扰</description></item><item><title>实验室GPU基本操作</title><link>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link><pubDate>Sun, 10 Jan 2021 10:28:19 +0800</pubDate><guid>https://wuyangzz.github.io/2021/%E5%AE%9E%E9%AA%8C%E5%AE%A4gpu%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid><description>一、前期准备 1. 下载Xshell、Xftp，并了解如何使用 2. 了解什么是Docker、什么是容器 3. 了解基本的ubuntu使用命令 4. 了解Jupyter lab使用命令 二、寻找自己所需要的基础环境 1. 注册并登录NGC网站 2. 打开NGC网站，其中可以浏览自己所需要的容器 3. 自己根据自己的基础环境 如Tensorflow Pytorch进行搜索。 并进入其中。里面有该容器的参考文档请仔细阅读（参考文档中有基本环境的配置）。只需要将其Pull记住并告诉我。 三、告知需要开放的端口和映射文件夹以及用途 我们一般会提供一个使用jupyter的8888端口和一个使用xshell和xftp的22端口。会将容器中的workspace目录映射到Host主机，以免文件丢失。如果有特殊需求，需要提前告知。
 四、连接容器 1. 使用Xshell新建链接 ![image-20210102205318604](https://raw.githubusercontent.com/wyhugo new /posts/GPU租用手册.mdcyz1/blog_image/main/20210102205318.png)
 2. 链接配置 IP和端口配置（IP和端口都会告知）
 输入账户名和密码（用户名和密码默认为root）
 五、启动Jupyter lab nohup jupyter-lab --ip 0.0.0.0 --port 8888 --allow-root &amp;gt; jupyter.log 2&amp;gt;&amp;amp;1 &amp;amp; 六、连接Jupyter lab 当在容器中成功启动Jupyter lab后就可以在浏览器中输入给定的IP和端口对jupyter lab进行连接，连接密码默认为root。
 建议使用时，若无特殊要求，请将所有自己的文件放置在workspace目录下，以免丢失。
-七、问题咨询 1. 我能解决的问题 - 容器连接不上（操作无误的情况下） - Jupyter端口打开不了 - 需要开放其他额外端口 - 需要几张显卡 - 需要使用时间 - 容器需要重启  2. 需要自己解决的问题 - Ubuntu怎么使用 - Jupyter怎么使用 - 如何选择适合自己的镜像 - 怎么上传、下载文件 - 镜像里面有什么环境（NGC官网里面有详细的指导文档） - 需要更改容器环境  </description>
-    </item>
-    
-    <item>
-      <title>Test</title>
-      <link>https://wuyangzz.github.io/2021/test/</link>
-      <pubDate>Sat, 09 Jan 2021 21:18:44 +0800</pubDate>
-      
-      <guid>https://wuyangzz.github.io/2021/test/</guid>
-      <description>#include &amp;lt;iostream&amp;gt;using namespace std; int main() { cout &amp;lt;&amp;lt; &amp;#34;Hello, world!&amp;#34; &amp;lt;&amp;lt; endl; return 0; } </description>
-    </item>
-    
-  </channel>
-</rss>
+七、问题咨询 1. 我能解决的问题 - 容器连接不上（操作无误的情况下） - Jupyter端口打开不了 - 需要开放其他额外端口 - 需要几张显卡 - 需要使用时间 - 容器需要重启 2. 需要自己解决的问题 - Ubuntu怎么使用 - Jupyter怎么使用 - 如何选择适合自己的镜像 - 怎么上传、下载文件 - 镜像里面有什么环境（NGC官网里面有详细的指导文档） - 需要更改容器环境</description></item><item><title>Test</title><link>https://wuyangzz.github.io/2021/test/</link><pubDate>Sat, 09 Jan 2021 21:18:44 +0800</pubDate><guid>https://wuyangzz.github.io/2021/test/</guid><description>#include &amp;lt;iostream&amp;gt; using namespace std; int main() { cout &amp;lt;&amp;lt; &amp;#34;Hello, world!&amp;#34; &amp;lt;&amp;lt; endl; return 0; }</description></item></channel></rss>
